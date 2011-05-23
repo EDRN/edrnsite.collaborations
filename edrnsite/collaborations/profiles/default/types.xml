@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+Copyright 2011 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
+<object name='portal_types' meta_type='Plone Types Tool'>
+    <object name='Collaborations Folder' meta_type='Factory-based Type Information with dynamic views'/>
+    <object name='Collaborative Group' meta_type='Factory-based Type Information with dynamic views'/>
+</object>

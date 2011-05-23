@@ -1,0 +1,63 @@
+<html xmlns='http://www.w3.org/1999/xhtml'
+    xml:lang='en'
+    lang='en'
+    xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal'
+    xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    metal:use-macro='context/main_template/macros/master'
+    i18n:domain='edrnsite.collaborations'>
+    <head>
+        <title>Collaborative Group</title>
+    </head>
+    <body>
+        <metal:main fill-slot='main'>
+            <tal:main-macro metal:define-macro='main'>
+                <div class='collaborativeGroupContainer'>
+                    <div class='cbInfoBox'>
+                        <div tal:replace='structure provider:plone.abovecontenttitle' />
+                        <div class='socialMediaButtons'>
+                            <a href='#' class='facebook' title='Share on Facebook' tal:attributes='href view/facebookURL'
+                                i18n:translate='edrnsiteCollaborationsShareFacebookContent'
+                                i18n:attributes='title edrnsiteCollaborationsShareFacebookTitle'>
+                                Share on Facebook
+                            </a>
+                            <a href='#' class='twitter' title='Share on Twitter' tal:attributes='href view/twitterURL'
+                                i18n:translate='edrnsiteCollaborationsShareTwitterContent'
+                                i18n:attributes='title edrnsiteCollaborationsShareTwitterTitle'>
+                                Share on Twitter
+                            </a>
+                        </div>
+                        <h1 class='documentFirstHeading'> 
+                            <metal:field use-macro='python:context.widget("title", mode="view")'>
+                                Title
+                            </metal:field>
+                        </h1>
+                        <!-- Hide byline: <div tal:replace='structure provider:plone.belowcontenttitle' /> -->
+                        <p class='documentDescription'>
+                            <metal:field use-macro='python:context.widget("description", mode="view")'>Description.</metal:field>
+                        </p>
+                        <div tal:replace='structure provider:plone.abovecontentbody' />
+                    </div>
+
+                    <div metal:use-macro='context/document_relateditems/macros/relatedItems'>
+                        Any related items
+                    </div>
+                    <div tal:replace='structure provider:plone.belowcontentbody' />
+                </div>
+            </tal:main-macro>
+        </metal:main>
+        <!-- <metal:content-title fill-slot='content-title'>
+            <h1 class='documentFirstHeading' tal:content='context/title'></h1>
+        </metal:content-title>
+        <metal:content-description fill-slot='content-description'>
+            <p class='documentDescription' tal:content='context/description'></p>
+        </metal:content-description> -->
+        <!-- <metal:content-core fill-slot='content-core'>
+            Core.
+        </metal:content-core> -->
+        <metal:css fill-slot='css_slot'>
+            <style type='text/css' media='all'
+                tal:content="string:@import url(${context/++resource++edrnsite-collaborations.css});"></style>
+        </metal:css>
+    </body>
+</html>

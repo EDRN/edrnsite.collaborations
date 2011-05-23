@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+Copyright 2011 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
+<configure xmlns='http://namespaces.zope.org/zope' i18n_domain='edrnsite.collaborations'>
+    <class class='.collaborationsfolder.CollaborationsFolder'>
+        <require permission='zope2.View' interface='..interfaces.ICollaborationsFolder'/>
+    </class>
+    <class class='.collaborativegroup.CollaborativeGroup'>
+        <require permission='zope2.View' interface='..interfaces.ICollaborativeGroup'/>
+    </class>
+</configure>
