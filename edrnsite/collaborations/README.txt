@@ -94,3 +94,17 @@ that it has Facebook and Twitter buttons::
     >>> browser.contents
     '...facebook.com/sharer.php?u=http...my-groups%2Fmy-fun-group...twitter.com/share...http...my-groups%2Fmy-fun-group...'
 
+There's a list of members::
+
+    >>> browser.contents
+    '...<h2>Members</h2>...'
+
+TODO: Add members and check for them.
+
+And there's a set of tabs providing access to an overview, biomarkers,
+protocols, data, a calendar, and some documents::
+
+    >>> browser.contents
+    '...fieldset-overview...fieldset-biomarkers...fieldset-protocols...fieldset-data...fieldset-calendar...fieldset-documents...'
+
+
