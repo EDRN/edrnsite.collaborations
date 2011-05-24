@@ -34,6 +34,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <browser:resource name='collaborativegroup.gif' file='images/collaborativegroup.gif'/>
     <browser:resource name='social-facebook.png' file='images/facebook.png'/>
     <browser:resource name='social-twitter.png' file='images/twitter.png'/>
+    <browser:resource name='h2-members.png' file='images/isometric-people.png'/>
     <browser:page
         class='.collaborativegroup.CollaborativeGroupView'
         for='..interfaces.ICollaborativeGroup'
