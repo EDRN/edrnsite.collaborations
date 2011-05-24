@@ -39,13 +39,59 @@
                         <div tal:replace='structure provider:plone.abovecontentbody' />
                     </div>
 
-                    <div metal:use-macro='context/document_relateditems/macros/relatedItems'>
-                        Any related items
+                    <div class='cbMemberBox'>
+                        <h2 i18n:translate='edrnsiteCollaborationsHeadingMembers'>Members</h2>
                     </div>
-                    <div tal:replace='structure provider:plone.belowcontentbody' />
+
                 </div>
+                <div class='collaborativeGroupContainer'>
+                    <dl class='enableFormTabbing'>
+                        <dt id='fieldsetlegend-overview' i18n:translate='edrnsiteCollaborationsTabOverview'>
+                            Overview
+                        </dt>
+                        <dd id='fieldset-overview'>
+                            Overview TBD.
+                        </dd>
+                        <dt id='fieldsetlegend-biomarkers' i18n:translate='edrnsiteCollaborationsTabBiomarkers'>
+                            Biomarkers
+                        </dt>
+                        <dd id='fieldset-biomarkers'>
+                            Biomarkers TBD.
+                        </dd>
+                        <dt id='fieldsetlegend-protocols' i18n:translate='edrnsiteCollaborationsTabProtocols'>
+                            Protocols
+                        </dt>
+                        <dd id='fieldset-protocols'>
+                            Protocols TBD.
+                        </dd>
+                        <dt id='fieldsetlegend-data' i18n:translate='edrnsiteCollaborationsTabData'>
+                            Data
+                        </dt>
+                        <dd id='fieldset-data'>
+                            Data TBD.
+                        </dd>
+                        <dt id='fieldsetlegend-calendar' i18n:translate='edrnsiteCollaborationsTabCalendar'>
+                            Calendar
+                        </dt>
+                        <dd id='fieldset-calendar'>
+                            Calendar TBD.
+                        </dd>
+                        <dt id='fieldsetlegend-documents' i18n:translate='edrnsiteCollaborationsTabDocuments'>
+                            Documents
+                        </dt>
+                        <dd id='fieldset-documents'>
+                            Documents TBD.
+                        </dd>
+                    </dl>
+                </div>
+                <div class='visualClear'><!-- --></div>
+                <div metal:use-macro='context/document_relateditems/macros/relatedItems'>
+                    Any related items
+                </div>
+                <div tal:replace='structure provider:plone.belowcontentbody' />
             </tal:main-macro>
         </metal:main>
+        <metal:top-slot fill-slot='top_slot' tal:define='disable_column_two python:request.set("disable_plone.rightcolumn", 1);' />
         <!-- <metal:content-title fill-slot='content-title'>
             <h1 class='documentFirstHeading' tal:content='context/title'></h1>
         </metal:content-title>
