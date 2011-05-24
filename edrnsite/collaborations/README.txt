@@ -87,8 +87,14 @@ Notice now that the Collaborations Folder is no longer empty::
     >>> browser.contents
     '...Groups...My Fun Group...'
 
-Meanwhile, the Collaborative Group is all about the new social media, so see
-that it has Facebook and Twitter buttons::
+Meanwhile, the Collaborative Group is pretty fancy.  First off, it turns off
+the right-side portlets (news feeds) since we need the space::
+
+    >>> 'portal-column-two' in browser.contents
+    False
+
+Collaborative Groups are all about the new social media, so see that it has
+Facebook and Twitter buttons::
 
     >>> browser.open(portalURL + '/my-groups/my-fun-group')
     >>> browser.contents
