@@ -8,6 +8,8 @@ from edrnsite.collaborations import PackageMessageFactory as _
 from zope import schema
 from zope.app.container.constraints import contains
 from zope.interface import Interface
+from eke.study.interfaces import IProtocol
+from eke.biomarker.interfaces import IBiomarker
 
 class ICollaborativeGroup(Interface):
     '''A collaborative group serves the needs of those working towards a common goal.'''
@@ -21,4 +23,24 @@ class ICollaborativeGroup(Interface):
         title=_(u'Description'),
         description=_(u'A short summary of this group.'),
         required=False,
+    )
+    protocols = schema.List(
+        title=_(u'Protocols & Studies'),
+        description=_(u'Protocols and studies that are executed (and studied) by this collaborative group.'),
+        required=False,
+        value_type=schema.Object(
+            title=_(u'Study'),
+            description=_(u'A study or protocol executed (and studies) by this collaborative group.'),
+            schema=IProtocol
+        )
+    )
+    biomarkers = schema.List(
+        title=_(u'Biomarkers'),
+        description=_(u'Biomarkers of which this collaborative group is fond.'),
+        required=False,
+        value_type=schema.Object(
+            title=_(u'Biomarker'),
+            description=_(u'A biomarker of which this collaborative group is fond.'),
+            schema=IBiomarker
+        )
     )
