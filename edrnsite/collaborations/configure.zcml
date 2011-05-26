@@ -14,6 +14,12 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <include package='.interfaces' />
     <include package='.browser' />
     <include package='.content' />
+    <include package='eke.site'/>
+    <include package='eke.biomarker'/>
+    <include package='eke.study'/>
+    <include package='eke.knowledge'/>
+    <include package='eke.publications'/>
+    <include package='eke.ecas'/>
     <genericsetup:registerProfile
         name='default'
         title='EDRN Site Collaborations'
