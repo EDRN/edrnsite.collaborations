@@ -102,8 +102,23 @@
                         <dt id='fieldsetlegend-data' i18n:translate='edrnsiteCollaborationsTabData'>
                             Data
                         </dt>
-                        <dd id='fieldset-data'>
-                            Data TBD.
+                        <dd id='fieldset-data' tal:define='datasets context/datasets'>
+                            <p class='discreet' tal:condition='not:datasets'
+                                i18n:translate='edrnsiteCollaborationsAdmonitionNoDatasets'>
+                                There are currently no datasets defined for this collaborative group.
+                            </p>
+                            <dl tal:condition='datasets' class='collabDetailList'>
+                                <tal:repeat repeat='dataset datasets'>
+                                    <dt>
+                                        <a href='#' tal:attributes='href dataset/absolute_url' tal:content='dataset/title'>
+                                            A Massive Dataset Capturing Some Fecal Biomarker Residue
+                                        </a>
+                                    </dt>
+                                    <dd tal:content='python:plone_view.cropText(dataset.description, descLength, descEllipsis)'>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                    </dd>
+                                </tal:repeat>
+                            </dl>
                         </dd>
                         <dt id='fieldsetlegend-calendar' i18n:translate='edrnsiteCollaborationsTabCalendar'>
                             Calendar
