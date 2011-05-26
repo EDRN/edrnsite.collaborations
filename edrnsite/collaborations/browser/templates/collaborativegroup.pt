@@ -11,7 +11,12 @@
     </head>
     <body>
         <metal:main fill-slot='main'>
-            <tal:main-macro metal:define-macro='main'>
+            <tal:main-macro metal:define-macro='main'
+                tal:define='
+                    site_properties context/portal_properties/site_properties;
+                    descLength      site_properties/search_results_description_length;
+                    descEllipsis    site_properties/ellipsis;
+                '>
                 <div class='collaborativeGroupContainer'>
                     <div class='cbInfoBox'>
                         <div tal:replace='structure provider:plone.abovecontenttitle' />
@@ -45,7 +50,7 @@
 
                 </div>
                 <div class='collaborativeGroupContainer'>
-                    <dl class='enableFormTabbing'>
+                    <dl id='collabGroupDetails' class='enableFormTabbing'>
                         <dt id='fieldsetlegend-overview' i18n:translate='edrnsiteCollaborationsTabOverview'>
                             Overview
                         </dt>
@@ -55,14 +60,44 @@
                         <dt id='fieldsetlegend-biomarkers' i18n:translate='edrnsiteCollaborationsTabBiomarkers'>
                             Biomarkers
                         </dt>
-                        <dd id='fieldset-biomarkers'>
-                            Biomarkers TBD.
+                        <dd id='fieldset-biomarkers' tal:define='biomarkers context/biomarkers'>
+                            <p class='discreet' tal:condition='not:biomarkers'
+                                i18n:translate='edrnsiteCollaborationsAdmonitionNoBiomarkers'>
+                                There are currently no biomarkers defined for this collaborative group.
+                            </p>
+                            <dl tal:condition='biomarkers' class='collabDetailList'>
+                                <tal:repeat repeat='biomarker biomarkers'>
+                                    <dt>
+                                        <a href='#' tal:attributes='href biomarker/absolute_url' tal:content='biomarker/title'>
+                                            An Advanced Biomarker Indicating Advanced Diseases
+                                        </a>
+                                    </dt>
+                                    <dd tal:content='python:plone_view.cropText(biomarker.description, descLength, descEllipsis)'>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                    </dd>
+                                </tal:repeat>
+                            </dl>
                         </dd>
                         <dt id='fieldsetlegend-protocols' i18n:translate='edrnsiteCollaborationsTabProtocols'>
                             Protocols
                         </dt>
-                        <dd id='fieldset-protocols'>
-                            Protocols TBD.
+                        <dd id='fieldset-protocols' tal:define='protocols context/protocols'>
+                            <p class='discreet' tal:condition='not:protocols'
+                                i18n:translate='edrnsiteCollaborationsAdmonitionNoProtocols'>
+                                There are currently no protocols defined for this collaborative group.
+                            </p>
+                            <dl tal:condition='protocols' class='collabDetailList'>
+                                <tal:repeat repeat='protocol protocols'>
+                                    <dt>
+                                        <a href='#' tal:attributes='href protocol/absolute_url' tal:content='protocol/title'>
+                                            An Advanced Protocol for the Study of Advanced Protocols
+                                        </a>
+                                    </dt>
+                                    <dd tal:content='python:plone_view.cropText(protocol.description, descLength, descEllipsis)'>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                    </dd>
+                                </tal:repeat>
+                            </dl>
                         </dd>
                         <dt id='fieldsetlegend-data' i18n:translate='edrnsiteCollaborationsTabData'>
                             Data
