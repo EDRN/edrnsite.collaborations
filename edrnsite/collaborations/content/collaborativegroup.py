@@ -39,6 +39,19 @@ CollaborativeGroupSchema = folder.ATFolderSchema.copy() + atapi.Schema((
             description=_(u'Protocols and studies that are executed (and studied) by this collaborative group.'),
         ),
     ),
+    atapi.ReferenceField(
+        'datasets',
+        storage=atapi.AnnotationStorage(),
+        enforceVocabulary=True,
+        multiValued=True,
+        vocabulary_factory=u'eke.ecas.DatasetsVocabulary',
+        relationship='datasetsPreferredByThisGroup',
+        vocabulary_display_path_bound=-1,
+        widget=atapi.ReferenceWidget(
+            label=_(u'Datasets'),
+            description=_(u'Datasets of interest to this collaborative group.'),
+        ),
+    ),
 ))
 CollaborativeGroupSchema['title'].storage = atapi.AnnotationStorage()
 CollaborativeGroupSchema['description'].storage = atapi.AnnotationStorage()
@@ -54,5 +67,6 @@ class CollaborativeGroup(folder.ATFolder):
     title       = atapi.ATFieldProperty('title')
     protocols   = atapi.ATReferenceFieldProperty('protocols')
     biomarkers  = atapi.ATReferenceFieldProperty('biomarkers')
+    datasets    = atapi.ATReferenceFieldProperty('datasets')
 
 atapi.registerType(CollaborativeGroup, PROJECTNAME)
