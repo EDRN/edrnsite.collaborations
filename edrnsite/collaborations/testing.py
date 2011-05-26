@@ -2,17 +2,44 @@
 # Copyright 2011 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
-from plone.app.testing import PloneSandboxLayer, PLONE_FIXTURE, IntegrationTesting, FunctionalTesting
+from eke.knowledge.testing import EKE_KNOWLEDGE_FIXTURE
+from eke.biomarker.testing import EKE_BIOMARKER_FIXTURE
+from eke.study.testing import EKE_STUDY_FIXTURE
+from plone.app.testing import PloneSandboxLayer, IntegrationTesting, FunctionalTesting
+from plone.app.testing import TEST_USER_ID, TEST_USER_NAME
 from plone.testing import z2
+from zope.publisher.browser import TestRequest
+from zope.component import getMultiAdapter
+from plone.app.testing import login
+from plone.app.testing import setRoles
 
 class EDRNSiteCollaborations(PloneSandboxLayer):
-    defaultBases = (PLONE_FIXTURE,)
+    defaultBases = (EKE_BIOMARKER_FIXTURE, EKE_STUDY_FIXTURE, EKE_KNOWLEDGE_FIXTURE,)
     def setUpZope(self, app, configurationContext):
         import edrnsite.collaborations
         self.loadZCML(package=edrnsite.collaborations)
         z2.installProduct(app, 'edrnsite.collaborations')
     def setUpPloneSite(self, portal):
         self.applyProfile(portal, 'edrnsite.collaborations:default')
+        setRoles(portal, TEST_USER_ID, ['Manager'])
+        login(portal, TEST_USER_NAME)
+        organs = portal[portal.invokeFactory(
+            'Knowledge Folder', 'basic-body-systems', title=u'Organs', rdfDataSource=u'testscheme://localhost/bodysystems/b'
+        )]
+        resources = portal[portal.invokeFactory(
+            'Knowledge Folder', 'basic-resources', title=u'Resources', rdfDataSource=u'testscheme://localhost/resources/b'
+        )]
+        protocols = portal[portal.invokeFactory(
+            'Study Folder', 'protocols', title=u'Protocols', rdfDataSource=u'testscheme://localhost/protocols/a'
+        )]
+        biomarkers = portal[portal.invokeFactory(
+            'Biomarker Folder', 'biomarkers', title=u'Biomarkers', rdfDataSource=u'testscheme://localhost/biomarkers/a',
+            bmoDataSource=u'testscheme://localhost/biomarkerorgans/a'
+        )]
+        for folder in (organs, resources, protocols, biomarkers):
+            ingestor = getMultiAdapter((folder, TestRequest()), name=u'ingest')
+            ingestor.render = False
+            ingestor()
     def teatDownZope(self, app):
         z2.uninstallProduct(app, 'edrnsite.collaborations')
     
