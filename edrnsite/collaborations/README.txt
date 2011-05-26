@@ -113,4 +113,16 @@ protocols, data, a calendar, and some documents::
     >>> browser.contents
     '...fieldset-overview...fieldset-biomarkers...fieldset-protocols...fieldset-data...fieldset-calendar...fieldset-documents...'
 
+However, none of it is terribly interesting!  What we need is some actual
+information in this group.  So, let's revisit and update::
 
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='protocols:list').displayValue = ['Public Safety']
+    >>> browser.getControl(name='biomarkers:list').displayValue = ['Apogee 1']
+    >>> browser.getControl(name='form.button.save').click()
+
+Now check it out::
+
+    >>> browser.open(portalURL + '/my-groups/my-fun-group')
+    >>> browser.contents
+    '...Biomarkers...Apogee 1...Protocols...Public Safety...'
