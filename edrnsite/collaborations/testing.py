@@ -2,6 +2,7 @@
 # Copyright 2011 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
+from eke.ecas.testing import EKE_ECAS_FIXTURE
 from eke.knowledge.testing import EKE_KNOWLEDGE_FIXTURE
 from eke.biomarker.testing import EKE_BIOMARKER_FIXTURE
 from eke.study.testing import EKE_STUDY_FIXTURE
@@ -14,7 +15,7 @@ from plone.app.testing import login
 from plone.app.testing import setRoles
 
 class EDRNSiteCollaborations(PloneSandboxLayer):
-    defaultBases = (EKE_BIOMARKER_FIXTURE, EKE_STUDY_FIXTURE, EKE_KNOWLEDGE_FIXTURE,)
+    defaultBases = (EKE_ECAS_FIXTURE, EKE_BIOMARKER_FIXTURE, EKE_STUDY_FIXTURE, EKE_KNOWLEDGE_FIXTURE,)
     def setUpZope(self, app, configurationContext):
         import edrnsite.collaborations
         self.loadZCML(package=edrnsite.collaborations)
@@ -36,11 +37,14 @@ class EDRNSiteCollaborations(PloneSandboxLayer):
             'Biomarker Folder', 'biomarkers', title=u'Biomarkers', rdfDataSource=u'testscheme://localhost/biomarkers/a',
             bmoDataSource=u'testscheme://localhost/biomarkerorgans/a'
         )]
-        for folder in (organs, resources, protocols, biomarkers):
+        datasets = portal[portal.invokeFactory(
+            'Dataset Folder', 'datasets', title=u'Datasets', rdfDataSource=u'testscheme://localhost/datasets/a',
+        )]
+        for folder in (organs, resources, protocols, biomarkers, datasets):
             ingestor = getMultiAdapter((folder, TestRequest()), name=u'ingest')
             ingestor.render = False
             ingestor()
-    def teatDownZope(self, app):
+    def tearDownZope(self, app):
         z2.uninstallProduct(app, 'edrnsite.collaborations')
     
 EDRNSITE_COLLABORATIONS_FIXTURE = EDRNSiteCollaborations()
