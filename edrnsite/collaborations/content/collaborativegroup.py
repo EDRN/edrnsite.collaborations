@@ -4,6 +4,7 @@
 
 '''Collaborative Group implementation'''
 
+from edrnsite.collaborations import PackageMessageFactory as _
 from edrnsite.collaborations.config import PROJECTNAME
 from edrnsite.collaborations.interfaces import ICollaborativeGroup
 from Products.Archetypes import atapi
@@ -12,7 +13,32 @@ from Products.ATContentTypes.content import schemata
 from zope.interface import implements
 
 CollaborativeGroupSchema = folder.ATFolderSchema.copy() + atapi.Schema((
-    # No other fields at this time.
+    atapi.ReferenceField(
+        'protocols',
+        storage=atapi.AnnotationStorage(),
+        enforceVocabulary=True,
+        multiValued=True,
+        vocabulary_factory=u'eke.study.ProtocolsVocabulary',
+        relationship='biomarkersThisGroupLikes',
+        vocabulary_display_path_bound=-1,
+        widget=atapi.ReferenceWidget(
+            label=_(u'Biomarkers'),
+            description=_(u'Biomarkers of which this collaborative group is fond.'),
+        ),
+    ),
+    atapi.ReferenceField(
+        'biomarkers',
+        storage=atapi.AnnotationStorage(),
+        enforceVocabulary=True,
+        multiValued=True,
+        vocabulary_factory=u'eke.biomarker.BiomarkersVocabulary',
+        relationship='protocolsExecutedByThisGroup',
+        vocabulary_display_path_bound=-1,
+        widget=atapi.ReferenceWidget(
+            label=_(u'Protocols & Studies'),
+            description=_(u'Protocols and studies that are executed (and studied) by this collaborative group.'),
+        ),
+    ),
 ))
 CollaborativeGroupSchema['title'].storage = atapi.AnnotationStorage()
 CollaborativeGroupSchema['description'].storage = atapi.AnnotationStorage()
@@ -26,5 +52,7 @@ class CollaborativeGroup(folder.ATFolder):
     portal_type = 'Collaborative Group'
     description = atapi.ATFieldProperty('description')
     title       = atapi.ATFieldProperty('title')
+    protocols   = atapi.ATReferenceFieldProperty('protocols')
+    biomarkers  = atapi.ATReferenceFieldProperty('biomarkers')
 
 atapi.registerType(CollaborativeGroup, PROJECTNAME)
