@@ -108,10 +108,16 @@ There's a list of members::
 TODO: Add members and check for them.
 
 And there's a set of tabs providing access to an overview, biomarkers,
-protocols, data, a calendar, and some documents::
+protocols, team projects, data, and a calendar, (in that order)::
 
-    >>> browser.contents
-    '...fieldset-overview...fieldset-biomarkers...fieldset-protocols...fieldset-data...fieldset-calendar...fieldset-documents...'
+    >>> overview = browser.contents.index('fieldset-overview')
+    >>> biomarkers = browser.contents.index('fieldset-biomarkers')
+    >>> protocols = browser.contents.index('fieldset-protocols')
+    >>> projects = browser.contents.index('fieldset-projects')
+    >>> data = browser.contents.index('fieldset-data')
+    >>> calendar = browser.contents.index('fieldset-calendar')
+    >>> overview < biomarkers < protocols < projects < data < calendar
+    True
 
 However, none of it is terribly interesting!  What we need is some actual
 information in this group.  So, let's revisit and update::
@@ -120,10 +126,11 @@ information in this group.  So, let's revisit and update::
     >>> browser.getControl(name='protocols:list').displayValue = ['Public Safety']
     >>> browser.getControl(name='biomarkers:list').displayValue = ['Apogee 1']
     >>> browser.getControl(name='datasets:list').displayValue = ['Get Bent']
+    >>> browser.getControl(name='projects:list').displayValue = ['Public Safety']
     >>> browser.getControl(name='form.button.save').click()
 
 Now check it out::
 
     >>> browser.open(portalURL + '/my-groups/my-fun-group')
     >>> browser.contents
-    '...Biomarkers...Apogee 1...Protocols...Public Safety...Data...Get Bent...'
+    '...Biomarkers...Apogee 1...Protocols...Public Safety...Projects...Public Safety...Data...Get Bent...'
