@@ -1,2 +1,81 @@
 @charset "UTF-8";
 
+.cbInfoBox {
+    border: 1px solid #bbb;
+    padding: 0.5em;
+    width: 260px;
+    margin: 0.5em 0;
+}
+.collaborativeGroupContainer {
+    float: left;
+    padding-right: 0.5em;
+}
+.collaborativeGroupContainer h1 {
+    font: 20pt "Georgia", Times, "Times New Roman", serif;
+    color: rgb(166, 0, 0);
+    border-bottom: none;
+    margin-bottom: 0.2em;
+    line-height: 90%;
+    padding-top: 0.2em;
+}
+.collaborativeGroupContainer h2 {
+    font: 14pt "Georgia", Times, "Times New Roman", serif;
+    color: rgb(166, 0, 0);
+    border-bottom: none;
+    margin-bottom: 0.2em;
+    line-height: 90%;
+}
+.collaborativeGroupContainer .documentDescription {
+    line-height: 12pt;
+    font-size: 10pt;
+}
+#collabGroupDetails {
+    margin-top: 0;
+}
+#content .collaborativeGroupContainer .formTabs {
+    margin-left: 0;
+}
+
+.collaborativeGroupContainer .socialMediaButtons {
+    float: right;
+}
+.socialMediaButtons a {
+    height: 16px;
+    width: 16px;
+    overflow: hidden;
+    text-indent: -999px;
+    line-height: 16px;
+    margin-left: 5px;
+    float: left;
+}
+.socialMediaButtons .facebook {
+    background-image: url(++resource++social-facebook.png);
+}
+.collaborativeGroupContainer .twitter {
+    background-image: url(++resource++social-twitter.png);
+}
+.cbMemberBox {
+    border: 1px solid #bbb;
+    padding: 0.5em;
+    width: 260px;
+    margin: 0.5em 0;
+}
+.cbMemberBox h2 {
+    background: transparent url(++resource++h2-members.png) no-repeat top left;
+    margin-top: 0;
+    height: 32px;
+    padding: 0.5em 0 0 36px;
+}
+.cbDetailBox {
+    border: 1px solid #bbb;
+    padding: 0.5em;
+    margin: 0.5em 0;
+}
+.collaborativeGroupContainer #collabGroupDetails {
+    width: 450px;
+}
+.collabDetailList dd {
+    line-height: 1.1em;
+    padding-top: 0 !important;
+    padding-left: 1em;
+}
