@@ -55,3 +55,13 @@ class ICollaborativeGroup(Interface):
             schema=IDataset
         )
     )
+    projects = schema.List(
+        title=_(u'Projects'),
+        description=_(u'Team projects (which are just special protocols) of which this collaborative group is part.'),
+        required=False,
+        value_type=schema.Object(
+            title=_(u'Project'),
+            description=_(u'Team project (which is just a special protocol) of which this collaborative group is part.'),
+            schema=IProtocol
+        )
+    )
