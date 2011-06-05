@@ -99,6 +99,27 @@
                                 </tal:repeat>
                             </dl>
                         </dd>
+                        <dt id='fieldsetlegend-projects' i18n:translate='edrnsiteCollaborationsTabProjects'>
+                            Projects
+                        </dt>
+                        <dd id='fieldset-projects' tal:define='projects context/projects'>
+                            <p class='discreet' tal:condition='not:projects'
+                                i18n:translate='edrnsiteCollaborationsAdmonitionNoProjects'>
+                                There are currently no projects of which this group is a part.
+                            </p>
+                            <dl tal:condition='projects' class='collabDetailList'>
+                                <tal:repeat repeat='project projects'>
+                                    <dt>
+                                        <a href='#' tal:attributes='href project/absolute_url' tal:content='project/title'>
+                                            Super Aqua Team Hunger Force
+                                        </a>
+                                    </dt>
+                                    <dd tal:content='python:plone_view.cropText(project.description, descLength, descEllipsis)'>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                    </dd>
+                                </tal:repeat>
+                            </dl>
+                        </dd>
                         <dt id='fieldsetlegend-data' i18n:translate='edrnsiteCollaborationsTabData'>
                             Data
                         </dt>
@@ -125,12 +146,6 @@
                         </dt>
                         <dd id='fieldset-calendar'>
                             Calendar TBD.
-                        </dd>
-                        <dt id='fieldsetlegend-documents' i18n:translate='edrnsiteCollaborationsTabDocuments'>
-                            Documents
-                        </dt>
-                        <dd id='fieldset-documents'>
-                            Documents TBD.
                         </dd>
                     </dl>
                 </div>
