@@ -44,6 +44,9 @@ class EDRNSiteCollaborations(PloneSandboxLayer):
             ingestor = getMultiAdapter((folder, TestRequest()), name=u'ingest')
             ingestor.render = False
             ingestor()
+        protocol = protocols['ps-public-safety']
+        protocol.project = True
+        protocol.reindexObject(idxs=['project'])
     def tearDownZope(self, app):
         z2.uninstallProduct(app, 'edrnsite.collaborations')
     
