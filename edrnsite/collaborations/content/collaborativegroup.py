@@ -19,7 +19,7 @@ CollaborativeGroupSchema = folder.ATFolderSchema.copy() + atapi.Schema((
         enforceVocabulary=True,
         multiValued=True,
         vocabulary_factory=u'eke.study.ProtocolsVocabulary',
-        relationship='biomarkersThisGroupLikes',
+        relationship='protocolsExecutedByThisGroup',
         vocabulary_display_path_bound=-1,
         widget=atapi.ReferenceWidget(
             label=_(u'Biomarkers'),
@@ -32,7 +32,7 @@ CollaborativeGroupSchema = folder.ATFolderSchema.copy() + atapi.Schema((
         enforceVocabulary=True,
         multiValued=True,
         vocabulary_factory=u'eke.biomarker.BiomarkersVocabulary',
-        relationship='protocolsExecutedByThisGroup',
+        relationship='biomarkersThisGroupLikes',
         vocabulary_display_path_bound=-1,
         widget=atapi.ReferenceWidget(
             label=_(u'Protocols & Studies'),
@@ -52,6 +52,19 @@ CollaborativeGroupSchema = folder.ATFolderSchema.copy() + atapi.Schema((
             description=_(u'Datasets of interest to this collaborative group.'),
         ),
     ),
+    atapi.ReferenceField(
+        'projects',
+        storage=atapi.AnnotationStorage(),
+        enforceVocabulary=True,
+        multiValued=True,
+        vocabulary_factory=u'eke.study.TeamProjectsVocabulary',
+        relationship='teamsThisGroupIsOn',
+        vocabulary_display_path_bound=-1,
+        widget=atapi.ReferenceWidget(
+            label=_(u'Projects'),
+            description=_(u'Team projects (which are just special protocols) of which this collaborative group is part.'),
+        ),
+    ),
 ))
 CollaborativeGroupSchema['title'].storage = atapi.AnnotationStorage()
 CollaborativeGroupSchema['description'].storage = atapi.AnnotationStorage()
@@ -68,5 +81,6 @@ class CollaborativeGroup(folder.ATFolder):
     protocols   = atapi.ATReferenceFieldProperty('protocols')
     biomarkers  = atapi.ATReferenceFieldProperty('biomarkers')
     datasets    = atapi.ATReferenceFieldProperty('datasets')
+    projects    = atapi.ATReferenceFieldProperty('projects')
 
 atapi.registerType(CollaborativeGroup, PROJECTNAME)
