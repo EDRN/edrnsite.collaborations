@@ -14,12 +14,12 @@ from zope.interface import implements
 
 CollaborativeGroupSchema = folder.ATFolderSchema.copy() + atapi.Schema((
     atapi.ReferenceField(
-        'protocols',
+        'biomarkers',
         storage=atapi.AnnotationStorage(),
         enforceVocabulary=True,
         multiValued=True,
-        vocabulary_factory=u'eke.study.ProtocolsVocabulary',
-        relationship='protocolsExecutedByThisGroup',
+        vocabulary_factory=u'eke.biomarker.BiomarkersVocabulary',
+        relationship='biomarkersThisGroupLikes',
         vocabulary_display_path_bound=-1,
         widget=atapi.ReferenceWidget(
             label=_(u'Biomarkers'),
@@ -27,12 +27,12 @@ CollaborativeGroupSchema = folder.ATFolderSchema.copy() + atapi.Schema((
         ),
     ),
     atapi.ReferenceField(
-        'biomarkers',
+        'protocols',
         storage=atapi.AnnotationStorage(),
         enforceVocabulary=True,
         multiValued=True,
-        vocabulary_factory=u'eke.biomarker.BiomarkersVocabulary',
-        relationship='biomarkersThisGroupLikes',
+        vocabulary_factory=u'eke.study.ProtocolsVocabulary',
+        relationship='protocolsExecutedByThisGroup',
         vocabulary_display_path_bound=-1,
         widget=atapi.ReferenceWidget(
             label=_(u'Protocols & Studies'),
