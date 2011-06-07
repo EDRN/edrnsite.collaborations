@@ -16,6 +16,7 @@
                     site_properties context/portal_properties/site_properties;
                     descLength      site_properties/search_results_description_length;
                     descEllipsis    site_properties/ellipsis;
+                    hereURL         context/@@plone_context_state/object_url;
                 '>
                 <div class='collaborativeGroupContainer'>
                     <div class='cbInfoBox'>
@@ -34,7 +35,7 @@
                         </div>
                         <h1 class='documentFirstHeading'> 
                             <metal:field use-macro='python:context.widget("title", mode="view")'>
-                                Title
+                                Mega Awesome Group
                             </metal:field>
                         </h1>
                         <!-- Hide byline: <div tal:replace='structure provider:plone.belowcontenttitle' /> -->
@@ -46,16 +47,79 @@
 
                     <div class='cbMemberBox'>
                         <h2 i18n:translate='edrnsiteCollaborationsHeadingMembers'>Members</h2>
+                        <p style='color: #ccc; font-size: 40px; text-align: center;'>TBD</p>
                     </div>
 
                 </div>
-                <div class='collaborativeGroupContainer'>
+                <div class='collaborativeGroupContainer' tal:define='numTops view/numTops;'>
                     <dl id='collabGroupDetails' class='enableFormTabbing'>
                         <dt id='fieldsetlegend-overview' i18n:translate='edrnsiteCollaborationsTabOverview'>
                             Overview
                         </dt>
                         <dd id='fieldset-overview'>
-                            Overview TBD.
+                            <div class='topCollabGroupItems'
+                                tal:define='topBiomarkers view/topBiomarkers; numBiomarkers view/numBiomarkers;'>
+                                <h2 i18n:translate='edrnsiteCollaborationsHeadingBiomarkers' class='cbBiomarkersHeading'>
+                                    Biomarkers
+                                </h2>
+                                <p class='topCollabGroupItemDescription' i18n:translate='edrnsiteCollaborationsDescBiomarkers'>
+                                    Biomarkers under study by the
+                                    <span i18n:name='groupName' tal:content='context/title'>Mega Awesome Group</span>.
+                                </p>
+                                <span class='discreet' i18n:translate='edrnsiteCollaborationsNoTopBiomarkers'
+                                    tal:condition='not:topBiomarkers'>
+                                    This collaborative group doesn't have any biomarkers.
+                                </span>
+                                <table tal:condition='topBiomarkers'>
+                                    <tr tal:repeat='topBiomarker topBiomarkers'>
+                                        <td>
+                                            <a href='#' title='A way cool biomarker.' tal:content='topBiomarker/title'
+                                                tal:attributes='href topBiomarker/absolute_url; title topBiomarker/description;'>
+                                                Top Biomarker of Coolness
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span tal:replace='topBiomarker/biomarkerKind'>Sticky</span>,
+                                            <span tal:replace='topBiomarker/qaState'>under review</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <a href='#' tal:condition='python:numBiomarkers &gt; numTops' class='viewMoreEDRNStuffLink'
+                                    tal:attributes='href string:${hereURL}/#fieldsetlegend-biomarkers'
+                                    i18n:translate='edrnsiteCollaborationsViewMoreBiomarkers'>
+                                    View all <span tal:replace='numBiomarkers' i18n:name='numBiomarkers'>42</span> biomarkers
+                                </a>
+                            </div>
+                            <div class='topCollabGroupItems'
+                                tal:define='topProtocols view/topProtocols; numProtocols view/numProtocols;'>
+                                <h2 i18n:translate='edrnsiteCollaborationsHeadingProtocols' class='cbProtocolsHeading'>
+                                    Protocols
+                                </h2>
+                                <p class='topCollabGroupItemDescription' i18n:translate='edrnsiteCollaborationsDescProtocols'>
+                                    Protocols being executed by the
+                                    <span i18n:name='groupName' tal:content='context/title'>Mega Awesome Group</span>.
+                                </p>
+                                <span class='discreet' i18n:translate='edrnsiteCollaborationsNoTopProtocols'
+                                    tal:condition='not:topProtocols'>
+                                    This collaborative group doesn't have any protocols.
+                                </span>
+                                <table tal:condition='topProtocols'>
+                                    <tr tal:repeat='topProtocol topProtocols'>
+                                        <td>
+                                            <a href='#' title='A way interesting protocol.' tal:content='topProtocol/title'
+                                                tal:attributes='href topProtocol/absolute_url; title topProtocol/description;'>
+                                                Top Protocol of Fairly Interestingness.
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <a href='#' tal:condition='python:numProtocols &gt; numTops' class='viewMoreEDRNStuffLink'
+                                    tal:attributes='href string:${hereURL}/#fieldsetlegend-protocols'
+                                    i18n:translate='edrnsiteCollaborationsTabProtocols'>
+                                    View all <span tal:replace='numProtocols' i18n:name='numProtocols'>42</span> protocols
+                                </a>
+                            </div>
+                            <div class='visualClear'><!-- --></div>
                         </dd>
                         <dt id='fieldsetlegend-biomarkers' i18n:translate='edrnsiteCollaborationsTabBiomarkers'>
                             Biomarkers
