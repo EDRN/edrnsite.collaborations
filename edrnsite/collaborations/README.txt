@@ -134,3 +134,10 @@ Now check it out::
     >>> browser.open(portalURL + '/my-groups/my-fun-group')
     >>> browser.contents
     '...Biomarkers...Apogee 1...Protocols...Public Safety...Projects...Public Safety...Data...Get Bent...'
+
+In particular, the "Overview" tab has a nice listing of the top three
+biomarkers and protocols on it::
+
+    >>> browser.contents
+    '...Overview...Apogee 1...Public Safety...Biomarkers...Apogee 1...Protocols...Public Safety...'
+
