@@ -3,7 +3,7 @@
 .cbInfoBox {
     border: 1px solid #bbb;
     padding: 0.5em;
-    width: 260px;
+    width: 240px;
     margin: 0.5em 0;
 }
 .collaborativeGroupContainer {
@@ -34,6 +34,7 @@
 }
 #content .collaborativeGroupContainer .formTabs {
     margin-left: 0;
+    font-size: 9pt;
 }
 
 .collaborativeGroupContainer .socialMediaButtons {
@@ -57,7 +58,7 @@
 .cbMemberBox {
     border: 1px solid #bbb;
     padding: 0.5em;
-    width: 260px;
+    width: 240px;
     margin: 0.5em 0;
 }
 .cbMemberBox h2 {
@@ -72,7 +73,7 @@
     margin: 0.5em 0;
 }
 .collaborativeGroupContainer #collabGroupDetails {
-    width: 450px;
+    width: 470px;
 }
 .collabDetailList dd {
     line-height: 1.1em;
@@ -82,7 +83,7 @@
 .topCollabGroupItems {
     border: 1px solid #bbb;
     padding: 0.5em;
-    width: 190px;
+    width: 194px;
     margin: 0.5em 0;
     float: left;
     margin-right: 0.5em;
@@ -106,4 +107,8 @@
 }
 .viewMoreEDRNStuffLink {
     text-align: right;
+}
+.membersColumn {
+    font-size: 8pt;
+    float: left;
 }
