@@ -1,0 +1,30 @@
+<div metal:define-macro='columnOfCollaborativeGroupMembers'>
+    <tal:comment tal:replace='nothing'>A column of members goes here. Assumes "members" contains the Person objects.</tal:comment>
+    <table>
+        <tbody>
+            <tr tal:repeat='member members'>
+                <td>
+                    <a href='#' title='Dude of Awesomeness' tal:attributes='href member/absolute_url; title member/description;'
+                        tal:define='image member/getImage|nothing;'>
+                        <img
+                            src='#' alt='Photo'
+                            tal:condition='image'
+                            tal:replace='structure python:member.tag(scale="icon", css_class="newsImage")'
+                        />
+                        <img
+                            src='silhouette.png' alt='No photograph available.' i18n:attributes='alt'
+                            tal:condition='not:image'
+                            tal:attributes='src string:${context/++resource++no-photo.png};'
+                        />
+                    </a>
+                </td>
+                <td>
+                    <a href='#' title='Dude of Awesomeness' tal:attributes='href member/absolute_url; title member/description;'
+                        tal:content='member/title'>
+                        J. Q. Awesome
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
