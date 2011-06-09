@@ -37,6 +37,13 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <browser:resource name='h2-members.png' file='images/isometric-people.png'/>
     <browser:resource name='h2-biomarkers.png' file='images/flask.png'/>
     <browser:resource name='h2-protocols.png' file='images/green-book.png'/>
+    <browser:resource name='no-photo.png' file='images/silhouette.png'/>
+    <browser:page
+        for='*'
+        name='collaborativeGroupMacros'
+        permission='zope2.Public'
+        template='templates/macros.pt'
+    />
     <browser:page
         class='.collaborativegroup.CollaborativeGroupView'
         for='..interfaces.ICollaborativeGroup'
