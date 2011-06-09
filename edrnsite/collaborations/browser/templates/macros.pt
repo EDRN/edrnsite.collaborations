@@ -9,7 +9,7 @@
                         <img
                             src='#' alt='Photo'
                             tal:condition='image'
-                            tal:replace='structure python:member.tag(scale="icon", css_class="newsImage")'
+                            tal:replace='structure python:member.tag(scale="icon", css_class="cbShrinkidink")'
                         />
                         <img
                             src='silhouette.png' alt='No photograph available.' i18n:attributes='alt'
