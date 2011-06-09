@@ -14,6 +14,19 @@ from zope.interface import implements
 
 CollaborativeGroupSchema = folder.ATFolderSchema.copy() + atapi.Schema((
     atapi.ReferenceField(
+        'members',
+        storage=atapi.AnnotationStorage(),
+        enforceVocabulary=True,
+        multiValued=True,
+        vocabulary_factory=u'eke.site.People',
+        relationship='membersOfThisGroup',
+        vocabulary_display_path_bound=-1,
+        widget=atapi.ReferenceWidget(
+            title=_(u'Members'),
+            description=_(u'Members of this collaborative group.'),
+        )
+    ),
+    atapi.ReferenceField(
         'biomarkers',
         storage=atapi.AnnotationStorage(),
         enforceVocabulary=True,
@@ -76,11 +89,12 @@ class CollaborativeGroup(folder.ATFolder):
     implements(ICollaborativeGroup)
     schema      = CollaborativeGroupSchema
     portal_type = 'Collaborative Group'
-    description = atapi.ATFieldProperty('description')
-    title       = atapi.ATFieldProperty('title')
-    protocols   = atapi.ATReferenceFieldProperty('protocols')
     biomarkers  = atapi.ATReferenceFieldProperty('biomarkers')
     datasets    = atapi.ATReferenceFieldProperty('datasets')
+    description = atapi.ATFieldProperty('description')
+    members     = atapi.ATReferenceFieldProperty('members')
     projects    = atapi.ATReferenceFieldProperty('projects')
+    protocols   = atapi.ATReferenceFieldProperty('protocols')
+    title       = atapi.ATFieldProperty('title')
 
 atapi.registerType(CollaborativeGroup, PROJECTNAME)
