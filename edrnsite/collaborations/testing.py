@@ -40,7 +40,11 @@ class EDRNSiteCollaborations(PloneSandboxLayer):
         datasets = portal[portal.invokeFactory(
             'Dataset Folder', 'datasets', title=u'Datasets', rdfDataSource=u'testscheme://localhost/datasets/a',
         )]
-        for folder in (organs, resources, protocols, biomarkers, datasets):
+        sites = portal[portal.invokeFactory(
+            'Site Folder', 'sites', title=u'Sites',
+            rdfDataSource=u'testscheme://localhost/sites/d', peopleDataSource=u'testscheme://localhost/people/many'
+        )]
+        for folder in (organs, resources, protocols, biomarkers, datasets, sites):
             ingestor = getMultiAdapter((folder, TestRequest()), name=u'ingest')
             ingestor.render = False
             ingestor()
