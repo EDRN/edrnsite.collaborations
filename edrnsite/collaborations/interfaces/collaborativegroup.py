@@ -8,6 +8,7 @@ from edrnsite.collaborations import PackageMessageFactory as _
 from eke.biomarker.interfaces import IBiomarker
 from eke.ecas.interfaces import IDataset
 from eke.study.interfaces import IProtocol
+from eke.site.interfaces import IPerson
 from zope import schema
 from zope.app.container.constraints import contains
 from zope.interface import Interface
@@ -65,3 +66,14 @@ class ICollaborativeGroup(Interface):
             schema=IProtocol
         )
     )
+    members = schema.List(
+        title=_(u'Members'),
+        description=_(u'Members of this collaborative group.'),
+        required=False,
+        value_type=schema.Object(
+            title=_(u'Member'),
+            description=_(u'A member of this collaborative group.'),
+            schema=IPerson
+        )
+    )
+    
