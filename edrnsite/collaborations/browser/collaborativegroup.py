@@ -45,3 +45,10 @@ class CollaborativeGroupView(BrowserView):
         return len(context.protocols)
     def numTops(self):
         return _top
+    @memoize
+    def membersColumns(self):
+        members = aq_inner(self.context).members
+        members.sort()
+        half = len(members)/2 + 1
+        left, right = members[:half], members[half:]
+        return left, right
