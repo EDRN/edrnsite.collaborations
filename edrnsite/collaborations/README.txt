@@ -123,6 +123,7 @@ However, none of it is terribly interesting!  What we need is some actual
 information in this group.  So, let's revisit and update::
 
     >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='members:list').displayValue = ['Flora, Quake', 'Starseraph, Amber']
     >>> browser.getControl(name='protocols:list').displayValue = ['Public Safety']
     >>> browser.getControl(name='biomarkers:list').displayValue = ['Apogee 1']
     >>> browser.getControl(name='datasets:list').displayValue = ['Get Bent']
@@ -132,6 +133,8 @@ information in this group.  So, let's revisit and update::
 Now check it out::
 
     >>> browser.open(portalURL + '/my-groups/my-fun-group')
+    >>> browser.contents
+    '...Members...Flora, Quake...Starseraph, Amber...'
     >>> browser.contents
     '...Biomarkers...Apogee 1...Protocols...Public Safety...Projects...Public Safety...Data...Get Bent...'
 
