@@ -45,9 +45,14 @@
                         <div tal:replace='structure provider:plone.abovecontentbody' />
                     </div>
 
-                    <div class='cbMemberBox'>
+                    <div class='cbMemberBox' tal:define='membersColumns view/membersColumns'>
                         <h2 i18n:translate='edrnsiteCollaborationsHeadingMembers'>Members</h2>
-                        <p style='color: #ccc; font-size: 40px; text-align: center;'>TBD</p>
+                        <div class='membersColumn' tal:repeat='members membersColumns'>
+                            <div metal:use-macro='context/@@collaborativeGroupMacros/macros/columnOfCollaborativeGroupMembers'>
+                                A column of members appears here.
+                            </div>
+                        </div>
+                        <div class='visualClear'><!-- --></div>
                     </div>
 
                 </div>
