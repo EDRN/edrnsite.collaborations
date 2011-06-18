@@ -99,11 +99,15 @@ the right-side portlets (news feeds) since we need the space::
     False
 
 Collaborative Groups are all about the new social media, so see that it has
-Facebook and Twitter buttons::
+Facebook and Twitter buttons .  .  .  actually, no.  Turns out old doctors
+hate new media.  So let's make sure that there are NOT any Facebook or Twitter
+buttons::
 
     >>> browser.open(portalURL + '/my-groups/my-fun-group')
-    >>> browser.contents
-    '...facebook.com/sharer.php?u=http...my-groups%2Fmy-fun-group...twitter.com/share...http...my-groups%2Fmy-fun-group...'
+    >>> 'facebook.com' in browser.contents
+    False
+    >>> 'twitter.com' in browser.contents
+    False
 
 There's a list of members::
 
