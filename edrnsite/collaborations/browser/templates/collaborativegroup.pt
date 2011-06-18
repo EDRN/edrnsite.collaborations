@@ -21,18 +21,6 @@
                 <div class='collaborativeGroupContainer'>
                     <div class='cbInfoBox'>
                         <div tal:replace='structure provider:plone.abovecontenttitle' />
-                        <div class='socialMediaButtons'>
-                            <a href='#' class='facebook' title='Share on Facebook' tal:attributes='href view/facebookURL'
-                                i18n:translate='edrnsiteCollaborationsShareFacebookContent'
-                                i18n:attributes='title edrnsiteCollaborationsShareFacebookTitle'>
-                                Share on Facebook
-                            </a>
-                            <a href='#' class='twitter' title='Share on Twitter' tal:attributes='href view/twitterURL'
-                                i18n:translate='edrnsiteCollaborationsShareTwitterContent'
-                                i18n:attributes='title edrnsiteCollaborationsShareTwitterTitle'>
-                                Share on Twitter
-                            </a>
-                        </div>
                         <h1 class='documentFirstHeading'> 
                             <metal:field use-macro='python:context.widget("title", mode="view")'>
                                 Mega Awesome Group
