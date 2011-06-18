@@ -5,11 +5,12 @@
 '''Mailing action for content rules for the EDRN Site Collaborations.'''
 
 from Acquisition import aq_inner
-from Products.CMFCore.utils import getToolByName
 from plone.app.contentrules.actions.mail import IMailAction, MailAction, MailActionExecutor, MailAddForm, MailEditForm
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
+from zope.component import adapts
 from zope.formlib import form
-from zope.interface import implements
+from zope.interface import implements, Interface
 import socket, smtplib
 
 class IEDRNSiteCollaborationsMailAction(IMailAction):
@@ -24,6 +25,7 @@ class EDRNSiteCollaborationsMailAction(MailAction):
 class EDRNSiteCollaborationsMailActionExecutor(MailActionExecutor):
     '''Executor that actually sends email (ignoring errors) for an EDRN Collaborative Group, and only
     if the group has notifications enabled.'''
+    adapts(Interface, IEDRNSiteCollaborationsMailAction, Interface)
     def __call__(self):
         try:
             context = aq_inner(self.context)
