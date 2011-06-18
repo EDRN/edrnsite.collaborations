@@ -37,24 +37,6 @@
     font-size: 9pt;
 }
 
-.collaborativeGroupContainer .socialMediaButtons {
-    float: right;
-}
-.socialMediaButtons a {
-    height: 16px;
-    width: 16px;
-    overflow: hidden;
-    text-indent: -999px;
-    line-height: 16px;
-    margin-left: 5px;
-    float: left;
-}
-.socialMediaButtons .facebook {
-    background-image: url(++resource++social-facebook.png);
-}
-.collaborativeGroupContainer .twitter {
-    background-image: url(++resource++social-twitter.png);
-}
 .cbMemberBox {
     border: 1px solid #bbb;
     padding: 0.5em;
