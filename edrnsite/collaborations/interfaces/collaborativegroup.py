@@ -76,4 +76,10 @@ class ICollaborativeGroup(Interface):
             schema=IPerson
         )
     )
+    updateNotifications = schema.Bool(
+        title=_(u'Update Notifications'),
+        description=_(u'Enable notifying members (by email) of updates to this collaborative group.'),
+        required=False,
+    )
+    
     
