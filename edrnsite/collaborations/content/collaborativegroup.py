@@ -78,6 +78,15 @@ CollaborativeGroupSchema = folder.ATFolderSchema.copy() + atapi.Schema((
             description=_(u'Team projects (which are just special protocols) of which this collaborative group is part.'),
         ),
     ),
+    atapi.BooleanField(
+        'updateNotifications',
+        required=False,
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.BooleanWidget(
+            label=_(u'Update Notifications'),
+            description=_(u'Enable notifying members (by email) of updates to this collaborative group.'),
+        ),
+    ),
 ))
 CollaborativeGroupSchema['title'].storage = atapi.AnnotationStorage()
 CollaborativeGroupSchema['description'].storage = atapi.AnnotationStorage()
@@ -87,14 +96,15 @@ schemata.finalizeATCTSchema(CollaborativeGroupSchema, folderish=True, moveDiscus
 class CollaborativeGroup(folder.ATFolder):
     '''A collaborative group'''
     implements(ICollaborativeGroup)
-    schema      = CollaborativeGroupSchema
-    portal_type = 'Collaborative Group'
-    biomarkers  = atapi.ATReferenceFieldProperty('biomarkers')
-    datasets    = atapi.ATReferenceFieldProperty('datasets')
-    description = atapi.ATFieldProperty('description')
-    members     = atapi.ATReferenceFieldProperty('members')
-    projects    = atapi.ATReferenceFieldProperty('projects')
-    protocols   = atapi.ATReferenceFieldProperty('protocols')
-    title       = atapi.ATFieldProperty('title')
+    schema              = CollaborativeGroupSchema
+    portal_type         = 'Collaborative Group'
+    biomarkers          = atapi.ATReferenceFieldProperty('biomarkers')
+    datasets            = atapi.ATReferenceFieldProperty('datasets')
+    description         = atapi.ATFieldProperty('description')
+    members             = atapi.ATReferenceFieldProperty('members')
+    projects            = atapi.ATReferenceFieldProperty('projects')
+    protocols           = atapi.ATReferenceFieldProperty('protocols')
+    title               = atapi.ATFieldProperty('title')
+    updateNotifications = atapi.ATFieldProperty('updateNotifications')
 
 atapi.registerType(CollaborativeGroup, PROJECTNAME)
