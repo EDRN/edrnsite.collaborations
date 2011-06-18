@@ -77,6 +77,7 @@ Folders::
     >>> l.click()
     >>> browser.getControl(name='title').value = u'My Fun Group'
     >>> browser.getControl(name='description').value = u'A group dedicated towards the common goal of "fun".'
+    >>> browser.getControl(name='updateNotifications:boolean').value = True
     >>> browser.getControl(name='form.button.save').click()
     >>> 'my-fun-group' in cf.keys()
     True
@@ -85,6 +86,8 @@ Folders::
     'My Fun Group'
     >>> group.description
     'A group dedicated towards the common goal of "fun".'
+    >>> group.updateNotifications
+    True
 
 Notice now that the Collaborations Folder is no longer empty::
 
@@ -113,8 +116,6 @@ There's a list of members::
 
     >>> browser.contents
     '...<h2>Members</h2>...'
-
-TODO: Add members and check for them.
 
 And there's a set of tabs providing access to an overview, biomarkers,
 protocols, team projects, data, and a calendar, (in that order)::
@@ -221,3 +222,7 @@ These items should all appear on the Documents tab now::
     >>> browser.contents
     '...New Web Page...New File...New Image...'
 
+TODO: functional testing of updateNotifications:
+- add content rules to a collaborative group, test mail host
+- add content, and see if email gets sent when updateNotifications = true
+- ensure mail not sent when updateNotifications = false
