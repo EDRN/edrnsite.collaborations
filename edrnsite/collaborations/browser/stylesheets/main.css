@@ -112,3 +112,41 @@
     font-size: 8pt;
     float: left;
 }
+.collaborationsNewContentButtons {
+    text-align: center;
+}
+.collaborationsNewContentButtons li {
+    display: inline;
+    padding: 0 1em;
+}
+.collaborationsNewContentButtons a {
+    -moz-border-radius: 8px;
+    -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+    -webkit-border-radius: 8px;
+    -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+    background: #d66581;
+    background: -moz-linear-gradient(top, #a82b1b, #d66581);
+    background: -webkit-gradient(linear, left top, left bottom, from(#a82b1b), to(#d66581));
+    border-radius: 8px;
+    border-top: 1px solid #fa0f36;
+    box-shadow: rgba(0,0,0,1) 0 1px 0;
+    color: white;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    padding: 5px 10px;
+    text-decoration: none;
+    text-shadow: rgba(0,0,0,.4) 0 1px 0;
+    vertical-align: middle;
+}
+.collaborationsNewContentButtons a:visited {
+    color: white !important;
+}
+.collaborationsNewContentButtons a:hover {
+    border-top-color: #b8a064;
+    background: #b8a064 !important;
+    color: white;
+}
+.collaborationsNewContentButtons a:active {
+    border-top-color: #7992a3;
+    background: #7992a3;
+}
