@@ -17,6 +17,11 @@ First we have to set up some things and login to the site::
     >>> portal = layer['portal']    
     >>> portalURL = portal.absolute_url()
 
+We'll also have a second browser that's unprivileged for some later
+demonstrations::
+
+    >>> unprivilegedBrowser = Browser(app)
+
 Now we can check out the new types introduced in this package.
 
 
@@ -113,11 +118,16 @@ protocols, team projects, data, and a calendar, (in that order)::
     >>> overview = browser.contents.index('fieldset-overview')
     >>> biomarkers = browser.contents.index('fieldset-biomarkers')
     >>> protocols = browser.contents.index('fieldset-protocols')
-    >>> projects = browser.contents.index('fieldset-projects')
     >>> data = browser.contents.index('fieldset-data')
     >>> calendar = browser.contents.index('fieldset-calendar')
-    >>> overview < biomarkers < protocols < projects < data < calendar
+    >>> documents = browser.contents.index('fieldset-documents')
+    >>> overview < biomarkers < protocols < data < calendar < documents
     True
+
+Note also that, due to lack of room, we've combined Projects and Protocols::
+
+    >>> browser.contents
+    '...Projects/Protocols...'
 
 However, none of it is terribly interesting!  What we need is some actual
 information in this group.  So, let's revisit and update::
@@ -136,11 +146,74 @@ Now check it out::
     >>> browser.contents
     '...Members...Flora, Quake...Starseraph, Amber...'
     >>> browser.contents
-    '...Biomarkers...Apogee 1...Protocols...Public Safety...Projects...Public Safety...Data...Get Bent...'
+    '...Biomarkers...Apogee 1...Projects/Protocols...Public Safety...Data...Get Bent...'
 
 In particular, the "Overview" tab has a nice listing of the top three
 biomarkers and protocols on it::
 
     >>> browser.contents
     '...Overview...Apogee 1...Public Safety...Biomarkers...Apogee 1...Protocols...Public Safety...'
+
+There's a "Documents" tab which has bright shiny buttons::
+
+    >>> browser.contents
+    '...Documents...New Page...New File...New Image...'
+
+Those shiny buttons enable users who otherwise wouldn't realize there's an
+"Add new" menu that lets them add new items.  Moreover, they appear because
+we're logged in as someone with privileges.  If we log out, they'll go away::
+
+    >>> unprivilegedBrowser.open(portalURL + '/my-groups/my-fun-group')
+    >>> 'New Page' in unprivilegedBrowser.contents
+    False
+    >>> 'New File' in unprivilegedBrowser.contents
+    False
+    >>> 'New Image' in unprivilegedBrowser.contents
+    False
+
+Let's press 'em and add some items.  First, a web page::
+
+    >>> browser.open(portalURL + '/my-groups/my-fun-group')
+    >>> l = browser.getLink('New Page')
+    >>> l.url.endswith('createObject?type_name=Document')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'New Web Page'
+    >>> browser.getControl(name='description').value = u'A page for functional tests.'
+    >>> browser.getControl(name='text').value = u'Seriously, this is just a test page to test adding pages to collaborative groups.'
+    >>> browser.getControl(name='form.button.save').click()
+
+And a file::
+
+    >>> from StringIO import StringIO
+    >>> fakeFile = StringIO('%PDF-1.5\nThis is sample PDF file in disguise.\nDo not try to render it.')
+    >>> browser.open(portalURL + '/my-groups/my-fun-group')
+    >>> l = browser.getLink('New File')
+    >>> l.url.endswith('createObject?type_name=File')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'New File'
+    >>> browser.getControl(name='description').value = u'A file for functional tests.'
+    >>> browser.getControl(name='file_file').add_file(fakeFile, 'application/pdf', 'test.pdf')
+    >>> browser.getControl(name='form.button.save').click()
+
+And finally, an image::
+
+    >>> import base64
+    >>> fakeImage = StringIO(base64.b64decode('R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='))
+    >>> browser.open(portalURL + '/my-groups/my-fun-group')
+    >>> l = browser.getLink('New Image')
+    >>> l.url.endswith('createObject?type_name=Image')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'New Image'
+    >>> browser.getControl(name='description').value = u'An image for functional tests.'
+    >>> browser.getControl(name='image_file').add_file(fakeImage, 'image/png', 'test.png')
+    >>> browser.getControl(name='form.button.save').click()
+
+These items should all appear on the Documents tab now::
+
+    >>> browser.open(portalURL + '/my-groups/my-fun-group')
+    >>> browser.contents
+    '...New Web Page...New File...New Image...'
 
