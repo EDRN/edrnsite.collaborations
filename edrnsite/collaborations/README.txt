@@ -222,7 +222,44 @@ These items should all appear on the Documents tab now::
     >>> browser.contents
     '...New Web Page...New File...New Image...'
 
-TODO: functional testing of updateNotifications:
-- add content rules to a collaborative group, test mail host
-- add content, and see if email gets sent when updateNotifications = true
-- ensure mail not sent when updateNotifications = false
+You may have noticed that when we first created this fun group (Rebecca Black
+would've been proud), we enabled the "updateNotifications" setting.  That
+settings tells collaborative groups to let their mailing lists know that stuff
+has been added, edited, or had its publication state change.  Just above we
+added three items, so our test mail host should have sent three messages::
+
+    >>> from Products.CMFCore.utils import getToolByName
+    >>> mailHost = getToolByName(portal, 'MailHost')
+    >>> len(mailHost.getSentMessages()) >= 3
+    True
+
+The message typically tells what was added and gives a URL to it::
+
+    >>> message = mailHost.getSentMessages()[1]
+    >>> 'A new item has been added to your collaborative group' in message
+    True
+    >>> portalURL + '/my-groups/my-fun-group/new-web-page' in message
+    True
+
+Let's turn off the updateNotifications setting::
+
+    >>> browser.open(portalURL + '/my-groups/my-fun-group')
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='updateNotifications:boolean').value = False
+    >>> browser.getControl(name='form.button.save').click()
+    >>> mailHost.resetSentMessages()
+
+And then add a new item::
+
+    >>> browser.getLink('New Page').click()
+    >>> browser.getControl(name='title').value = u'Another New Web Page'
+    >>> browser.getControl(name='description').value = u'Yet another page for functional tests.'
+    >>> browser.getControl(name='text').value = u'Seriously, this is just a test page to test adding pages to collaborative groups.'
+    >>> browser.getControl(name='form.button.save').click()
+
+Now take note of the sent messages::
+
+    >>> len(mailHost.getSentMessages())
+    0
+
+Perfect.
