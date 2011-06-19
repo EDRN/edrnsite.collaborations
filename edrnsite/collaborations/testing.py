@@ -2,17 +2,37 @@
 # Copyright 2011 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
+from Acquisition import aq_base
+from eke.biomarker.testing import EKE_BIOMARKER_FIXTURE
 from eke.ecas.testing import EKE_ECAS_FIXTURE
 from eke.knowledge.testing import EKE_KNOWLEDGE_FIXTURE
-from eke.biomarker.testing import EKE_BIOMARKER_FIXTURE
 from eke.study.testing import EKE_STUDY_FIXTURE
+from plone.app.testing import login
 from plone.app.testing import PloneSandboxLayer, IntegrationTesting, FunctionalTesting
+from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID, TEST_USER_NAME
 from plone.testing import z2
+from Products.MailHost.interfaces import IMailHost
+from zope.component import getMultiAdapter, getSiteManager
 from zope.publisher.browser import TestRequest
-from zope.component import getMultiAdapter
-from plone.app.testing import login
-from plone.app.testing import setRoles
+
+_sentMessages = []
+
+class _TestingMailHost(object):
+    smtp_queue = True
+    def __init__(self):
+        self.resetSentMessages()
+    def send(self, message, mto=None, mfrom=None, subject=None, encode=None, immediate=False, charset=None, msg_type=None):
+        global _sentMessages
+        _sentMessages.append(message)
+    def resetSentMessages(self):
+        global _sentMessages
+        _sentMessages = []
+    def getSentMessages(self):
+        global _sentMessages
+        return _sentMessages
+
+_testingMailHost = _TestingMailHost()
 
 class EDRNSiteCollaborations(PloneSandboxLayer):
     defaultBases = (EKE_ECAS_FIXTURE, EKE_BIOMARKER_FIXTURE, EKE_STUDY_FIXTURE, EKE_KNOWLEDGE_FIXTURE,)
@@ -20,6 +40,9 @@ class EDRNSiteCollaborations(PloneSandboxLayer):
         import edrnsite.collaborations
         self.loadZCML(package=edrnsite.collaborations)
         z2.installProduct(app, 'edrnsite.collaborations')
+        # You'd think this would be included in the Plone fixture:
+        import plone.stringinterp
+        self.loadZCML(package=plone.stringinterp)
     def setUpPloneSite(self, portal):
         self.applyProfile(portal, 'edrnsite.collaborations:default')
         setRoles(portal, TEST_USER_ID, ['Manager'])
@@ -51,6 +74,18 @@ class EDRNSiteCollaborations(PloneSandboxLayer):
         protocol = protocols['ps-public-safety']
         protocol.project = True
         protocol.reindexObject(idxs=['project'])
+        portal._original_MailHost = portal.MailHost
+        portal.MailHost = _testingMailHost
+        siteManager = getSiteManager(portal)
+        siteManager.unregisterUtility(provided=IMailHost)
+        siteManager.registerUtility(_testingMailHost, provided=IMailHost)
+        portal._setPropValue('email_from_address', u'edrn-ic@jpl.nasa.gov')
+        portal._setPropValue('email_from_name', u'EDRN Informatics Center')
+    def teatDownPloneSite(self, portal):
+        portal.MailHost = portal._original_MailHost
+        siteManager = getSiteManager(portal)
+        siteManager.unregisterUtility(provided=IMailHost)
+        siteManager.registerUtility(aq_base(portal._original_MailHost), IMailHost)
     def tearDownZope(self, app):
         z2.uninstallProduct(app, 'edrnsite.collaborations')
     
