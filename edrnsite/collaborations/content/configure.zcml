@@ -10,4 +10,8 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <class class='.collaborativegroup.CollaborativeGroup'>
         <require permission='zope2.View' interface='..interfaces.ICollaborativeGroup'/>
     </class>
+    <subscriber
+        for='..interfaces.ICollaborativeGroup zope.app.container.interfaces.IObjectAddedEvent'
+        handler='.collaborativegroup.addContentRules'
+    />
 </configure>
