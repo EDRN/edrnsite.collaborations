@@ -3,7 +3,7 @@
 Copyright 2011 California Institute of Technology. ALL RIGHTS
 RESERVED. U.S. Government Sponsorship acknowledged.
 -->
-<contentrules>
+<contentrules purge='False'>
     <rule
         name='cb-add-event'
         title='EDRN Collaborations Event: Item Added'
