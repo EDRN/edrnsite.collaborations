@@ -7,9 +7,13 @@
 from edrnsite.collaborations import PackageMessageFactory as _
 from edrnsite.collaborations.config import PROJECTNAME
 from edrnsite.collaborations.interfaces import ICollaborativeGroup
+from plone.app.contentrules.rule import get_assignments
+from plone.contentrules.engine.assignments import RuleAssignment
+from plone.contentrules.engine.interfaces import IRuleAssignmentManager, IRuleStorage
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content import schemata
+from zope.component import getUtility
 from zope.interface import implements
 
 CollaborativeGroupSchema = folder.ATFolderSchema.copy() + atapi.Schema((
@@ -108,3 +112,12 @@ class CollaborativeGroup(folder.ATFolder):
     updateNotifications = atapi.ATFieldProperty('updateNotifications')
 
 atapi.registerType(CollaborativeGroup, PROJECTNAME)
+
+def addContentRules(obj, event):
+    '''For newly-created collaborative groups, add content rules to handle notifications.'''
+    if not ICollaborativeGroup.providedBy(obj): return
+    assignable, storage, path = IRuleAssignmentManager(obj), getUtility(IRuleStorage), '/'.join(obj.getPhysicalPath())
+    for ruleName in ('cb-add-event', 'cb-mod-event', 'cb-pub-event'):
+        if ruleName not in assignable:
+            assignable[ruleName] = RuleAssignment(ruleName)
+            get_assignments(storage[ruleName]).insert(path)
