@@ -134,6 +134,10 @@ Note also that, due to lack of room, we've combined Projects and Protocols::
     >>> browser.contents
     '...Projects/Protocols...'
 
+
+Contained Items
+---------------
+
 However, none of it is terribly interesting!  What we need is some actual
 information in this group.  So, let's revisit and update::
 
@@ -222,6 +226,10 @@ These items should all appear on the Documents tab now::
     >>> browser.contents
     '...New Web Page...New File...New Image...'
 
+
+Update Notifications
+--------------------
+
 You may have noticed that when we first created this fun group (Rebecca Black
 would've been proud), we enabled the "updateNotifications" setting.  That
 settings tells collaborative groups to let their mailing lists know that stuff
@@ -263,3 +271,109 @@ Now take note of the sent messages::
     0
 
 Perfect.
+
+
+Event Calendar
+--------------
+
+You can add events (meetings, conferences, telecons, etc.) to Collaborative
+Groups.  Look at the Calendar tab::
+
+    >>> browser.open(portalURL + '/my-groups/my-fun-group')
+    >>> browser.contents
+    '...Calendar...New Event...'
+
+Yes, that's another big shiny button that allows privileged users to create
+new events in the calendar.  Unprivileged users get no button::
+
+    >>> unprivilegedBrowser.open(portalURL + '/my-groups/my-fun-group')
+    >>> 'New Event' in unprivilegedBrowser.contents
+    False
+
+Note also::
+
+    >>> browser.contents
+    '...There are no current events...'
+
+We can fix that by hitting that big shiny button::
+
+    >>> l = browser.getLink('New Event')
+    >>> l.url.endswith('createObject?type_name=Event')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'Fun Meeting'
+    >>> browser.getControl(name='description').value = u'Gonna be lots of fun'
+
+When should this meeting occur?  Let's say in a few days::
+
+    >>> from datetime import datetime, timedelta
+    >>> fewDays = datetime.now() + timedelta(6)
+    >>> browser.getControl(name='startDate_year').displayValue = [str(fewDays.year)]
+    >>> browser.getControl(name='startDate_month').value = ['%02d' % fewDays.month]
+    >>> browser.getControl(name='startDate_day').value = ['%02d' % fewDays.day]
+
+And we'll make it last a day::
+
+    >>> dayAfter = fewDays + timedelta(1)
+    >>> browser.getControl(name='endDate_year').displayValue = [str(dayAfter.year)]
+    >>> browser.getControl(name='endDate_month').value = ['%02d' % dayAfter.month]
+    >>> browser.getControl(name='endDate_day').value = ['%02d' % dayAfter.day]
+    >>> browser.getControl(name='form.button.save').click()
+    
+The event appears on the calendar::
+
+    >>> browser.open(portalURL + '/my-groups/my-fun-group')
+    >>> browser.contents
+    '...Calendar...Fun Meeting...'
+
+Let's make another event that's tomorrow::
+
+    >>> tomorrow = datetime.now() + timedelta(1)
+    >>> dayAfter = fewDays + timedelta(1)
+    >>> browser.getLink('New Event').click()
+    >>> browser.getControl(name='title').value = u'Yet Another Fun Meeting'
+    >>> browser.getControl(name='description').value = u'Gonna be less fun.'
+    >>> browser.getControl(name='startDate_year').displayValue = [str(tomorrow.year)]
+    >>> browser.getControl(name='startDate_month').value = ['%02d' % tomorrow.month]
+    >>> browser.getControl(name='startDate_day').value = ['%02d' % tomorrow.day]
+    >>> browser.getControl(name='endDate_year').displayValue = [str(dayAfter.year)]
+    >>> browser.getControl(name='endDate_month').value = ['%02d' % dayAfter.month]
+    >>> browser.getControl(name='endDate_day').value = ['%02d' % dayAfter.day]
+    >>> browser.getControl(name='form.button.save').click()
+    
+This event should before the "Fun Meeting" since it happens tomorrow, while
+the "Fun Meeting" isn't for a few days::
+
+    >>> browser.open(portalURL + '/my-groups/my-fun-group')
+    >>> browser.contents
+    '...Calendar...Yet Another Fun Meeting...Fun Meeting...'
+
+Also take note::
+
+    >>> browser.contents
+    '...Calendar...There are no past events...'
+
+Let's see if adding another event that already took place changes that::
+
+    >>> past = datetime.now() - timedelta(3)
+    >>> dayAfter = past + timedelta(1)
+    >>> browser.getLink('New Event').click()
+    >>> browser.getControl(name='title').value = u'Old Meeting'
+    >>> browser.getControl(name='description').value = u"This meeting wasn't that much fun."
+    >>> browser.getControl(name='startDate_year').displayValue = [str(past.year)]
+    >>> browser.getControl(name='startDate_month').value = ['%02d' % past.month]
+    >>> browser.getControl(name='startDate_day').value = ['%02d' % past.day]
+    >>> browser.getControl(name='endDate_year').displayValue = [str(dayAfter.year)]
+    >>> browser.getControl(name='endDate_month').value = ['%02d' % dayAfter.month]
+    >>> browser.getControl(name='endDate_day').value = ['%02d' % dayAfter.day]
+    >>> browser.getControl(name='form.button.save').click()
+
+And now::
+
+    >>> browser.open(portalURL + '/my-groups/my-fun-group')
+    >>> browser.contents
+    '...Calendar...Yet Another Fun Meeting...Fun Meeting...Past Events...Old Meeting...'
+
+Woot!
+
+In a future release we'll change from a list of events to an actual calendar.
