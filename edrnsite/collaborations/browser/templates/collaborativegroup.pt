@@ -201,8 +201,45 @@
                         <dt id='fieldsetlegend-calendar' i18n:translate='edrnsiteCollaborationsTabCalendar'>
                             Calendar
                         </dt>
-                        <dd id='fieldset-calendar'>
-                            Calendar TBD.
+                        <dd id='fieldset-calendar' tal:define='
+                            showEventButton python:view.showNewButton("event");
+                            haveEvents      view/haveEvents;
+                            havePastEvents  view/havePastEvents;
+                        '>
+                            <ul class='collaborationsNewContentButtons' tal:condition='showEventButton'>
+                                <li tal:condition='showEventButton'>
+                                    <a href='#' title='Creates a new event (meeting, telecon, conference,…) for the group.'
+                                        i18n:attributes='title' i18n:translate='edrnsiteCollaborationsButtonsNewEvent'
+                                        tal:attributes='href python:view.newButtonLink("event");'>
+                                        New Event
+                                    </a>
+                                </li>
+                            </ul>
+                            <p class='discreet' tal:condition='not:haveEvents'
+                                i18n:translate='edrnsiteCollaborationsAdmonitionNoEvents'>
+                                There are no current events.
+                            </p>
+                            <div tal:condition='haveEvents' tal:define='events view/currentEvents'>
+                                <table metal:use-macro='context/@@collaborativeGroupMacros/macros/eventsTable'>
+                                    Table of current events.
+                                </table>
+                            </div>
+                            <dl class='collapsible collapsedOnLoad'>
+                                <dt class='collapsibleHeader' i18n:translate='edrnsiteCollaborationsCollapsiblePastEvents'>
+                                    Past Events
+                                </dt>
+                                <dd class='collapsibleContent'>
+                                    <p class='discreet' tal:condition='not:havePastEvents'
+                                        i18n:translate='edrnsiteCollaborationsAdmonitionNoPastEvents'>
+                                        There are no past events.
+                                    </p>
+                                    <div tal:condition='havePastEvents' tal:define='events view/pastEvents'>
+                                        <table metal:use-macro='context/@@collaborativeGroupMacros/macros/eventsTable'>
+                                            Table of past events.
+                                        </table>
+                                    </div>
+                                </dd>
+                            </dl>
                         </dd>
                         <dt id='fieldsetlegend-documents' i18n:translate='edrnsiteCollaborationsTabDocuments'>
                             Documents
@@ -226,16 +263,16 @@
                    i18n:attributes="summary summary_content_listing;">
                 <thead>
                     <tr>
-                        <th class="nosort">&nbsp;<tal:title i18n:translate="listingheader_title"
-                          >Title</tal:title>&nbsp;</th>
+                        <th class="nosort">&#x00a0;<tal:title i18n:translate="listingheader_title"
+                          >Title</tal:title>&#x00a0;</th>
                         <th class="nosort"
-                            tal:condition="show_about">&nbsp;<tal:title i18n:translate="listingheader_author"
-                          >Author</tal:title>&nbsp;</th>
-                        <th class="nosort">&nbsp;<tal:title i18n:translate="listingheader_type"
-                          >Type</tal:title>&nbsp;</th>
+                            tal:condition="show_about">&#x00a0;<tal:title i18n:translate="listingheader_author"
+                          >Author</tal:title>&#x00a0;</th>
+                        <th class="nosort">&#x00a0;<tal:title i18n:translate="listingheader_type"
+                          >Type</tal:title>&#x00a0;</th>
                         <th class="nosort"
-                            tal:condition="show_about">&nbsp;<tal:modified i18n:translate="listingheader_modified"
-                          >Modified</tal:modified>&nbsp;</th>
+                            tal:condition="show_about">&#x00a0;<tal:modified i18n:translate="listingheader_modified"
+                          >Modified</tal:modified>&#x00a0;</th>
                     </tr>
                 </thead>
 
