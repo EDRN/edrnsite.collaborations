@@ -21,6 +21,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         <element value='Document'/>
         <element value='Image'/>
         <element value='File'/>
+        <element value='Event'/>
     </property>
     <property name='allow_discussion'>True</property>
     <property name='default_view'>view</property>
