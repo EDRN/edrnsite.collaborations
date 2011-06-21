@@ -28,3 +28,24 @@
         </tbody>
     </table>
 </div>
+<table class='listing' metal:define-macro='eventsTable' tal:define='toLocalizedTime nocall:context/@@plone/toLocalizedTime;'>
+    <tal:comment tal:replace='nothing'>A table of events. Assumes "events" contains a sequence of Event objects</tal:comment>
+    <thead>
+        <tr>
+            <th i18n:translate='edrnsiteCollaborationsCalendarTableHeadingEvent'>Event</th>
+            <th i18n:translate='edrnsiteCollaborationsCalendarTableHeadingWhen'>When</th>
+    </thead>
+    <tbody>
+        <tal:repeat repeat='event events'>
+            <tr class='odd' tal:define='oddrow repeat/event/odd' tal:attributes='class python:oddrow and "odd" or "even"'>
+                <td>
+                    <a href='#' title='A really fun event.' tal:attributes='href event/url; title event/description;'
+                        tal:content='event/title'>
+                        Fun Event
+                    </a>
+                </td>
+                <td tal:content='python:toLocalizedTime(event["start"])'>2011-06-21</td>
+            </tr>
+        </tal:repeat>
+    </tbody>
+</table>
