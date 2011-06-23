@@ -22,6 +22,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         <element value='Image'/>
         <element value='File'/>
         <element value='Event'/>
+        <element value='Collaborative Group Index'/>
     </property>
     <property name='allow_discussion'>True</property>
     <property name='default_view'>view</property>
