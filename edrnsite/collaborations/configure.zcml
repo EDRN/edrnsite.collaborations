@@ -21,6 +21,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <include package='eke.knowledge'/>
     <include package='eke.publications'/>
     <include package='eke.ecas'/>
+    <include package='plone.app.discussion'/>
     <genericsetup:registerProfile
         name='default'
         title='EDRN Site Collaborations'
