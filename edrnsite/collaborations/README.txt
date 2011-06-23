@@ -101,6 +101,30 @@ the right-side portlets (news feeds) since we need the space::
     >>> 'portal-column-two' in browser.contents
     False
 
+It also automatically created an index page and set it as the default view of
+the Collaborative Group container::
+
+    >>> 'index_html' in group.keys()
+    True
+
+This item is set as the default view of the Collaborative Group::
+
+    >>> group.getDefaultPage()
+    'index_html'
+
+We do this because comments can't be applied to folders in Plone, but they can
+appear on non-folder objects.  Speaking of, check out the comment box::
+
+    >>> browser.open(portalURL + '/my-groups/my-fun-group')
+    >>> browser.contents
+    '...Add comment...'
+
+However, you've got to have privileges to get that button, see::
+
+    >>> unprivilegedBrowser.open(browser.url)
+    >>> 'Add comment' in unprivilegedBrowser.contents
+    False
+
 Collaborative Groups are all about the new social media, so see that it has
 Facebook and Twitter buttons .  .  .  actually, no.  Turns out old doctors
 hate new media.  So let's make sure that there are NOT any Facebook or Twitter
@@ -223,6 +247,7 @@ And finally, an image::
 These items should all appear on the Documents tab now::
 
     >>> browser.open(portalURL + '/my-groups/my-fun-group')
+    >>> xxx = open('/tmp/log.html', 'w'); xxx.write(browser.contents); xxx.close()
     >>> browser.contents
     '...New Web Page...New File...New Image...'
 
@@ -251,8 +276,7 @@ The message typically tells what was added and gives a URL to it::
 
 Let's turn off the updateNotifications setting::
 
-    >>> browser.open(portalURL + '/my-groups/my-fun-group')
-    >>> browser.getLink('Edit').click()
+    >>> browser.open(portalURL + '/my-groups/my-fun-group/edit')
     >>> browser.getControl(name='updateNotifications:boolean').value = False
     >>> browser.getControl(name='form.button.save').click()
     >>> mailHost.resetSentMessages()
