@@ -24,9 +24,5 @@
                 </li>
             </ul>
         </metal:content-core>
-        <!-- <metal:css fill-slot='css_slot'>
-            <style type='text/css' media='all'
-                tal:content="string:@import url(${context/++resource++ipdasite-services.css});"></style>
-        </metal:css> -->
     </body>
 </html>
