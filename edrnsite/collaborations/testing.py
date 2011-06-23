@@ -40,6 +40,9 @@ class EDRNSiteCollaborations(PloneSandboxLayer):
         import edrnsite.collaborations
         self.loadZCML(package=edrnsite.collaborations)
         z2.installProduct(app, 'edrnsite.collaborations')
+        import plone.app.discussion
+        self.loadZCML(package=plone.app.discussion)
+        z2.installProduct(app, 'plone.app.discussion')
         # You'd think this would be included in the Plone fixture:
         import plone.stringinterp
         self.loadZCML(package=plone.stringinterp)
