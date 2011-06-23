@@ -24,11 +24,10 @@ _keywords    = 'web zope plone edrn cancer biomarkers collaborative groups works
 _extras = {
     'test': ['plone.app.testing'],
 }
-# consider adding 'plone.app.discussion ==1.1' for nicer commenting
-# however it doesn't allow commenting on folders. what to do?
 _externalRequirements = [
     'setuptools',
     'Plone',
+    'plone.app.discussion'
 ]
 _classifiers = [
     'Development Status :: 2 - Pre-Alpha',
