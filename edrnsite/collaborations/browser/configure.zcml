@@ -32,6 +32,22 @@ RESERVED. U.S. Government Sponsorship acknowledged.
 
     <!-- Collaborative Group -->
     <browser:resource name='collaborativegroup.gif' file='images/collaborativegroup.gif'/>
+    <browser:page
+        class='.collaborativegroup.CollaborativeGroupView'
+        for='..interfaces.ICollaborativeGroup'
+        name='view'
+        permission='zope2.View'
+    />
+    <browser:menuItem
+        action='@@view'
+        description='Default representation of a Collaborative Group.'
+        for='..interfaces.ICollaborativeGroup'
+        menu='plone_displayviews'
+        title='Collaborative Group view'
+    />
+
+    <!-- Collaborative Group Index -->
+    <browser:resource name='collaborativegroupindex.gif' file='images/collaborativegroupindex.gif'/>
     <browser:resource name='h2-members.png' file='images/isometric-people.png'/>
     <browser:resource name='h2-biomarkers.png' file='images/flask.png'/>
     <browser:resource name='h2-protocols.png' file='images/green-book.png'/>
@@ -43,15 +59,15 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         template='templates/macros.pt'
     />
     <browser:page
-        class='.collaborativegroup.CollaborativeGroupView'
-        for='..interfaces.ICollaborativeGroup'
+        class='.collaborativegroupindex.CollaborativeGroupIndexView'
+        for='..interfaces.ICollaborativeGroupIndex'
         name='view'
         permission='zope2.View'
     />
     <browser:menuItem
         action='@@view'
         description='Default representation of a Collaborative Group.'
-        for='..interfaces.ICollaborativeGroup'
+        for='..interfaces.ICollaborativeGroupIndex'
         menu='plone_displayviews'
         title='Collaborative Group view'
     />
