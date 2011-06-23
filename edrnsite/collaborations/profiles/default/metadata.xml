@@ -6,4 +6,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
 <metadata>
     <version>1</version>
     <description>Collaborative groups for the EDRN public portal.</description>
+    <dependencies>
+        <dependency>profile-plone.app.discussion:default</dependency>
+    </dependencies>
 </metadata>
