@@ -13,75 +13,11 @@ from plone.contentrules.engine.interfaces import IRuleAssignmentManager, IRuleSt
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content import schemata
+from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
 from zope.interface import implements
 
 CollaborativeGroupSchema = folder.ATFolderSchema.copy() + atapi.Schema((
-    atapi.ReferenceField(
-        'members',
-        storage=atapi.AnnotationStorage(),
-        enforceVocabulary=True,
-        multiValued=True,
-        vocabulary_factory=u'eke.site.People',
-        relationship='membersOfThisGroup',
-        vocabulary_display_path_bound=-1,
-        widget=atapi.ReferenceWidget(
-            title=_(u'Members'),
-            description=_(u'Members of this collaborative group.'),
-        )
-    ),
-    atapi.ReferenceField(
-        'biomarkers',
-        storage=atapi.AnnotationStorage(),
-        enforceVocabulary=True,
-        multiValued=True,
-        vocabulary_factory=u'eke.biomarker.BiomarkersVocabulary',
-        relationship='biomarkersThisGroupLikes',
-        vocabulary_display_path_bound=-1,
-        widget=atapi.ReferenceWidget(
-            label=_(u'Biomarkers'),
-            description=_(u'Biomarkers of which this collaborative group is fond.'),
-        ),
-    ),
-    atapi.ReferenceField(
-        'protocols',
-        storage=atapi.AnnotationStorage(),
-        enforceVocabulary=True,
-        multiValued=True,
-        vocabulary_factory=u'eke.study.ProtocolsVocabulary',
-        relationship='protocolsExecutedByThisGroup',
-        vocabulary_display_path_bound=-1,
-        widget=atapi.ReferenceWidget(
-            label=_(u'Protocols & Studies'),
-            description=_(u'Protocols and studies that are executed (and studied) by this collaborative group.'),
-        ),
-    ),
-    atapi.ReferenceField(
-        'datasets',
-        storage=atapi.AnnotationStorage(),
-        enforceVocabulary=True,
-        multiValued=True,
-        vocabulary_factory=u'eke.ecas.DatasetsVocabulary',
-        relationship='datasetsPreferredByThisGroup',
-        vocabulary_display_path_bound=-1,
-        widget=atapi.ReferenceWidget(
-            label=_(u'Datasets'),
-            description=_(u'Datasets of interest to this collaborative group.'),
-        ),
-    ),
-    atapi.ReferenceField(
-        'projects',
-        storage=atapi.AnnotationStorage(),
-        enforceVocabulary=True,
-        multiValued=True,
-        vocabulary_factory=u'eke.study.TeamProjectsVocabulary',
-        relationship='teamsThisGroupIsOn',
-        vocabulary_display_path_bound=-1,
-        widget=atapi.ReferenceWidget(
-            label=_(u'Projects'),
-            description=_(u'Team projects (which are just special protocols) of which this collaborative group is part.'),
-        ),
-    ),
     atapi.BooleanField(
         'updateNotifications',
         required=False,
@@ -102,22 +38,31 @@ class CollaborativeGroup(folder.ATFolder):
     implements(ICollaborativeGroup)
     schema              = CollaborativeGroupSchema
     portal_type         = 'Collaborative Group'
-    biomarkers          = atapi.ATReferenceFieldProperty('biomarkers')
-    datasets            = atapi.ATReferenceFieldProperty('datasets')
     description         = atapi.ATFieldProperty('description')
-    members             = atapi.ATReferenceFieldProperty('members')
-    projects            = atapi.ATReferenceFieldProperty('projects')
-    protocols           = atapi.ATReferenceFieldProperty('protocols')
     title               = atapi.ATFieldProperty('title')
     updateNotifications = atapi.ATFieldProperty('updateNotifications')
 
 atapi.registerType(CollaborativeGroup, PROJECTNAME)
 
 def addContentRules(obj, event):
-    '''For newly-created collaborative groups, add content rules to handle notifications.'''
+    '''For newly-created collaborative groups, add content rules to handle notifications and an index page.'''
     if not ICollaborativeGroup.providedBy(obj): return
+    factory = getToolByName(obj, 'portal_factory')
+    if factory.isTemporary(obj): return
+    # First, the index
+    if obj.Title():
+        if 'index_html' not in obj.keys():
+            index = obj[obj.invokeFactory('Collaborative Group Index', 'index_html')]
+        else:
+            index = obj['index_html']
+        index.setTitle(obj.title)
+        index.setDescription(obj.description)
+        index.reindexObject()
+        obj.setDefaultPage('index_html')
+    # Now the content rules
     assignable, storage, path = IRuleAssignmentManager(obj), getUtility(IRuleStorage), '/'.join(obj.getPhysicalPath())
     for ruleName in ('cb-add-event', 'cb-mod-event', 'cb-pub-event'):
         if ruleName not in assignable:
             assignable[ruleName] = RuleAssignment(ruleName)
             get_assignments(storage[ruleName]).insert(path)
+        
