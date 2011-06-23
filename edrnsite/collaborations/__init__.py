@@ -12,7 +12,7 @@ PackageMessageFactory = MessageFactory(config.PROJECTNAME)
 
 def initialize(context):
     '''Initializer called when used as a Zope 2 product.'''
-    from content import collaborationsfolder, collaborativegroup # for lame side effect
+    from content import collaborationsfolder, collaborativegroup, collaborativegroupindex # for lame side effect
     contentTypes, constructors, ftis = atapi.process_types(atapi.listTypes(config.PROJECTNAME), config.PROJECTNAME)
     for atype, constructor in zip(contentTypes, constructors):
         Products.CMFCore.utils.ContentInit(
