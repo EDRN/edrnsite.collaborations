@@ -5,6 +5,7 @@
 PROJECTNAME = 'edrnsite.collaborations'
 
 ADD_PERMISSIONS = {
-    'Collaborations Folder':    'edrnsite.collaborations: Add Collaborations Folder',
-    'Collaborative Group':      'edrnsite.collaborations: Add Collaborative Group',
+    'Collaborations Folder':        'edrnsite.collaborations: Add Collaborations Folder',
+    'Collaborative Group':          'edrnsite.collaborations: Add Collaborative Group',
+    'Collaborative Group Index':    'edrnsite.collaborations: Add Collaborative Group Index',
 }
