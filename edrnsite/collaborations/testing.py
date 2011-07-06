@@ -84,7 +84,7 @@ class EDRNSiteCollaborations(PloneSandboxLayer):
         siteManager.registerUtility(_testingMailHost, provided=IMailHost)
         portal._setPropValue('email_from_address', u'edrn-ic@jpl.nasa.gov')
         portal._setPropValue('email_from_name', u'EDRN Informatics Center')
-    def teatDownPloneSite(self, portal):
+    def tearDownPloneSite(self, portal):
         portal.MailHost = portal._original_MailHost
         siteManager = getSiteManager(portal)
         siteManager.unregisterUtility(provided=IMailHost)
