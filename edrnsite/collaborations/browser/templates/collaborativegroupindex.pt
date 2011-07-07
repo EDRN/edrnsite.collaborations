@@ -51,65 +51,62 @@
                         </dt>
                         <dd id='fieldset-overview'>
                             <div class='topCollabGroupItems'
-                                tal:define='topBiomarkers view/topBiomarkers; numBiomarkers view/numBiomarkers;'>
-                                <h2 i18n:translate='edrnsiteCollaborationsHeadingBiomarkers' class='cbBiomarkersHeading'>
-                                    Biomarkers
+                                tal:define='topProjects view/topProjects; numProjects view/numProjects;'>
+                                <h2 i18n:translate='edrnsiteCollaborationsHeadingProjects' class='cbProjectsHeading'>
+                                    Projects
                                 </h2>
-                                <p class='topCollabGroupItemDescription' i18n:translate='edrnsiteCollaborationsDescBiomarkers'>
-                                    Biomarkers under study by the
+                                <p class='topCollabGroupItemDescription' i18n:translate='edrnsiteCollaborationsDescProjects'>
+                                    Projects undertaken by the
                                     <span i18n:name='groupName' tal:content='context/title'>Mega Awesome Group</span>.
                                 </p>
-                                <span class='discreet' i18n:translate='edrnsiteCollaborationsNoTopBiomarkers'
-                                    tal:condition='not:topBiomarkers'>
-                                    This collaborative group doesn't have any biomarkers.
+                                <span class='discreet' i18n:translate='edrnsiteCollaborationsNoTopProjects'
+                                    tal:condition='not:topProjects'>
+                                    This collaborative group doesn't have any projects.
                                 </span>
-                                <table tal:condition='topBiomarkers'>
-                                    <tr tal:repeat='topBiomarker topBiomarkers'>
-                                        <td>
-                                            <a href='#' title='A way cool biomarker.' tal:content='topBiomarker/title'
-                                                tal:attributes='href topBiomarker/absolute_url; title topBiomarker/description;'>
-                                                Top Biomarker of Coolness
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <span tal:replace='topBiomarker/biomarkerKind'>Sticky</span>,
-                                            <span tal:replace='topBiomarker/qaState'>under review</span>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <a href='#' tal:condition='python:numBiomarkers &gt; numTops' class='viewMoreEDRNStuffLink'
-                                    tal:attributes='href string:${hereURL}/#fieldsetlegend-biomarkers'
-                                    i18n:translate='edrnsiteCollaborationsViewMoreBiomarkers'>
-                                    View all <span tal:replace='numBiomarkers' i18n:name='numBiomarkers'>42</span> biomarkers
+                                <ul tal:condition='topProjects'>
+                                    <li tal:repeat='topProject topProjects'>
+                                        <a href='#' title='A way cool project.' tal:content='topProject/title'
+                                            tal:attributes='href topProject/absolute_url; title topProject/description;'>
+                                            Top Project of Coolness
+                                        </a>
+                                    </li>
+                                </ul>
+                                <a href='#' tal:condition='python:numProjects &gt; numTops' class='viewMoreEDRNStuffLink'
+                                    tal:attributes='href string:${hereURL}/#fieldsetlegend-protocols'
+                                    i18n:translate='edrnsiteCollaborationsViewMoreProjects'>
+                                    View all <span tal:replace='numProjects' i18n:name='numProjects'>42</span> projects
                                 </a>
                             </div>
                             <div class='topCollabGroupItems'
-                                tal:define='topProtocols view/topProtocols; numProtocols view/numProtocols;'>
-                                <h2 i18n:translate='edrnsiteCollaborationsHeadingProtocols' class='cbProtocolsHeading'>
-                                    Protocols
+                                tal:define='topEvents view/topEvents; numEvents view/numEvents;'>
+                                <h2 i18n:translate='edrnsiteCollaborationsHeadingEvents' class='cbEventsHeading'>
+                                    Upcoming Events
                                 </h2>
-                                <p class='topCollabGroupItemDescription' i18n:translate='edrnsiteCollaborationsDescProtocols'>
-                                    Protocols being executed by the
+                                <p class='topCollabGroupItemDescription' i18n:translate='edrnsiteCollaborationsDescEvents'>
+                                    Events coming up for the
                                     <span i18n:name='groupName' tal:content='context/title'>Mega Awesome Group</span>.
                                 </p>
-                                <span class='discreet' i18n:translate='edrnsiteCollaborationsNoTopProtocols'
-                                    tal:condition='not:topProtocols'>
-                                    This collaborative group doesn't have any protocols.
+                                <span class='discreet' i18n:translate='edrnsiteCollaborationsNoTopEvents'
+                                    tal:condition='not:topEvents'>
+                                    No upcoming events.
                                 </span>
-                                <table tal:condition='topProtocols'>
-                                    <tr tal:repeat='topProtocol topProtocols'>
-                                        <td>
-                                            <a href='#' title='A way interesting protocol.' tal:content='topProtocol/title'
-                                                tal:attributes='href topProtocol/absolute_url; title topProtocol/description;'>
-                                                Top Protocol of Fairly Interestingness.
+                                <dl tal:condition='topEvents' class='topCGEvents'>
+                                    <tal:repeat repeat='topEvent topEvents'>
+                                        <dt>
+                                            <a href='#' title='A way interesting event.' tal:content='topEvent/title'
+                                                tal:attributes='href topEvent/url; title topEvent/description;'>
+                                                Top Event of Fairly Interestingness
                                             </a>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <a href='#' tal:condition='python:numProtocols &gt; numTops' class='viewMoreEDRNStuffLink'
-                                    tal:attributes='href string:${hereURL}/#fieldsetlegend-protocols'
-                                    i18n:translate='edrnsiteCollaborationsTabProtocols'>
-                                    View all <span tal:replace='numProtocols' i18n:name='numProtocols'>42</span> protocols
+                                        </dt>
+                                        <dd tal:content='topEvent/start'>
+                                            2011-07-07
+                                        </dd>
+                                    </tal:repeat>
+                                </dl>
+                                <a href='#' tal:condition='python:numEvents &gt; numTops' class='viewMoreEDRNStuffLink'
+                                    tal:attributes='href string:${hereURL}/#fieldsetlegend-calendar'
+                                    i18n:translate='edrnsiteCollaborationsTabEvents'>
+                                    View all <span tal:replace='numEvents' i18n:name='numEvents'>42</span> upcoming events
                                 </a>
                             </div>
                             <div class='visualClear'><!-- --></div>
