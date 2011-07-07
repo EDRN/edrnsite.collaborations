@@ -37,21 +37,19 @@ class CollaborativeGroupIndexView(BrowserView):
         context = aq_parent(aq_inner(self.context))
         return u'http://twitter.com/share?' + urllib.urlencode(dict(text=context.title, url=context.absolute_url()))
     @memoize
-    def topBiomarkers(self):
+    def topProjects(self):
         context = aq_inner(self.context)
-        return context.biomarkers[0:_top]
+        return context.projects[0:_top]
     @memoize
-    def topProtocols(self):
-        context = aq_inner(self.context)
-        return context.protocols[0:_top]
+    def topEvents(self):
+        return self.currentEvents()[0:_top]
     @memoize
-    def numBiomarkers(self):
+    def numProjects(self):
         context = aq_inner(self.context)
-        return len(context.biomarkers)
+        return len(context.projects)
     @memoize
-    def numProtocols(self):
-        context = aq_inner(self.context)
-        return len(context.protocols)
+    def numEvents(self):
+        return len(self.currentEvents())
     def numTops(self):
         return _top
     @memoize
