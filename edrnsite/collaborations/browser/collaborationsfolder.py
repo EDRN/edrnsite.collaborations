@@ -23,7 +23,8 @@ class CollaborationsFolderView(BrowserView):
         catalog = getToolByName(context, 'portal_catalog')
         results = catalog(
             object_provides=ICollaborativeGroup.__identifier__,
-            path=dict(query='/'.join(context.getPhysicalPath()), depth=1)
+            path=dict(query='/'.join(context.getPhysicalPath()), depth=1),
+            sort_on='sortable_title'
         )
         return [dict(title=i.Title, description=i.Description, url=i.getURL()) for i in results]
     
