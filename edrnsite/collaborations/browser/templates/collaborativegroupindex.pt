@@ -242,10 +242,11 @@
                             Documents
                         </dt>
                         <dd id='fieldset-documents' tal:define='
+                            showFolderButton    python:view.showNewButton("folder");
                             showFileButton      python:view.showNewButton("file");
                             showImageButton     python:view.showNewButton("image");
                             showPageButton      python:view.showNewButton("page");
-                            showButtons         python:showFileButton or showImageButton or showPageButton;
+                            showButtons         python:showFolderButton or showFileButton or showImageButton or showPageButton;
                             normalizeString     nocall:context/plone_utils/normalizeString;
                             use_view_action     site_properties/typesUseViewActionInListings|python:();
                             pas_member          context/@@pas_member;
@@ -318,6 +319,13 @@
                                 </tbody>
                             </table>
                             <ul class='collaborationsNewContentButtons' tal:condition='showButtons'>
+                                <li tal:condition='showFolderButton'>
+                                    <a href='#' title='Creates a new folder to organize items shared by the group.'
+                                        i18n:attributes='title' i18n:translate='edrnsiteCollaborationsButtonsNewFolder'
+                                        tal:attributes='href python:view.newButtonLink("folder");'>
+                                        New Folder
+                                    </a>
+                                </li>
                                 <li tal:condition='showPageButton'>
                                     <a href='#' title='Creates a new wiki page to be shared by the group.'
                                         i18n:attributes='title' i18n:translate='edrnsiteCollaborationsButtonsNewPage'
