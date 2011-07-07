@@ -190,33 +190,19 @@ team projects and upcoming events on it::
 There's a "Documents" tab which has bright shiny buttons::
 
     >>> browser.contents
-    '...Documents...New Page...New File...New Image...'
+    '...Documents...New Folder...New File...'
 
 Those shiny buttons enable users who otherwise wouldn't realize there's an
 "Add new" menu that lets them add new items.  Moreover, they appear because
 we're logged in as someone with privileges.  If we log out, they'll go away::
 
     >>> unprivilegedBrowser.open(portalURL + '/my-groups/my-fun-group')
-    >>> 'New Page' in unprivilegedBrowser.contents
+    >>> 'New Folder' in unprivilegedBrowser.contents
     False
     >>> 'New File' in unprivilegedBrowser.contents
     False
-    >>> 'New Image' in unprivilegedBrowser.contents
-    False
 
-Let's press 'em and add some items.  First, a web page::
-
-    >>> browser.open(portalURL + '/my-groups/my-fun-group')
-    >>> l = browser.getLink('New Page')
-    >>> l.url.endswith('createObject?type_name=Document')
-    True
-    >>> l.click()
-    >>> browser.getControl(name='title').value = u'New Web Page'
-    >>> browser.getControl(name='description').value = u'A page for functional tests.'
-    >>> browser.getControl(name='text').value = u'Seriously, this is just a test page to test adding pages to collaborative groups.'
-    >>> browser.getControl(name='form.button.save').click()
-
-And a file::
+Let's press 'em and add some items.  First, a file::
 
     >>> from StringIO import StringIO
     >>> fakeFile = StringIO('%PDF-1.5\nThis is sample PDF file in disguise.\nDo not try to render it.')
@@ -225,30 +211,27 @@ And a file::
     >>> l.url.endswith('createObject?type_name=File')
     True
     >>> l.click()
-    >>> browser.getControl(name='title').value = u'New File'
+    >>> browser.getControl(name='title').value = u'My New File'
     >>> browser.getControl(name='description').value = u'A file for functional tests.'
     >>> browser.getControl(name='file_file').add_file(fakeFile, 'application/pdf', 'test.pdf')
     >>> browser.getControl(name='form.button.save').click()
 
-And finally, an image::
+And also a folder::
 
-    >>> import base64
-    >>> fakeImage = StringIO(base64.b64decode('R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='))
     >>> browser.open(portalURL + '/my-groups/my-fun-group')
-    >>> l = browser.getLink('New Image')
-    >>> l.url.endswith('createObject?type_name=Image')
+    >>> l = browser.getLink('New Folder')
+    >>> l.url.endswith('createObject?type_name=Folder')
     True
     >>> l.click()
-    >>> browser.getControl(name='title').value = u'New Image'
-    >>> browser.getControl(name='description').value = u'An image for functional tests.'
-    >>> browser.getControl(name='image_file').add_file(fakeImage, 'image/png', 'test.png')
+    >>> browser.getControl(name='title').value = u'My New Folder'
+    >>> browser.getControl(name='description').value = u'A foder for functional tests.'
     >>> browser.getControl(name='form.button.save').click()
-
-These items should all appear on the Documents tab now::
+    
+These items should appear on the Documents tab now::
 
     >>> browser.open(portalURL + '/my-groups/my-fun-group')
     >>> browser.contents
-    '...New Web Page...New File...New Image...'
+    '...My New File...My New Folder...'
 
 
 Update Notifications
@@ -270,7 +253,7 @@ The message typically tells what was added and gives a URL to it::
     >>> message = mailHost.getSentMessages()[1]
     >>> 'A new item has been added to your collaborative group' in message
     True
-    >>> portalURL + '/my-groups/my-fun-group/new-web-page' in message
+    >>> portalURL + '/my-groups/my-fun-group/my-new-file' in message
     True
 
 Let's turn off the updateNotifications setting::
@@ -282,10 +265,9 @@ Let's turn off the updateNotifications setting::
 
 And then add a new item::
 
-    >>> browser.getLink('New Page').click()
-    >>> browser.getControl(name='title').value = u'Another New Web Page'
-    >>> browser.getControl(name='description').value = u'Yet another page for functional tests.'
-    >>> browser.getControl(name='text').value = u'Seriously, this is just a test page to test adding pages to collaborative groups.'
+    >>> browser.getLink(id='folder').click()
+    >>> browser.getControl(name='title').value = u'Another New Folder'
+    >>> browser.getControl(name='description').value = u'Yet another folder for functional tests.'
     >>> browser.getControl(name='form.button.save').click()
 
 Now take note of the sent messages::
