@@ -52,6 +52,8 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <browser:resource name='h2-biomarkers.png' file='images/flask.png'/>
     <browser:resource name='h2-protocols.png' file='images/green-book.png'/>
     <browser:resource name='no-photo.png' file='images/silhouette.png'/>
+    <browser:resource name='h2-projects.png' file='images/projects.png'/>
+    <browser:resource name='h2-events.png' file='images/horn.png'/>
     <browser:page
         for='*'
         name='collaborativeGroupMacros'
