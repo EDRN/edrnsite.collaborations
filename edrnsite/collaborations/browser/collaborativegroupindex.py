@@ -8,7 +8,7 @@
 from Acquisition import aq_inner, aq_parent
 from DateTime import DateTime
 from plone.memoize.instance import memoize
-from Products.ATContentTypes.interface import IATEvent, IATDocument, IATFile, IATImage
+from Products.ATContentTypes.interface import IATEvent, IATDocument, IATFile, IATImage, IATFolder
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -16,13 +16,20 @@ import urllib
 
 _top = 3
 
-# Why aren't these permission names defined as constants somewhere in ATContentTypes?
+# This mapping goes from an addable content type ID (event, file, image, page) to a tuple identifying:
+# * The permission name to add an item of that type. Users must have that permission to add it.
+# * The name of the type according to the portal_types system.
+# * A flag indicating if such a type is confusing. Dan believes that users will find find adding
+#   plain old wiki-style HTML pages and images upsetting. So we automatically hide such confusing
+#   buttons. The tyranny of closed Micro$oft formats continues.
+# BTW: Why aren't these permission names defined as constants somewhere in ATContentTypes?
 _addableContent = {
-    # Add type   Permission name                    Type name
-    'event':    ('ATContentTypes: Add Event',       'Event'),
-    'file':     ('ATContentTypes: Add File',        'File'),
-    'image':    ('ATContentTypes: Add Image',       'Image'),
-    'page':     ('ATContentTypes: Add Document',    'Document'),
+    # Add type   Permission name                    Type name       Confusing?
+    'event':    ('ATContentTypes: Add Event',       'Event',        False),
+    'file':     ('ATContentTypes: Add File',        'File',         False),
+    'image':    ('ATContentTypes: Add Image',       'Image',        True),
+    'page':     ('ATContentTypes: Add Document',    'Document',     True),
+    'folder':   ('ATContentTypes: Add Folder',      'Folder',       False),
 }
 
 class CollaborativeGroupIndexView(BrowserView):
@@ -63,7 +70,8 @@ class CollaborativeGroupIndexView(BrowserView):
         if buttonType not in _addableContent: return False
         context = aq_parent(aq_inner(self.context))
         mtool = getToolByName(context, 'portal_membership')
-        return mtool.checkPermission(_addableContent[buttonType][0], context)
+        perm = mtool.checkPermission(_addableContent[buttonType][0], context)
+        return perm and not _addableContent[buttonType][2]
     def newButtonLink(self, buttonType):
         return aq_parent(aq_inner(self.context)).absolute_url() + '/createObject?type_name=' + _addableContent[buttonType][1]
     def haveEvents(self):
@@ -90,6 +98,6 @@ class CollaborativeGroupIndexView(BrowserView):
     @memoize
     def documents(self):
         context = aq_parent(aq_inner(self.context))
-        contentFilter = dict(object_provides=[i.__identifier__ for i in (IATDocument, IATImage, IATFile)])
+        contentFilter = dict(object_provides=[i.__identifier__ for i in (IATDocument, IATImage, IATFile, IATFolder)])
         results = context.getFolderContents(contentFilter)
         return results
