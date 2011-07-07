@@ -182,10 +182,10 @@ Now check it out::
     '...Biomarkers...Apogee 1...Projects/Protocols...Public Safety...Data...Get Bent...'
 
 In particular, the "Overview" tab has a nice listing of the top three
-biomarkers and protocols on it::
+team projects and upcoming events on it::
 
     >>> browser.contents
-    '...Overview...Apogee 1...Public Safety...Biomarkers...Apogee 1...Protocols...Public Safety...'
+    '...Overview...Projects...Public Safety...Upcoming Events...No upcoming events...Biomarkers...Apogee 1...Protocols...Public Safety...'
 
 There's a "Documents" tab which has bright shiny buttons::
 
@@ -247,7 +247,6 @@ And finally, an image::
 These items should all appear on the Documents tab now::
 
     >>> browser.open(portalURL + '/my-groups/my-fun-group')
-    >>> xxx = open('/tmp/log.html', 'w'); xxx.write(browser.contents); xxx.close()
     >>> browser.contents
     '...New Web Page...New File...New Image...'
 
@@ -397,6 +396,11 @@ And now::
     >>> browser.open(portalURL + '/my-groups/my-fun-group')
     >>> browser.contents
     '...Calendar...Yet Another Fun Meeting...Fun Meeting...Past Events...Old Meeting...'
+
+Also notice the "Overview" tab::
+
+    >>> browser.contents
+    '...Overview...Upcoming Events...Yet Another Fun Meeting...Fun Meeting...Calendar...'
 
 Woot!
 
