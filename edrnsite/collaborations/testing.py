@@ -70,12 +70,13 @@ class EDRNSiteCollaborations(PloneSandboxLayer):
             'Site Folder', 'sites', title=u'Sites',
             rdfDataSource=u'testscheme://localhost/sites/d', peopleDataSource=u'testscheme://localhost/people/many'
         )]
-        for folder in (organs, resources, protocols, biomarkers, datasets, sites):
+        for folder in (organs, resources, sites, protocols, biomarkers, datasets):
             ingestor = getMultiAdapter((folder, TestRequest()), name=u'ingest')
             ingestor.render = False
             ingestor()
         protocol = protocols['ps-public-safety']
         protocol.project = True
+        protocol.setLeadInvestigatorSite(sites['5d-were-marked-up'])
         protocol.reindexObject(idxs=['project'])
         portal._original_MailHost = portal.MailHost
         portal.MailHost = _testingMailHost
