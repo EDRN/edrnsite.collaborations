@@ -159,17 +159,17 @@ Note also that, due to lack of room, we've combined Projects and Protocols::
     '...Projects/Protocols...'
 
 
-Contained Items
----------------
+Referenced Items
+----------------
 
 However, none of it is terribly interesting!  What we need is some actual
 information in this group.  So, let's revisit and update::
 
     >>> browser.getLink('Edit').click()
     >>> browser.getControl(name='members:list').displayValue = ['Flora, Quake', 'Starseraph, Amber']
-    >>> browser.getControl(name='protocols:list').displayValue = ['Public Safety']
+    >>> browser.getControl(name='protocols:list').displayValue = ['Public Safety', 'Protocol Two']
     >>> browser.getControl(name='biomarkers:list').displayValue = ['Apogee 1']
-    >>> browser.getControl(name='datasets:list').displayValue = ['Get Bent']
+    >>> browser.getControl(name='datasets:list').displayValue = ['Get Bent', 'Dataset 0', 'Dataset 1', 'Dataset 2', 'Dataset 3', 'Dataset 4', 'Dataset 5']
     >>> browser.getControl(name='projects:list').displayValue = ['Public Safety']
     >>> browser.getControl(name='form.button.save').click()
 
@@ -192,6 +192,11 @@ Notice that on the Projects/Protocols tab the PI of each protocol is mentioned
 
     >>> browser.contents
     '...Projects/Protocols...Projects...Public Safety...PI...Starseraph...Protocols...Public Safety...PI...Starseraph...'
+
+Also, Heather wants datasets to be arranged by protocol::
+
+    >>> browser.contents
+    '...fieldset-data...Protocol Three...Dataset 1...Dataset 3...Dataset 5...Protocol Two...Dataset 2...Dataset 4...Public Safety...Get Bent...Datasets Outside of any Protocol...Dataset 0...'
 
 There's a "Documents" tab which has bright shiny buttons::
 
