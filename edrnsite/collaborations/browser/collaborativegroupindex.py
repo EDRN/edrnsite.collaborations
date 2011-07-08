@@ -107,4 +107,18 @@ class CollaborativeGroupIndexView(BrowserView):
     def protocols(self):
         context = aq_inner(self.context)
         return context.protocols
+    def datasets(self):
+        datasets = aq_inner(self.context).datasets
+        byProtocol, noProtocol = {}, []
+        for dataset in datasets:
+            protocol = dataset.protocol
+            if not protocol:
+                noProtocol.append(dataset)
+            else:
+                if protocol not in byProtocol:
+                    byProtocol[protocol] = []
+                byProtocol[protocol].append(dataset)
+        byProtocol = byProtocol.items()
+        byProtocol.sort(lambda a, b: cmp(a[0].title, b[0].title))
+        return byProtocol, noProtocol
     
