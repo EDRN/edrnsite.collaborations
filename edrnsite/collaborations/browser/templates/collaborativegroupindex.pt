@@ -136,8 +136,8 @@
                             Projects/Protocols
                         </dt>
                         <dd id='fieldset-protocols' tal:define='
-                            protocols   context/protocols;
-                            projects    context/projects;
+                            protocols   view/protocols;
+                            projects    view/projects;
                         '>
                             <h3 i18n:translate='Projects'>Projects</h3>
                             <p class='discreet' tal:condition='not:projects'
@@ -151,8 +151,20 @@
                                             Super Aqua Team Hunger Force
                                         </a>
                                     </dt>
-                                    <dd tal:content='python:plone_view.cropText(project.description, descLength, descEllipsis)'>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                    <dd tal:define='
+                                        site project/getLeadInvestigatorSite;
+                                        pi site/getPrincipalInvestigator|nothing;
+                                    '>
+                                        <p tal:condition='pi' i18n:translate='edrnsiteCollaborationsPI'>
+                                            PI:
+                                            <a i18n:name='pi' href='#' tal:attributes='href pi/absolute_url|nothing'
+                                                tal:content='pi/title'>
+                                                Joe Blow
+                                            </a>
+                                        </p>
+                                        <p tal:content='python:plone_view.cropText(project.description, descLength, descEllipsis)'>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        </p>
                                     </dd>
                                 </tal:repeat>
                             </dl>
@@ -168,8 +180,20 @@
                                             An Advanced Protocol for the Study of Advanced Protocols
                                         </a>
                                     </dt>
-                                    <dd tal:content='python:plone_view.cropText(protocol.description, descLength, descEllipsis)'>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                    <dd tal:define='
+                                        site protocol/getLeadInvestigatorSite;
+                                        pi site/getPrincipalInvestigator|nothing;
+                                    '>
+                                        <p tal:condition='pi' i18n:translate='edrnsiteCollaborationsPI'>
+                                            PI:
+                                            <a i18n:name='pi' href='#' tal:attributes='href pi/absolute_url|nothing'
+                                                tal:content='pi/title'>
+                                                Jolina Blowina
+                                            </a>
+                                        </p>
+                                        <p tal:content='python:plone_view.cropText(protocol.description, descLength, descEllipsis)'>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        </p>
                                     </dd>
                                 </tal:repeat>
                             </dl>
