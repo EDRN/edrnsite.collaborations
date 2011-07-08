@@ -49,3 +49,16 @@
         </tal:repeat>
     </tbody>
 </table>
+<dl metal:define-macro='datasetList' class='collabDetailList'>
+    <tal:comment tal:replace='nothing'>Renders a "dl" of datasets, assumes "datasets" is iterable of Dataset objects</tal:comment>
+    <tal:repeat repeat='dataset datasets'>
+        <dt>
+            <a href='#' tal:attributes='href dataset/absolute_url' tal:content='dataset/title'>
+                A Massive Dataset Capturing Some Fecal Biomarker Residue
+            </a>
+        </dt>
+        <dd tal:content='python:plone_view.cropText(dataset.description, descLength, descEllipsis)'>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        </dd>
+    </tal:repeat>
+</dl>
