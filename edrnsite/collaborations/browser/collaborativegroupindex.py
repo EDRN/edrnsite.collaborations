@@ -101,3 +101,10 @@ class CollaborativeGroupIndexView(BrowserView):
         contentFilter = dict(object_provides=[i.__identifier__ for i in (IATDocument, IATImage, IATFile, IATFolder)])
         results = context.getFolderContents(contentFilter)
         return results
+    def projects(self):
+        context = aq_inner(self.context)
+        return context.projects
+    def protocols(self):
+        context = aq_inner(self.context)
+        return context.protocols
+    
