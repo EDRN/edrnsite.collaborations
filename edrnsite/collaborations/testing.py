@@ -46,10 +46,7 @@ class EDRNSiteCollaborations(PloneSandboxLayer):
         # You'd think this would be included in the Plone fixture:
         import plone.stringinterp
         self.loadZCML(package=plone.stringinterp)
-    def setUpPloneSite(self, portal):
-        self.applyProfile(portal, 'edrnsite.collaborations:default')
-        setRoles(portal, TEST_USER_ID, ['Manager'])
-        login(portal, TEST_USER_NAME)
+    def _setupTestContent(self, portal):
         organs = portal[portal.invokeFactory(
             'Knowledge Folder', 'basic-body-systems', title=u'Organs', rdfDataSource=u'testscheme://localhost/bodysystems/b'
         )]
@@ -78,6 +75,23 @@ class EDRNSiteCollaborations(PloneSandboxLayer):
         protocol.project = True
         protocol.setLeadInvestigatorSite(sites['5d-were-marked-up'])
         protocol.reindexObject(idxs=['project'])
+        protocol2 = protocols[protocols.invokeFactory('Protocol', 'p2', title=u'Protocol Two')]
+        protocol2.reindexObject()
+        protocol3 = protocols[protocols.invokeFactory('Protocol', 'p3', title=u'Protocol Three')]
+        protocol3.reindexObject()
+        for i in xrange(0, 6):
+            dataset = datasets[datasets.invokeFactory('Dataset', 'd%d' % i, title=u'Dataset %d' % i)]
+            if i > 0:
+                if i % 2 == 0:
+                    dataset.setProtocol(protocol2)
+                else:
+                    dataset.setProtocol(protocol3)
+            dataset.reindexObject()
+    def setUpPloneSite(self, portal):
+        self.applyProfile(portal, 'edrnsite.collaborations:default')
+        setRoles(portal, TEST_USER_ID, ['Manager'])
+        login(portal, TEST_USER_NAME)
+        self._setupTestContent(portal)
         portal._original_MailHost = portal.MailHost
         portal.MailHost = _testingMailHost
         siteManager = getSiteManager(portal)
