@@ -187,6 +187,12 @@ team projects and upcoming events on it::
     >>> browser.contents
     '...Overview...Projects...Public Safety...Upcoming Events...No upcoming events...Biomarkers...Apogee 1...Protocols...Public Safety...'
 
+Notice that on the Projects/Protocols tab the PI of each protocol is mentioned
+(and is a clickable link):
+
+    >>> browser.contents
+    '...Projects/Protocols...Projects...Public Safety...PI...Starseraph...Protocols...Public Safety...PI...Starseraph...'
+
 There's a "Documents" tab which has bright shiny buttons::
 
     >>> browser.contents
