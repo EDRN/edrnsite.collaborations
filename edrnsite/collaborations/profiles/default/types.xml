@@ -7,4 +7,5 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <object name='Collaborations Folder' meta_type='Factory-based Type Information with dynamic views'/>
     <object name='Collaborative Group' meta_type='Factory-based Type Information with dynamic views'/>
     <object name='Collaborative Group Index' meta_type='Factory-based Type Information with dynamic views'/>
+    <object name='Collaborative Group Event' meta_type='Factory-based Type Information with dynamic views'/>
 </object>
