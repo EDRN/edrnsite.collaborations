@@ -106,11 +106,13 @@ class CollaborativeGroupIndexView(BrowserView):
         results = context.getFolderContents(contentFilter)
         return results
     def projects(self):
-        context = aq_inner(self.context)
-        return context.projects
+        projects = aq_inner(self.context).projects
+        projects.sort(lambda a, b: cmp(a.title, b.title))
+        return projects
     def protocols(self):
-        context = aq_inner(self.context)
-        return context.protocols
+        protocols = aq_inner(self.context).protocols
+        protocols.sort(lambda a, b: cmp(a.title, b.title))
+        return protocols
     def datasets(self):
         datasets = aq_inner(self.context).datasets
         byProtocol, noProtocol = {}, []
