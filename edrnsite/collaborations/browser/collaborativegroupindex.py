@@ -12,9 +12,13 @@ from Products.ATContentTypes.interface import IATEvent, IATDocument, IATFile, IA
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from edrnsite.collaborations.config import ADD_PERMISSIONS
 import urllib
 
 _top = 3
+
+_eventType = 'Collaborative Group Event'
+_eventAddPerm = ADD_PERMISSIONS[_eventType]
 
 # This mapping goes from an addable content type ID (event, file, image, page) to a tuple identifying:
 # * The permission name to add an item of that type. Users must have that permission to add it.
@@ -25,7 +29,7 @@ _top = 3
 # BTW: Why aren't these permission names defined as constants somewhere in ATContentTypes?
 _addableContent = {
     # Add type   Permission name                    Type name       Confusing?
-    'event':    ('ATContentTypes: Add Event',       'Event',        False),
+    'event':    (_eventAddPerm,                     _eventType,     False),
     'file':     ('ATContentTypes: Add File',        'File',         False),
     'image':    ('ATContentTypes: Add Image',       'Image',        True),
     'page':     ('ATContentTypes: Add Document',    'Document',     True),
