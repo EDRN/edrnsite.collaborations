@@ -18,12 +18,12 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <property name='global_allow'>False</property>
     <property name='filter_content_types'>True</property>
     <property name='allowed_content_types'>
-        <element value='Document'/>
-        <element value='Image'/>
-        <element value='File'/>
-        <element value='Event'/>
-        <element value='Folder'/>
+        <element value='Collaborative Group Event'/>
         <element value='Collaborative Group Index'/>
+        <element value='Document'/>
+        <element value='File'/>
+        <element value='Folder'/>
+        <element value='Image'/>
     </property>
     <property name='allow_discussion'>True</property>
     <property name='default_view'>view</property>
