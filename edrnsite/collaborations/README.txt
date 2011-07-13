@@ -198,6 +198,11 @@ Also, Heather wants datasets to be arranged by protocol::
     >>> browser.contents
     '...fieldset-data...Protocol Three...Dataset 1...Dataset 3...Dataset 5...Protocol Two...Dataset 2...Dataset 4...Public Safety...Get Bent...Datasets Outside of any Protocol...Dataset 0...'
 
+And for the protocols to be clickable::
+
+    >>> browser.contents
+    '...href...protocols/p3...Protocol Three...protocols/p2...Protocol Two...protocols/ps-public-safety...Public Safety...'
+
 There's a "Documents" tab which has bright shiny buttons::
 
     >>> browser.contents
