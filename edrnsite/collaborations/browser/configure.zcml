@@ -68,10 +68,27 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     />
     <browser:menuItem
         action='@@view'
-        description='Default representation of a Collaborative Group.'
+        description='Default representation of a Collaborative Group Index.'
         for='..interfaces.ICollaborativeGroupIndex'
         menu='plone_displayviews'
-        title='Collaborative Group view'
+        title='Collaborative Group Index view'
     />
+
+    <!-- Collaborative Group Event -->
+    <browser:resource name='collaborativegroupevent.gif' file='images/collaborativegroupevent.gif'/>
+    <browser:page
+        class='.collaborativegroupevent.CollaborativeGroupEventView'
+        for='..interfaces.ICollaborativeGroupEvent'
+        name='view'
+        permission='zope2.View'
+    />
+    <browser:menuItem
+        action='@@view'
+        description='Default representation of a Collaborative Group Event.'
+        for='..interfaces.ICollaborativeGroupEvent'
+        menu='plone_displayviews'
+        title='Collaborative Group Event view'
+    />
+
 
 </configure>
