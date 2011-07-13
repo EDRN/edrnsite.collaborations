@@ -155,7 +155,7 @@
                                         site project/getLeadInvestigatorSite;
                                         pi site/getPrincipalInvestigator|nothing;
                                     '>
-                                        <p tal:condition='pi' i18n:translate='edrnsiteCollaborationsPI'>
+                                        <p tal:condition='python:pi is not None' i18n:translate='edrnsiteCollaborationsPI'>
                                             PI:
                                             <a i18n:name='pi' href='#' tal:attributes='href pi/absolute_url|nothing'
                                                 tal:content='pi/title'>
@@ -184,7 +184,7 @@
                                         site protocol/getLeadInvestigatorSite;
                                         pi site/getPrincipalInvestigator|nothing;
                                     '>
-                                        <p tal:condition='pi' i18n:translate='edrnsiteCollaborationsPI'>
+                                        <p tal:condition='python:pi is not None' i18n:translate='edrnsiteCollaborationsPI'>
                                             PI:
                                             <a i18n:name='pi' href='#' tal:attributes='href pi/absolute_url|nothing'
                                                 tal:content='pi/title'>
@@ -213,12 +213,20 @@
                             <div tal:condition='datasetsByProtocol'>
                                 <tal:repeat repeat='protocolGroup datasetsByProtocol'>
                                     <tal:define define='
-                                        protocolName    python:protocolGroup[0].title;
+                                        protocol        python:protocolGroup[0];
+                                        protocolName    protocol/title;
+                                        protocolDesc    protocol/description|nothing;
+                                        protocolURL     protocol/absolute_url;
                                         datasets        python:protocolGroup[1];
                                     '>
-                                        <h4 tal:content='protocolName'>Whizzy-Bang Protocol</h4>
+                                        <h3>
+                                            <a href='#' title='Some really whizzy protocol.' tal:content='protocolName'
+                                                tal:attributes='href protocolURL; title protocolDesc;'>
+                                                Whizzy-Bang Protocol
+                                            </a>
+                                        </h3>
                                         <dl metal:use-macro='context/@@collaborativeGroupMacros/macros/datasetList'>
-                                            <!-- Dataset list rendered here -->
+                                            Dataset list rendered here.
                                         </dl>
                                     </tal:define>
                                 </tal:repeat>
@@ -228,7 +236,7 @@
                                     Datasets Outside of any Protocol
                                 </h4>
                                 <dl metal:use-macro='context/@@collaborativeGroupMacros/macros/datasetList'>
-                                    <!-- Dataset list rendered here -->
+                                    Dataset list rendered here.
                                 </dl>
                             </div>
                         </dd>
