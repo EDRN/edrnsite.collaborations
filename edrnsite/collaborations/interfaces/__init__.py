@@ -5,4 +5,5 @@
 from collaborationsfolder import ICollaborationsFolder
 from collaborativegroup import ICollaborativeGroup
 from collaborativegroupindex import ICollaborativeGroupIndex
+from collaborativegroupevent import ICollaborativeGroupEvent
 
