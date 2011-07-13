@@ -319,7 +319,7 @@ Note also::
 We can fix that by hitting that big shiny button::
 
     >>> l = browser.getLink('New Event')
-    >>> l.url.endswith('createObject?type_name=Event')
+    >>> l.url.endswith('createObject?type_name=Collaborative%20Group%20Event')
     True
     >>> l.click()
     >>> browser.getControl(name='title').value = u'Fun Meeting'
@@ -347,10 +347,41 @@ The event appears on the calendar::
     >>> browser.contents
     '...Calendar...Fun Meeting...'
 
-Let's make another event that's tomorrow::
+The event itself is a container, and it has a big shiny button to add new
+files to it (things like meeting agenda)::
+
+    >>> browser.open(portalURL + '/my-groups/my-fun-group/fun-meeting')
+    >>> browser.contents
+    '...Attach File...'
+
+Of course, there are no files yet::
+
+    >>> browser.contents
+    '...There are no files attached to this event...'
+
+Pressing that "Attach File" button lets you upload a file to the event::
+
+    >>> l = browser.getLink('Attach File')
+    >>> l.url.endswith('createObject?type_name=File')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'Meeting Agenda'
+    >>> browser.getControl(name='description').value = u'Agenda for the fun meeting.'
+    >>> fakeFile = StringIO('%PDF-1.5\nThis is another sample PDF file in disguise.\nDo not try to render it.')
+    >>> browser.getControl(name='file_file').add_file(fakeFile, 'application/pdf', 'test.pdf')
+    >>> browser.getControl(name='form.button.save').click()
+
+Now you can grab the agenda easily::
+
+    >>> browser.open(portalURL + '/my-groups/my-fun-group/fun-meeting')
+    >>> browser.contents
+    '...meeting-agenda...Meeting Agenda...'
+
+Looks fine.  Now, let's make another event that's tomorrow::
 
     >>> tomorrow = datetime.now() + timedelta(1)
     >>> dayAfter = fewDays + timedelta(1)
+    >>> browser.open(portalURL + '/my-groups/my-fun-group')
     >>> browser.getLink('New Event').click()
     >>> browser.getControl(name='title').value = u'Yet Another Fun Meeting'
     >>> browser.getControl(name='description').value = u'Gonna be less fun.'
