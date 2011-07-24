@@ -197,6 +197,12 @@ Now check it out::
     >>> browser.contents
     '...Biomarkers...Apogee 1...Projects/Protocols...Public Safety...Data...Get Bent...'
 
+Heather wants datasets to link to ECAS like they do on the "Science Data" tab.
+Do they?  Check it out::
+
+    >>> browser.contents
+    '...Data...href="urn:edrn:top-secret-data"...Get Bent...'
+
 Christos suggested that the remaining members be in a collapsible section::
 
     >>> browser.contents
