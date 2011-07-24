@@ -136,10 +136,10 @@ buttons::
     >>> 'twitter.com' in browser.contents
     False
 
-There's a list of members::
+There's a chair, co-chair, and list of members::
 
     >>> browser.contents
-    '...<h2>Members</h2>...'
+    '...Chair:...Co-Chair:...Members...'
 
 And there's a set of tabs providing access to an overview, biomarkers,
 protocols, team projects, data, and a calendar, (in that order)::
@@ -166,6 +166,8 @@ However, none of it is terribly interesting!  What we need is some actual
 information in this group.  So, let's revisit and update::
 
     >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='chair:list').displayValue = ['Steeldevil, Cloud']
+    >>> browser.getControl(name='coChair:list').displayValue = ['Magicsoul, Jackal']
     >>> browser.getControl(name='members:list').displayValue = ['Flora, Quake', 'Starseraph, Amber']
     >>> browser.getControl(name='protocols:list').displayValue = ['Public Safety', 'Protocol Two']
     >>> browser.getControl(name='biomarkers:list').displayValue = ['Apogee 1']
@@ -177,9 +179,16 @@ Now check it out::
 
     >>> browser.open(portalURL + '/my-groups/my-fun-group')
     >>> browser.contents
+    '...Chair...Steeldevil, Cloud...Co-Chair...Magicsoul, Jackal...'
+    >>> browser.contents
     '...Members...Flora, Quake...Starseraph, Amber...'
     >>> browser.contents
     '...Biomarkers...Apogee 1...Projects/Protocols...Public Safety...Data...Get Bent...'
+
+Christos suggested that the remaining members be in a collapsible section::
+
+    >>> browser.contents
+    '...collapsibleHeader...Members...collapsibleContent...Flora, Quake...'
 
 In particular, the "Overview" tab has a nice listing of the top three
 team projects and upcoming events on it::
