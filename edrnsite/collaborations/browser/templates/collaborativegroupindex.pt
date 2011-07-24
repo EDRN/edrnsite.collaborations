@@ -17,6 +17,7 @@
                     descLength      site_properties/search_results_description_length;
                     descEllipsis    site_properties/ellipsis;
                     hereURL         context/@@plone_context_state/object_url;
+                    isAnon          context/@@plone_portal_state/anonymous;
                 '>
                 <div class='collaborativeGroupContainer'>
                     <div class='cbInfoBox'>
@@ -64,6 +65,12 @@
                             Overview
                         </dt>
                         <dd id='fieldset-overview'>
+                            <p class='callout' i18n:translate='edrnsiteCollaborationsAdmonitionLogin' tal:condition='isAnon'>
+                                If you are a member of this group,
+                                <a href='#' tal:attributes='href string:${context/absolute_url}/login_form' i18n:name='login_url'
+                                    >log in</a>
+                                to gain full access.
+                            </p>
                             <div class='topCollabGroupItems'
                                 tal:define='topProjects view/topProjects; numProjects view/numProjects;'>
                                 <h2 i18n:translate='edrnsiteCollaborationsHeadingProjects' class='cbProjectsHeading'>

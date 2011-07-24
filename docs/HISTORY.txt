@@ -13,6 +13,7 @@ This release:
 
 * Adds separate chair and co-chairs to collaborative groups.
 * Hides all other members in a collapsible section.
+* Adds a log in reminder to the Overview tab.
 
 
 0.0.1 - First Release
