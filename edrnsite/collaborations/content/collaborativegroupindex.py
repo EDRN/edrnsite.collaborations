@@ -14,6 +14,32 @@ from zope.interface import implements
 
 CollaborativeGroupIndexSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     atapi.ReferenceField(
+        'chair',
+        storage=atapi.AnnotationStorage(),
+        enforceVocabulary=True,
+        multiValued=False,
+        vocabulary_factory=u'eke.site.People',
+        relationship='chairOfThisGroup',
+        vocabulary_display_path_bound=-1,
+        widget=atapi.ReferenceWidget(
+            label=_(u'Chair'),
+            description=_(u'The person in charge of this collaborative group.'),
+        )
+    ),
+    atapi.ReferenceField(
+        'coChair',
+        storage=atapi.AnnotationStorage(),
+        enforceVocabulary=True,
+        multiValued=False,
+        vocabulary_factory=u'eke.site.People',
+        relationship='coChairOfThisGroup',
+        vocabulary_display_path_bound=-1,
+        widget=atapi.ReferenceWidget(
+            label=_(u'Co-Chair'),
+            description=_(u'The assistant to the person in charge of this collaborative group.'),
+        )
+    ),
+    atapi.ReferenceField(
         'members',
         storage=atapi.AnnotationStorage(),
         enforceVocabulary=True,
@@ -90,6 +116,8 @@ class CollaborativeGroupIndex(base.ATCTContent):
     schema      = CollaborativeGroupIndexSchema
     portal_type = 'Collaborative Group Index'
     biomarkers  = atapi.ATReferenceFieldProperty('biomarkers')
+    chair       = atapi.ATReferenceFieldProperty('chair')
+    coChair     = atapi.ATReferenceFieldProperty('coChair')
     datasets    = atapi.ATReferenceFieldProperty('datasets')
     description = atapi.ATFieldProperty('description')
     members     = atapi.ATReferenceFieldProperty('members')
