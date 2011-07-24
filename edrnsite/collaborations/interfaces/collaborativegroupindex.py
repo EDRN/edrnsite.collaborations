@@ -54,6 +54,18 @@ class ICollaborativeGroupIndex(Interface):
             schema=IProtocol
         )
     )
+    chair = schema.Object(
+        title=_(u'Chair'),
+        description=_(u'The person in charge of this collaborative group.'),
+        required=False,
+        schema=IPerson
+    )
+    coChair = schema.Object(
+        title=_(u'Co-Chair'),
+        description=_(u'The assistant to the person in charge of this collaborative group.'),
+        required=False,
+        schema=IPerson
+    )
     members = schema.List(
         title=_(u'Members'),
         description=_(u'Members of this collaborative group.'),
