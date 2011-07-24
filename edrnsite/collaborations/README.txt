@@ -158,6 +158,18 @@ Note also that, due to lack of room, we've combined Projects and Protocols::
     >>> browser.contents
     '...Projects/Protocols...'
 
+Since we're logged in, the special note about logging in to view additional
+information doesn't appear::
+
+    >>> 'If you are a member of this group,' in browser.contents
+    False
+
+But an unprivileged user does get it::
+
+    >>> unprivilegedBrowser.open(portalURL + '/my-groups/my-fun-group')
+    >>> unprivilegedBrowser.contents
+    '...If you are a member of this group...log in...'
+
 
 Referenced Items
 ----------------
