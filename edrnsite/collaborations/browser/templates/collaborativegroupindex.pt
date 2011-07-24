@@ -33,14 +33,28 @@
                         <div tal:replace='structure provider:plone.abovecontentbody' />
                     </div>
 
+                    <div>
+                        <label for='parent-fieldname-chair' i18n:translate='label_chair'>Chair:</label>
+                        <metal:field use-macro='python:context.widget("chair", mode="view")'>Chairface Chippendale</metal:field>
+                    </div>
+                    <div>
+                        <label for='parent-fieldname-coChair' i18n:translate='label_coChair'>Co-Chair:</label>
+                        <metal:field use-macro='python:context.widget("coChair", mode="view")'>Co-Chairface</metal:field>
+                    </div>
+                    
                     <div class='cbMemberBox' tal:define='membersColumns view/membersColumns'>
-                        <h2 i18n:translate='edrnsiteCollaborationsHeadingMembers'>Members</h2>
-                        <div class='membersColumn' tal:repeat='members membersColumns'>
-                            <div metal:use-macro='context/@@collaborativeGroupMacros/macros/columnOfCollaborativeGroupMembers'>
-                                A column of members appears here.
-                            </div>
-                        </div>
-                        <div class='visualClear'><!-- --></div>
+                        <dl class='collapsible collapsedOnLoad'>
+                            <dt class='collapsibleHeader' i18n:translate='edrnsiteCollaborationsHeadingMembers'>Members</dt>
+                            <dd class='collapsibleContent'>
+                                <div class='membersColumn' tal:repeat='members membersColumns'>
+                                    <div 
+                                    metal:use-macro='context/@@collaborativeGroupMacros/macros/columnOfCollaborativeGroupMembers'>
+                                        A column of members appears here.
+                                    </div>
+                                </div>
+                                <div class='visualClear'><!-- --></div>
+                            </dd>
+                        </dl>
                     </div>
 
                 </div>
