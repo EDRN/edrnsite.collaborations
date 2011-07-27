@@ -6,8 +6,8 @@ are listed below, you can find out more about them by visiting the issue
 tracker at https://oodt.jpl.nasa.gov/jira/browse/CA.
 
 
-0.0.2 - TBD
------------
+0.0.2 — A Little Spit & Polish
+------------------------------
 
 This release:
 
@@ -17,13 +17,13 @@ This release:
 * Datasets under the Data tab link directly into ECAS.
 
 
-0.0.1 - First Release
+0.0.1 — First Release
 ---------------------
 
 First public release of EDRN Collaborations.
 
 
-0.0.0 - Initial Implementation
+0.0.0 — Initial Implementation
 ------------------------------
 
 This release provides initial function of EDRN Collaborations.
