@@ -4,7 +4,6 @@
 
 from Acquisition import aq_base
 from eke.biomarker.testing import EKE_BIOMARKER_FIXTURE
-from eke.ecas.testing import EKE_ECAS_FIXTURE
 from eke.knowledge.testing import EKE_KNOWLEDGE_FIXTURE
 from eke.study.testing import EKE_STUDY_FIXTURE
 from plone.app.testing import login
@@ -35,7 +34,7 @@ class _TestingMailHost(object):
 _testingMailHost = _TestingMailHost()
 
 class EDRNSiteCollaborations(PloneSandboxLayer):
-    defaultBases = (EKE_ECAS_FIXTURE, EKE_BIOMARKER_FIXTURE, EKE_STUDY_FIXTURE, EKE_KNOWLEDGE_FIXTURE,)
+    defaultBases = (EKE_BIOMARKER_FIXTURE, EKE_STUDY_FIXTURE, EKE_KNOWLEDGE_FIXTURE,)
     def setUpZope(self, app, configurationContext):
         import edrnsite.collaborations
         self.loadZCML(package=edrnsite.collaborations)

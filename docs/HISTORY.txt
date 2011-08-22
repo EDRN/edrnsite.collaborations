@@ -5,6 +5,12 @@ What follows is a history of changes from release to release.  Where issue IDs
 are listed below, you can find out more about them by visiting the issue
 tracker at https://oodt.jpl.nasa.gov/jira/browse/CA.
 
+0.0.3 — Side Effects
+--------------------
+
+This release adjusts the testing fixture layers as a result of
+eke.biomarker-1.1.5's new dependency on eke.ecas.
+
 
 0.0.2 — A Little Spit & Polish
 ------------------------------
