@@ -232,25 +232,29 @@
                                 There are currently no datasets defined for this collaborative group.
                             </p>
                             <div tal:condition='datasetsByProtocol'>
-                                <tal:repeat repeat='protocolGroup datasetsByProtocol'>
-                                    <tal:define define='
-                                        protocol        python:protocolGroup[0];
-                                        protocolName    protocol/title;
-                                        protocolDesc    protocol/description|nothing;
-                                        protocolURL     protocol/absolute_url;
-                                        datasets        python:protocolGroup[1];
-                                    '>
-                                        <h3>
-                                            <a href='#' title='Some really whizzy protocol.' tal:content='protocolName'
-                                                tal:attributes='href protocolURL; title protocolDesc;'>
-                                                Whizzy-Bang Protocol
-                                            </a>
-                                        </h3>
-                                        <dl metal:use-macro='context/@@collaborativeGroupMacros/macros/datasetList'>
-                                            Dataset list rendered here.
-                                        </dl>
-                                    </tal:define>
-                                </tal:repeat>
+                                <dl class='datasetsByProtocol'>
+                                    <tal:repeat repeat='protocolGroup datasetsByProtocol'>
+                                        <tal:define define='
+                                            protocol        python:protocolGroup[0];
+                                            protocolName    protocol/title;
+                                            protocolDesc    protocol/description|nothing;
+                                            protocolURL     protocol/absolute_url;
+                                            datasets        python:protocolGroup[1];
+                                        '>
+                                            <dt>
+                                                <a href='#' title='Some really whizzy protocol.' tal:content='protocolName'
+                                                    tal:attributes='href protocolURL; title protocolDesc;'>
+                                                    Whizzy-Bang Protocol
+                                                </a>
+                                            <dt>
+                                            <dd style='padding-top: 0;'> <!-- WTF -->
+                                                <dl metal:use-macro='context/@@collaborativeGroupMacros/macros/datasetList'>
+                                                    Dataset list rendered here.
+                                                </dl>
+                                            </dd>
+                                        </tal:define>
+                                    </tal:repeat>
+                                </dl>
                             </div>
                             <div tal:condition='noProtocol' tal:define='datasets noProtocol'>
                                 <h4 i18n:translate='edrnsiteCollaborationsHeadingDatasetsWithNoProtocol'>
