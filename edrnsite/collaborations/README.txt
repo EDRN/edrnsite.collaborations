@@ -1,3 +1,5 @@
+-*- coding: utf-8 -*-
+
 The package ``edrnsite.collaborations`` provides Plone-based content types to
 enable EDRN collaborative groups to share information, calendars, comments,
 and to keep track of biomarkers, datasets, and other information elsewhere in
@@ -212,7 +214,7 @@ In particular, the "Overview" tab has a nice listing of the top three
 team projects and upcoming events on it::
 
     >>> browser.contents
-    '...Overview...Projects...Public Safety...Upcoming Events...No upcoming events...Biomarkers...Apogee 1...Protocols...Public Safety...'
+    '...Overview...Upcoming Events...No upcoming events...Projects...Public Safety...Biomarkers...Apogee 1...Protocols...Public Safety...'
 
 Notice that on the Projects/Protocols tab the PI of each protocol is mentioned
 (and is a clickable link):
@@ -319,6 +321,72 @@ Now take note of the sent messages::
     0
 
 Perfect.
+
+
+Highlights (CA-806)
+-------------------
+
+Highlights are news items that are deemed worthy of special announcement for a
+collaborative group.  They get their own special place on the Overview tab::
+
+    >>> browser.open(portalURL + '/my-groups/my-fun-group')
+    >>> browser.contents
+    '...Highlights...This group has not yet published any highlights...'
+
+To get them there we had to re-arrange the overview tab so that it's arranged
+like this:
+
++------------+-----------------+
+| Highlights | Upcoming Events |
++------------+-----------------+
+| Projects                     |
++------------+-----------------+
+
+And so it is::
+
+    browser.contents
+    '...Highlights...Upcoming Events...Projects...'
+
+Adding a highlight is like adding any other content::
+
+    >>> l = browser.getLink(id='highlight')
+    >>> l.url.endswith('createObject?type_name=Highlight')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'Validated Marker Woot!'
+    >>> browser.getControl(name='description').value = u'We validated a marker, woot!'
+    >>> browser.getControl(name='text').value = u'<p>Yeah baby, <em>validated</em>!</p>'
+    >>> import base64
+    >>> fakeImage = StringIO(base64.b64decode('R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='))
+    >>> browser.getControl(name='image_file').add_file(fakeImage, 'image/png', 'fakeImage.png')
+    >>> browser.getControl(name='imageCaption').value = u'Yo.'
+    >>> browser.getControl(name='form.button.save').click()
+    >>> highlight = group['validated-marker-woot']
+    >>> highlight.Title()
+    'Validated Marker Woot!'
+    >>> highlight.Description()
+    'We validated a marker, woot!'
+    >>> highlight.getText()
+    '<p>Yeah baby, <em>validated</em>!</p>'
+    >>> highlight.getImageCaption()
+    'Yo.'
+
+Highlights appear in the group's overview tab once they're published.  The one
+we created just above wasn't published, so it shouldn't be there::
+
+    >>> browser.open(portalURL + '/my-groups/my-fun-group')
+    >>> 'Validated Marker Woot!' in browser.contents
+    False
+
+So, we'll publish it::
+
+    >>> browser.open(portalURL + '/my-groups/my-fun-group/validated-marker-woot/content_status_modify?workflow_action=publish')
+    >>> browser.open(portalURL + '/my-groups/my-fun-group')
+    >>> xxx = open('/tmp/log.html', 'w'); xxx.write(browser.contents); xxx.close()
+    >>> 'Validated Marker Woot!' in browser.contents
+    True
+
+Much better.
 
 
 Event Calendar
