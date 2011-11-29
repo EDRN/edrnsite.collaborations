@@ -54,6 +54,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <browser:resource name='no-photo.png' file='images/silhouette.png'/>
     <browser:resource name='h2-projects.png' file='images/projects.png'/>
     <browser:resource name='h2-events.png' file='images/horn.png'/>
+    <browser:resource name='h2-highlights.png' file='images/highlights.png'/>
     <browser:page
         for='*'
         name='collaborativeGroupMacros'
@@ -64,6 +65,12 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         class='.collaborativegroupindex.CollaborativeGroupIndexView'
         for='..interfaces.ICollaborativeGroupIndex'
         name='view'
+        permission='zope2.View'
+    />
+    <browser:page
+        class='.collaborativegroupindex.CollaborativeGroupHighlightsView'
+        for='..interfaces.ICollaborativeGroupIndex'
+        name='highlights_view'
         permission='zope2.View'
     />
     <browser:menuItem

@@ -22,12 +22,17 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <property name='default_view'>view</property>
     <property name='view_methods'>
         <element value='view' />
+        <element value='highlights_view' />
     </property>
     <alias from='(Default)' to='(dynamic view)' />
     <alias from='edit' to='atct_edit' />
     <alias from='sharing' to='@@sharing' />
     <alias from='view' to='(selected layout)' />
     <action title='View' action_id='view' category='object' condition_expr='' url_expr='string:${object_url}' visible='True'>
+        <permission value='View' />
+    </action>
+    <action title='Highlights' action_id='highlights_view' category='object' condition_expr=''
+        url_expr='string:${object_url}/@@highlights_view' visible='True'>
         <permission value='View' />
     </action>
     <action title='Edit' action_id='edit' category='object' condition_expr='' url_expr='string:${object_url}/edit' visible='True'>

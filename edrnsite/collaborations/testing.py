@@ -14,6 +14,7 @@ from plone.testing import z2
 from Products.MailHost.interfaces import IMailHost
 from zope.component import getMultiAdapter, getSiteManager
 from zope.publisher.browser import TestRequest
+from Products.CMFCore.utils import getToolByName
 
 _sentMessages = []
 
@@ -88,6 +89,8 @@ class EDRNSiteCollaborations(PloneSandboxLayer):
             dataset.reindexObject()
     def setUpPloneSite(self, portal):
         self.applyProfile(portal, 'edrnsite.collaborations:default')
+        wfTool = getToolByName(portal, 'portal_workflow')
+        wfTool.setDefaultChain('plone_workflow')
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
         self._setupTestContent(portal)

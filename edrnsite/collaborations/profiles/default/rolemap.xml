@@ -25,5 +25,10 @@ RESERVED. U.S. Government Sponsorship acknowledged.
             <role name='Contributor' />
             <role name='Owner' />
         </permission>
+        <permission name='edrnsite.collaborations: Add Highlight' acquire='True'>
+            <role name='Manager' />
+            <role name='Contributor' />
+            <role name='Owner' />
+        </permission>
     </permissions>
 </rolemap>

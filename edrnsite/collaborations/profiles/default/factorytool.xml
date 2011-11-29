@@ -9,6 +9,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         <type portal_type='Collaborative Group' />
         <type portal_type='Collaborative Group Index' />
         <type portal_type='Collaborative Group Event' />
+        <type portal_type='Highlight' />
     </factorytypes>
 </object>
 

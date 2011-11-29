@@ -71,32 +71,42 @@
                                     >log in</a>
                                 to gain full access.
                             </p>
-                            <div class='topCollabGroupItems'
-                                tal:define='topProjects view/topProjects; numProjects view/numProjects;'>
-                                <h2 i18n:translate='edrnsiteCollaborationsHeadingProjects' class='cbProjectsHeading'>
-                                    Projects
+                            <div class='topCollabGroupItems' tal:define='topHighs view/topHighlights; numHighs view/numHighlights;'>
+                                <h2 i18n:translate='edrnsiteCollaborationsHeadingHighlights' class='cbHighlightsHeading'>
+                                    Highlights
                                 </h2>
-                                <p class='topCollabGroupItemDescription' i18n:translate='edrnsiteCollaborationsDescProjects'>
-                                    Projects undertaken by the
+                                <p class='topCollabGroupItemDescription' i18n:translate='edrnsiteCollaborationsDescHighlights'>
+                                    Highlighted news from the
                                     <span i18n:name='groupName' tal:content='context/title'>Mega Awesome Group</span>.
                                 </p>
-                                <span class='discreet' i18n:translate='edrnsiteCollaborationsNoTopProjects'
-                                    tal:condition='not:topProjects'>
-                                    This collaborative group doesn't have any projects.
-                                </span>
-                                <ul tal:condition='topProjects'>
-                                    <li tal:repeat='topProject topProjects'>
-                                        <a href='#' title='A way cool project.' tal:content='topProject/title'
-                                            tal:attributes='href topProject/absolute_url; title topProject/description;'>
-                                            Top Project of Coolness
-                                        </a>
-                                    </li>
-                                </ul>
-                                <a href='#' tal:condition='python:numProjects &gt; numTops' class='viewMoreEDRNStuffLink'
-                                    tal:attributes='href string:${hereURL}/#fieldsetlegend-protocols'
-                                    i18n:translate='edrnsiteCollaborationsViewMoreProjects'>
-                                    View all <span tal:replace='numProjects' i18n:name='numProjects'>42</span> projects
-                                </a>
+                                <p class='discreet' i18n:translate='edrnsiteCollaborationsNoHighlights'
+                                    tal:condition='not:topHighs'>
+                                    This group has not yet published any highlights.
+                                </p>
+                                <div tal:condition='topHighs'>
+                                    <tal:repeat repeat='item topHighs'>
+                                        <div tal:define='itemObject nocall:item/brain/getObject; itemDesc item/description;'>
+                                            <a href='#' tal:condition='exists:itemObject/image_tile'
+                                                tal:attributes='href item/url;'>
+                                                <img src='#' alt='Highlight Image.'
+                                                    tal:replace='structure python:itemObject.tag(scale="tile",
+                                                    css_class="tileImage")'
+                                                />
+                                            </a>
+                                            <h4 class='tileHeadline'>
+                                                <a href='#' class='summary url' tal:attributes='href item/url;'
+                                                    tal:content='item/title'>
+                                                    Highlight Title
+                                                </a>
+                                            </h4>
+                                        </div>
+                                    </tal:repeat>
+                                    <a href='#' tal:condition='python:numHighs &gt; numTops' class='viewMoreEDRNStuffLink'
+                                        tal:attributes='href string:${hereURL}/@@highlights_view'
+                                        i18n:translate='edrnsiteCollaborationsHighlightsView'>
+                                        View all <span tal:replace='numHighs' i18n:name='numHighs'>42</span> highlights
+                                    </a>
+                                </div>
                             </div>
                             <div class='topCollabGroupItems'
                                 tal:define='topEvents view/topEvents; numEvents view/numEvents;'>
@@ -107,10 +117,10 @@
                                     Events coming up for the
                                     <span i18n:name='groupName' tal:content='context/title'>Mega Awesome Group</span>.
                                 </p>
-                                <span class='discreet' i18n:translate='edrnsiteCollaborationsNoTopEvents'
+                                <p class='discreet' i18n:translate='edrnsiteCollaborationsNoTopEvents'
                                     tal:condition='not:topEvents'>
                                     No upcoming events.
-                                </span>
+                                </p>
                                 <dl tal:condition='topEvents' class='topCGEvents'>
                                     <tal:repeat repeat='topEvent topEvents'>
                                         <dt>
@@ -132,6 +142,33 @@
                             </div>
                             <div class='visualClear'><!-- --></div>
                         </dd>
+                        <div class='wideCollabGroupItems'
+                            tal:define='topProjects view/topProjects; numProjects view/numProjects;'>
+                            <h2 i18n:translate='edrnsiteCollaborationsHeadingProjects' class='cbProjectsHeading'>
+                                Projects
+                            </h2>
+                            <p class='topCollabGroupItemDescription' i18n:translate='edrnsiteCollaborationsDescProjects'>
+                                Projects undertaken by the
+                                <span i18n:name='groupName' tal:content='context/title'>Mega Awesome Group</span>.
+                            </p>
+                            <p class='discreet' i18n:translate='edrnsiteCollaborationsNoTopProjects'
+                                tal:condition='not:topProjects'>
+                                This collaborative group doesn't have any projects.
+                            </p>
+                            <ul tal:condition='topProjects'>
+                                <li tal:repeat='topProject topProjects'>
+                                    <a href='#' title='A way cool project.' tal:content='topProject/title'
+                                        tal:attributes='href topProject/absolute_url; title topProject/description;'>
+                                        Top Project of Coolness
+                                    </a>
+                                </li>
+                            </ul>
+                            <a href='#' tal:condition='python:numProjects &gt; numTops' class='viewMoreEDRNStuffLink'
+                                tal:attributes='href string:${hereURL}/#fieldsetlegend-protocols'
+                                i18n:translate='edrnsiteCollaborationsViewMoreProjects'>
+                                View all <span tal:replace='numProjects' i18n:name='numProjects'>42</span> projects
+                            </a>
+                        </div>
                         <dt id='fieldsetlegend-biomarkers' i18n:translate='edrnsiteCollaborationsTabBiomarkers'>
                             Biomarkers
                         </dt>
@@ -246,7 +283,7 @@
                                                     tal:attributes='href protocolURL; title protocolDesc;'>
                                                     Whizzy-Bang Protocol
                                                 </a>
-                                            <dt>
+                                            </dt>
                                             <dd style='padding-top: 0;'> <!-- WTF -->
                                                 <dl metal:use-macro='context/@@collaborativeGroupMacros/macros/datasetList'>
                                                     Dataset list rendered here.

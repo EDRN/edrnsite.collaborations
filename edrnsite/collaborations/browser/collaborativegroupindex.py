@@ -13,6 +13,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from edrnsite.collaborations.config import ADD_PERMISSIONS
+from edrnsite.collaborations.interfaces import IHighlight
 import urllib
 
 _top = 3
@@ -36,8 +37,22 @@ _addableContent = {
     'folder':   ('ATContentTypes: Add Folder',      'Folder',       False),
 }
 
+def getHighlights(context, review_state=None):
+    catalog = getToolByName(context, 'portal_catalog')
+    criteria = dict(
+        object_provides=IHighlight.__identifier__,
+        path=dict(query='/'.join(context.getPhysicalPath()), depth=1),
+        sort_on='modified',
+        sort_order='reverse',
+    )
+    if review_state:
+        criteria['review_state'] = review_state
+    results = catalog(**criteria)
+    return [dict(title=i.Title, description=i.Description, url=i.getURL(), brain=i) for i in results]
+
+
 class CollaborativeGroupIndexView(BrowserView):
-    '''Default view for a Collaborative Group.'''
+    '''Default view for a Collaborative Group Index.'''
     index = ViewPageTemplateFile('templates/collaborativegroupindex.pt')
     def __call__(self):
         return self.index()
@@ -48,12 +63,20 @@ class CollaborativeGroupIndexView(BrowserView):
         context = aq_parent(aq_inner(self.context))
         return u'http://twitter.com/share?' + urllib.urlencode(dict(text=context.title, url=context.absolute_url()))
     @memoize
+    def topHighlights(self):
+        context = aq_parent(aq_inner(self.context))
+        return getHighlights(context, 'published')[0:_top]
+    @memoize
     def topProjects(self):
         context = aq_inner(self.context)
         return context.projects[0:_top]
     @memoize
     def topEvents(self):
         return self.currentEvents()[0:_top]
+    @memoize
+    def numHighlights(self):
+        context = aq_parent(aq_inner(self.context))
+        return len(getHighlights(context))
     @memoize
     def numProjects(self):
         context = aq_inner(self.context)
@@ -103,7 +126,9 @@ class CollaborativeGroupIndexView(BrowserView):
     def documents(self):
         context = aq_parent(aq_inner(self.context))
         contentFilter = dict(object_provides=[i.__identifier__ for i in (IATDocument, IATImage, IATFile, IATFolder)])
-        results = context.getFolderContents(contentFilter)
+        results = context.getFolderContents(contentFilter=contentFilter)
+        # For some reason Highlights are being returned in the results, even though they don't provide any of the interfaces.
+        results = [i for i in results if i.portal_type != 'Highlight']
         return results
     def projects(self):
         projects = aq_inner(self.context).projects
@@ -127,4 +152,18 @@ class CollaborativeGroupIndexView(BrowserView):
         byProtocol = byProtocol.items()
         byProtocol.sort(lambda a, b: cmp(a[0].title, b[0].title))
         return byProtocol, noProtocol
-    
+
+
+class CollaborativeGroupHighlightsView(BrowserView):
+    '''Highlights-only view for a Collaborative Group Index.'''
+    index = ViewPageTemplateFile('templates/collaborativegrouphighlights.pt')
+    def __call__(self):
+        return self.index()
+    @memoize
+    def highlights(self):
+        context = aq_parent(aq_inner(self.context))
+        return getHighlights(context)
+    def haveHighlights(self):
+        return len(self.highlights()) > 0
+
+
