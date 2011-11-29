@@ -26,7 +26,8 @@ _extras = {
 }
 _externalRequirements = [
     'setuptools',
-    'Plone',
+    'Products.CMFPlone',
+    'Products.ATContentTypes',
     'plone.app.discussion'
 ]
 _classifiers = [
