@@ -5,6 +5,14 @@ What follows is a history of changes from release to release.  Where issue IDs
 are listed below, you can find out more about them by visiting the issue
 tracker at https://oodt.jpl.nasa.gov/jira/browse/CA.
 
+0.0.5 — Highlights
+------------------
+
+This release handles:
+
+* CA-806 - Create a "Highlights" section on the Collaborative Group pages
+
+
 0.0.4 — Fonties
 ---------------
 
