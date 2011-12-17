@@ -5,6 +5,15 @@ What follows is a history of changes from release to release.  Where issue IDs
 are listed below, you can find out more about them by visiting the issue
 tracker at https://oodt.jpl.nasa.gov/jira/browse/CA.
 
+0.0.6 — TBD
+-----------
+
+This release covers:
+
+* CA-513 - Science Data List on the Portal - by updating datasets with links
+  to collaborative groups that are marked as "owning" datasets.
+
+
 0.0.5 — Highlights
 ------------------
 

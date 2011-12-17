@@ -27,4 +27,12 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         for='..interfaces.ICollaborativeGroup Products.Archetypes.interfaces.event.IObjectInitializedEvent'
         handler='.collaborativegroup.addContentRules'
     />
+    <subscriber
+        for='..interfaces.ICollaborativeGroupIndex Products.Archetypes.interfaces.IObjectInitializedEvent'
+        handler='.collaborativegroupindex.updateDatasets'
+    />
+    <subscriber
+        for='..interfaces.ICollaborativeGroupIndex Products.Archetypes.interfaces.IObjectEditedEvent'
+        handler='.collaborativegroupindex.updateDatasets'
+    />
 </configure>

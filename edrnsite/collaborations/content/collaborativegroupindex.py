@@ -5,11 +5,13 @@
 
 '''Collaborative Group index implementation'''
 
+from Acquisition import aq_inner, aq_parent
 from edrnsite.collaborations import PackageMessageFactory as _
 from edrnsite.collaborations.config import PROJECTNAME
 from edrnsite.collaborations.interfaces import ICollaborativeGroupIndex
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base, schemata
+from Products.CMFCore.utils import getToolByName
 from zope.interface import implements
 
 CollaborativeGroupIndexSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
@@ -126,3 +128,16 @@ class CollaborativeGroupIndex(base.ATCTContent):
     title       = atapi.ATFieldProperty('title')
 
 atapi.registerType(CollaborativeGroupIndex, PROJECTNAME)
+
+def updateDatasets(obj, event):
+    '''Set the ECAS datasets to point to their corresponding Collaborative Group'''
+    if not ICollaborativeGroupIndex.providedBy(obj): return
+    factory = getToolByName(obj, 'portal_factory')
+    if factory.isTemporary(obj): return
+    container = aq_parent(aq_inner(obj))
+    myUID = container.UID()
+    myTitle = container.Title()
+    for dataset in obj.datasets:
+        dataset.collaborativeGroupUID = myUID
+        dataset.collaborativeGroup = myTitle
+        dataset.reindexObject(idxs=['collaborativeGroupUID'])

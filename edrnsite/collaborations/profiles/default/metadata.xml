@@ -8,5 +8,6 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <description>Collaborative groups for the EDRN public portal.</description>
     <dependencies>
         <dependency>profile-plone.app.discussion:default</dependency>
+        <dependency>profile-eke.ecas:default</dependency>
     </dependencies>
 </metadata>
