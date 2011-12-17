@@ -88,7 +88,7 @@ Folders::
     'My Fun Group'
     >>> group.description
     'A group dedicated towards the common goal of "fun".'
-    >>> group.updateNotifications
+    >>> group.updateNotifications 
     True
 
 Notice now that the Collaborations Folder is no longer empty::
@@ -205,8 +205,18 @@ Do they?  Check it out::
     >>> browser.contents
     '...Data...href="urn:edrn:top-secret-data"...Get Bent...'
 
+But by the way, CA-513 suggested that the list of datasets, which show
+collaborative groups, should make those groups linkable to the groups'
+descriptions.  Well, that was before we had full-fledged Collaborative Group
+objects!  Now we can link 'em directly::
+
+    >>> browser.open(portalURL + '/datasets')
+    >>> browser.contents
+    '...<a href="http://nohost/my-groups/my-fun-group">My Fun Group</a>...'
+    
 Christos suggested that the remaining members be in a collapsible section::
 
+    >>> browser.open(portalURL + '/my-groups/my-fun-group')
     >>> browser.contents
     '...collapsibleHeader...Members...collapsibleContent...Flora, Quake...'
 
@@ -382,7 +392,6 @@ So, we'll publish it::
 
     >>> browser.open(portalURL + '/my-groups/my-fun-group/validated-marker-woot/content_status_modify?workflow_action=publish')
     >>> browser.open(portalURL + '/my-groups/my-fun-group')
-    >>> xxx = open('/tmp/log.html', 'w'); xxx.write(browser.contents); xxx.close()
     >>> 'Validated Marker Woot!' in browser.contents
     True
 
