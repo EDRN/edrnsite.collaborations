@@ -6,15 +6,18 @@ from Acquisition import aq_base
 from eke.biomarker.testing import EKE_BIOMARKER_FIXTURE
 from eke.knowledge.testing import EKE_KNOWLEDGE_FIXTURE
 from eke.study.testing import EKE_STUDY_FIXTURE
+from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.testing import login
 from plone.app.testing import PloneSandboxLayer, IntegrationTesting, FunctionalTesting
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID, TEST_USER_NAME
+from plone.registry.interfaces import IRegistry
 from plone.testing import z2
+from Products.CMFCore.utils import getToolByName
 from Products.MailHost.interfaces import IMailHost
 from zope.component import getMultiAdapter, getSiteManager
+from zope.component import getUtility
 from zope.publisher.browser import TestRequest
-from Products.CMFCore.utils import getToolByName
 
 _sentMessages = []
 
@@ -31,22 +34,39 @@ class _TestingMailHost(object):
     def getSentMessages(self):
         global _sentMessages
         return _sentMessages
+    def getId(self):
+        return 'MailHost'
+
 
 _testingMailHost = _TestingMailHost()
 
 class EDRNSiteCollaborations(PloneSandboxLayer):
-    defaultBases = (EKE_BIOMARKER_FIXTURE, EKE_STUDY_FIXTURE, EKE_KNOWLEDGE_FIXTURE,)
+    defaultBases = (EKE_KNOWLEDGE_FIXTURE,)
     def setUpZope(self, app, configurationContext):
         import edrnsite.collaborations
         self.loadZCML(package=edrnsite.collaborations)
         z2.installProduct(app, 'edrnsite.collaborations')
-        import plone.app.discussion
-        self.loadZCML(package=plone.app.discussion)
-        z2.installProduct(app, 'plone.app.discussion')
+        import eke.publications
+        self.loadZCML(package=eke.publications)
+        z2.installProduct(app, 'eke.publications')
+        import eke.site
+        self.loadZCML(package=eke.site)
+        z2.installProduct(app, 'eke.site')
+        import eke.biomarker
+        self.loadZCML(package=eke.biomarker)
+        z2.installProduct(app, 'eke.biomarker')
+        import eke.study
+        self.loadZCML(package=eke.study)
+        z2.installProduct(app, 'eke.study')
+        import eke.ecas
+        self.loadZCML(package=eke.ecas)
+        z2.installProduct(app, 'eke.ecas')
         # You'd think this would be included in the Plone fixture:
         import plone.stringinterp
         self.loadZCML(package=plone.stringinterp)
     def _setupTestContent(self, portal):
+        from eke.biomarker.tests.base import registerLocalTestData
+        registerLocalTestData()
         organs = portal[portal.invokeFactory(
             'Knowledge Folder', 'basic-body-systems', title=u'Organs', rdfDataSource=u'testscheme://localhost/bodysystems/b'
         )]
@@ -101,6 +121,10 @@ class EDRNSiteCollaborations(PloneSandboxLayer):
         siteManager.registerUtility(_testingMailHost, provided=IMailHost)
         portal._setPropValue('email_from_address', u'edrn-ic@jpl.nasa.gov')
         portal._setPropValue('email_from_name', u'EDRN Informatics Center')
+        # Enable comments
+        registry = getUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        settings.globally_enabled = True
     def tearDownPloneSite(self, portal):
         portal.MailHost = portal._original_MailHost
         siteManager = getSiteManager(portal)
