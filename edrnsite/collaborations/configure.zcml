@@ -10,18 +10,14 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     xmlns:genericsetup='http://namespaces.zope.org/genericsetup'
     xmlns:zcml='http://namespaces.zope.org/zcml'
     i18n_domain='edrnsite.collaborations'>
+    <include package='z3c.autoinclude' file='meta.zcml' />
+    <includeDependenciesOverrides package='.' />
+    <includeDependencies package='.' />
     <five:registerPackage package='.' initialize='.initialize' />
     <include package='.interfaces' />
     <include package='.browser' />
     <include package='.content' />
     <include package='.actions' />
-    <include package='eke.site'/>
-    <include package='eke.biomarker'/>
-    <include package='eke.study'/>
-    <include package='eke.knowledge'/>
-    <include package='eke.publications'/>
-    <include package='eke.ecas'/>
-    <include package='plone.app.discussion'/>
     <genericsetup:registerProfile
         name='default'
         title='EDRN Site Collaborations'
