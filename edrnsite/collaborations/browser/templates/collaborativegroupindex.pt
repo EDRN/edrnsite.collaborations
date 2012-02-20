@@ -141,34 +141,34 @@
                                 </a>
                             </div>
                             <div class='visualClear'><!-- --></div>
+                            <div class='wideCollabGroupItems'
+                                tal:define='topProjects view/topProjects; numProjects view/numProjects;'>
+                                <h2 i18n:translate='edrnsiteCollaborationsHeadingProjects' class='cbProjectsHeading'>
+                                    Projects
+                                </h2>
+                                <p class='topCollabGroupItemDescription' i18n:translate='edrnsiteCollaborationsDescProjects'>
+                                    Projects undertaken by the
+                                    <span i18n:name='groupName' tal:content='context/title'>Mega Awesome Group</span>.
+                                </p>
+                                <p class='discreet' i18n:translate='edrnsiteCollaborationsNoTopProjects'
+                                    tal:condition='not:topProjects'>
+                                    This collaborative group doesn't have any projects.
+                                </p>
+                                <ul tal:condition='topProjects'>
+                                    <li tal:repeat='topProject topProjects'>
+                                        <a href='#' title='A way cool project.' tal:content='topProject/title'
+                                            tal:attributes='href topProject/absolute_url; title topProject/description;'>
+                                            Top Project of Coolness
+                                        </a>
+                                    </li>
+                                </ul>
+                                <a href='#' tal:condition='python:numProjects &gt; numTops' class='viewMoreEDRNStuffLink'
+                                    tal:attributes='href string:${hereURL}/#fieldsetlegend-protocols'
+                                    i18n:translate='edrnsiteCollaborationsViewMoreProjects'>
+                                    View all <span tal:replace='numProjects' i18n:name='numProjects'>42</span> projects
+                                </a>
+                            </div>
                         </dd>
-                        <div class='wideCollabGroupItems'
-                            tal:define='topProjects view/topProjects; numProjects view/numProjects;'>
-                            <h2 i18n:translate='edrnsiteCollaborationsHeadingProjects' class='cbProjectsHeading'>
-                                Projects
-                            </h2>
-                            <p class='topCollabGroupItemDescription' i18n:translate='edrnsiteCollaborationsDescProjects'>
-                                Projects undertaken by the
-                                <span i18n:name='groupName' tal:content='context/title'>Mega Awesome Group</span>.
-                            </p>
-                            <p class='discreet' i18n:translate='edrnsiteCollaborationsNoTopProjects'
-                                tal:condition='not:topProjects'>
-                                This collaborative group doesn't have any projects.
-                            </p>
-                            <ul tal:condition='topProjects'>
-                                <li tal:repeat='topProject topProjects'>
-                                    <a href='#' title='A way cool project.' tal:content='topProject/title'
-                                        tal:attributes='href topProject/absolute_url; title topProject/description;'>
-                                        Top Project of Coolness
-                                    </a>
-                                </li>
-                            </ul>
-                            <a href='#' tal:condition='python:numProjects &gt; numTops' class='viewMoreEDRNStuffLink'
-                                tal:attributes='href string:${hereURL}/#fieldsetlegend-protocols'
-                                i18n:translate='edrnsiteCollaborationsViewMoreProjects'>
-                                View all <span tal:replace='numProjects' i18n:name='numProjects'>42</span> projects
-                            </a>
-                        </div>
                         <dt id='fieldsetlegend-biomarkers' i18n:translate='edrnsiteCollaborationsTabBiomarkers'>
                             Biomarkers
                         </dt>

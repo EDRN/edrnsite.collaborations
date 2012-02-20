@@ -12,6 +12,7 @@ This release covers:
 
 * CA-513 - Science Data List on the Portal - by updating datasets with links
   to collaborative groups that are marked as "owning" datasets.
+* CA-849 - Collaborative Group's "Top 3 Projects" list appears on EVERY tab
 
 
 0.0.5 — Highlights
