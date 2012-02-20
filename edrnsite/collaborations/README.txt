@@ -234,13 +234,27 @@ Notice that on the Projects/Protocols tab the PI of each protocol is mentioned
 
 Also, Heather wants datasets to be arranged by protocol::
 
-    >>> browser.contents
-    '...fieldset-data...Protocol Three...Dataset 1...Dataset 3...Dataset 5...Protocol Two...Dataset 2...Dataset 4...Public Safety...Get Bent...Datasets Outside of any Protocol...Dataset 0...'
+    >>> pos = browser.contents.rindex
+    >>> fieldset = pos('fieldset-data')
+    >>> p3, d1, d3, d5 = pos('Protocol Three'), pos('Dataset 1'), pos('Dataset 3'), pos('Dataset 5')
+    >>> p2, d2, d4, ps, gb = pos('Protocol Two'), pos('Dataset 2'), pos('Dataset 4'), pos('Public Safety'), pos('Get Bent')
+    >>> noProtocol, d0 = pos('Datasets Outside of any Protocol'), pos('Dataset 0')
+    >>> fieldset < p3 < d1 < d3 < d5 < p2 < d2 < d4 < ps < gb < noProtocol < d0 
+    True
 
 And for the protocols to be clickable::
 
     >>> browser.contents
     '...href...protocols/p3...Protocol Three...protocols/p2...Protocol Two...protocols/ps-public-safety...Public Safety...'
+
+CA-849 says that "Projects" are appearing everywhere, on every tab.  That was
+the cause of some misplaced HTML <div> tags which should've been in the
+Overview's <dd> tag.  That's gone now, though::
+
+    >>> browser.contents
+    '... <dd id="fieldset-overview">...Highlights...Upcoming Events...visualClear...wideCollabGroupItems...Projects...</dd>...'
+
+All better now.
 
 There's a "Documents" tab which has bright shiny buttons::
 
@@ -296,16 +310,16 @@ You may have noticed that when we first created this fun group (Rebecca Black
 would've been proud), we enabled the "updateNotifications" setting.  That
 settings tells collaborative groups to let their mailing lists know that stuff
 has been added, edited, or had its publication state change.  Just above we
-added three items, so our test mail host should have sent three messages::
+added two items, so our test mail host should have sent two messages::
 
     >>> from Products.CMFCore.utils import getToolByName
     >>> mailHost = getToolByName(portal, 'MailHost')
-    >>> len(mailHost.getSentMessages()) >= 3
+    >>> len(mailHost.getSentMessages()) >= 2
     True
 
 The message typically tells what was added and gives a URL to it::
 
-    >>> message = mailHost.getSentMessages()[1]
+    >>> message = mailHost.getSentMessages()[0]
     >>> 'A new item has been added to your collaborative group' in message
     True
     >>> portalURL + '/my-groups/my-fun-group/my-new-file' in message
