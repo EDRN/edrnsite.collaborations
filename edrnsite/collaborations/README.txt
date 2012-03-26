@@ -552,3 +552,36 @@ Also notice the "Overview" tab::
 Woot!
 
 In a future release we'll change from a list of events to an actual calendar.
+
+
+Content Rules
+-------------
+
+CA-885 reports that creating new collaborative groups fails because their
+construction relies on well-known content rules, which turned out to be later
+deleted in the portal.  Creating new collaborative groups should be resilient
+to this.
+
+OK, let's delete all the content rules::
+
+    >>> browser.open(portalURL + '/@@rules-controlpanel')
+    >>> ctrl = browser.getControl(name='ruleId:list')
+    >>> for i in ctrl.controls:
+    ...     i.selected = True
+    >>> browser.getControl(name='form.button.DeleteRule').click()
+    >>> browser.open(portalURL + '/@@rules-controlpanel')
+
+Now let's create a new group::
+
+    >>> browser.open(portalURL + '/my-groups')
+    >>> browser.getLink(id='collaborative-group').click()
+    >>> browser.getControl(name='title').value = u'No Fun'
+    >>> browser.getControl(name='description').value = u'A that despises fun.'
+    >>> browser.getControl(name='updateNotifications:boolean').value = False
+    >>> browser.getControl(name='form.button.save').click()
+    >>> 'error' in browser.contents
+    False
+
+Looks good to me.
+
+    
