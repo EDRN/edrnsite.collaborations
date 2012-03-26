@@ -5,6 +5,15 @@ What follows is a history of changes from release to release.  Where issue IDs
 are listed below, you can find out more about them by visiting the issue
 tracker at https://oodt.jpl.nasa.gov/jira/browse/CA.
 
+0.0.7 — TBD
+-----------
+
+This release happens to include:
+
+* CA-885 - Creating collaborative groups relies on well-known content
+  rules—which may be reconfigured or even deleted
+
+
 0.0.6 — Misc
 ------------
 

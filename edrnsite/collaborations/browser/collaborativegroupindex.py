@@ -151,6 +151,7 @@ class CollaborativeGroupIndexView(BrowserView):
                 byProtocol[protocol].append(dataset)
         byProtocol = byProtocol.items()
         byProtocol.sort(lambda a, b: cmp(a[0].title, b[0].title))
+        noProtocol.sort(lambda a, b: cmp(a[0].title, b[0].title))
         return byProtocol, noProtocol
 
 

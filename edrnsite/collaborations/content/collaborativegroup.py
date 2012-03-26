@@ -62,7 +62,7 @@ def addContentRules(obj, event):
     # Now the content rules
     assignable, storage, path = IRuleAssignmentManager(obj), getUtility(IRuleStorage), '/'.join(obj.getPhysicalPath())
     for ruleName in ('cb-add-event', 'cb-mod-event', 'cb-pub-event'):
-        if ruleName not in assignable:
+        if ruleName not in assignable and ruleName in storage:
             assignable[ruleName] = RuleAssignment(ruleName)
             get_assignments(storage[ruleName]).insert(path)
         
