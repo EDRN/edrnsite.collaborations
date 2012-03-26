@@ -569,7 +569,6 @@ OK, let's delete all the content rules::
     >>> for i in ctrl.controls:
     ...     i.selected = True
     >>> browser.getControl(name='form.button.DeleteRule').click()
-    >>> browser.open(portalURL + '/@@rules-controlpanel')
 
 Now let's create a new group::
 
