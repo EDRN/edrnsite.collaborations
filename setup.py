@@ -1,5 +1,5 @@
 # encoding: utf-8
-# Copyright 2011 California Institute of Technology. ALL RIGHTS
+# Copyright 2011–2012 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
 from setuptools import setup, find_packages
@@ -10,7 +10,7 @@ import os.path
 # ------------
 
 _name        = 'edrnsite.collaborations'
-_version     = '0.0.7'
+_version     = '0.0.8'
 _description = 'EDRN Collaborative Group Workspaces'
 _url         = 'http://cancer.jpl.nasa.gov/products/edrnsite-collaborations'
 _downloadURL = 'http://oodt.jpl.nasa.gov/dist/edrnsite'
