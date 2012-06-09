@@ -28,7 +28,8 @@ _externalRequirements = [
     'setuptools',
     'Products.CMFPlone',
     'Products.ATContentTypes',
-    'plone.app.discussion'
+    'plone.app.discussion',
+    'zope.globalrequest',
 ]
 _classifiers = [
     'Development Status :: 2 - Pre-Alpha',
