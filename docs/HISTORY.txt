@@ -8,7 +8,9 @@ tracker at https://oodt.jpl.nasa.gov/jira/browse/CA.
 0.0.8 — Upgrades
 ----------------
 
-Made compatible with Plone 4.1.5.
+Made compatible with Plone 4.1.5.  Also, made a generic Group Space that can
+be used for non-organ-specific groups, such as EDRN working groups and
+committees.
 
 
 0.0.7 — Freedom

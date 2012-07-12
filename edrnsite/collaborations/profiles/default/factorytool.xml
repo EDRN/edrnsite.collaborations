@@ -6,10 +6,11 @@ RESERVED. U.S. Government Sponsorship acknowledged.
 <object name='portal_factory' meta_type='Plone Factory Tool'>
     <factorytypes>
         <type portal_type='Collaborations Folder' />
-        <type portal_type='Collaborative Group' />
         <type portal_type='Collaborative Group Index' />
-        <type portal_type='Collaborative Group Event' />
+        <type portal_type='Collaborative Group' />
+        <type portal_type='Group Event' />
+        <type portal_type='Group Space Index' />
+        <type portal_type='Group Space' />
         <type portal_type='Highlight' />
     </factorytypes>
 </object>
-

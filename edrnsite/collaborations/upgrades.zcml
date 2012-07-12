@@ -5,4 +5,16 @@ RESERVED. U.S. Government Sponsorship acknowledged.
 -->
 <configure
     xmlns='http://namespaces.zope.org/zope'
-    xmlns:genericsetup='http://namespaces.zope.org/genericsetup'/>
+    xmlns:genericsetup='http://namespaces.zope.org/genericsetup'>
+    <genericsetup:upgradeStep
+        source='1'
+        destination='2'
+        title='Groups Upgrade Step (1→2)'
+        description='Upgrades collaborative groups by making new group types (and support types) available'
+        profile='edrnsite.collaborations:default'
+        handler='edrnsite.collaborations.upgrades.update1To2Types'
+        sortkey='1'
+    />
+
+</configure>
+

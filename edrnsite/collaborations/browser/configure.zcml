@@ -30,6 +30,22 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         title='Collaborations Folder view'
     />
 
+    <!-- Group Space -->
+    <browser:resource name='groupspace.png' file='images/groupspace.png'/>
+    <browser:page
+        class='.groupspace.GroupSpaceView'
+        for='..interfaces.IGroupSpace'
+        name='view'
+        permission='zope2.View'
+    />
+    <browser:menuItem
+        action='@@view'
+        description='Default representation of a Group Space.'
+        for='..interfaces.IGroupSpace'
+        menu='plone_displayviews'
+        title='Group Space view'
+    />
+
     <!-- Collaborative Group -->
     <browser:resource name='collaborativegroup.gif' file='images/collaborativegroup.gif'/>
     <browser:page
@@ -81,20 +97,37 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         title='Collaborative Group Index view'
     />
 
-    <!-- Collaborative Group Event -->
-    <browser:resource name='collaborativegroupevent.gif' file='images/collaborativegroupevent.gif'/>
+    <!-- Group Space Index -->
+    <browser:resource name='groupspaceindex.png' file='images/groupspaceindex.png'/>
     <browser:page
-        class='.collaborativegroupevent.CollaborativeGroupEventView'
-        for='..interfaces.ICollaborativeGroupEvent'
+        class='.groupspaceindex.GroupSpaceIndexView'
+        for='..interfaces.IGroupSpaceIndex'
         name='view'
         permission='zope2.View'
     />
     <browser:menuItem
         action='@@view'
-        description='Default representation of a Collaborative Group Event.'
-        for='..interfaces.ICollaborativeGroupEvent'
+        description='Default representation of a Group Space Index.'
+        for='..interfaces.IGroupSpaceIndex'
         menu='plone_displayviews'
-        title='Collaborative Group Event view'
+        title='Group Space Index view'
+    />
+
+
+    <!-- Collaborative Group Event -->
+    <browser:resource name='groupevent.gif' file='images/groupevent.gif'/>
+    <browser:page
+        class='.groupevent.GroupEventView'
+        for='..interfaces.IGroupEvent'
+        name='view'
+        permission='zope2.View'
+    />
+    <browser:menuItem
+        action='@@view'
+        description='Default representation of a Group Event.'
+        for='..interfaces.IGroupEvent'
+        menu='plone_displayviews'
+        title='Group Event view'
     />
 
 

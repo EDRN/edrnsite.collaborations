@@ -1,8 +1,8 @@
 # encoding: utf-8
-# Copyright 2011 California Institute of Technology. ALL RIGHTS
+# Copyright 2011–2012 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
-'''EDRN Site Collaborations: collaborative group event browser views
+'''EDRN Site Collaborations: group event browser views
 '''
 
 from Acquisition import aq_inner
@@ -13,9 +13,9 @@ from plone.memoize.instance import memoize
 
 _atFilePerm = 'ATContentTypes: Add File'
 
-class CollaborativeGroupEventView(BrowserView):
-    '''Default view for a Collaborative Group Event.'''
-    __call__ = ViewPageTemplateFile('templates/collaborativegroupevent.pt')
+class GroupEventView(BrowserView):
+    '''Default view for a Group Event.'''
+    __call__ = ViewPageTemplateFile('templates/groupevent.pt')
     def showNewFileButton(self):
         context = aq_inner(self.context)
         mtool = getToolByName(context, 'portal_membership')

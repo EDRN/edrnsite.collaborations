@@ -232,17 +232,7 @@ Notice that on the Projects/Protocols tab the PI of each protocol is mentioned
     >>> browser.contents
     '...Projects/Protocols...Projects...Public Safety...PI...Starseraph...Protocols...Public Safety...PI...Starseraph...'
 
-Also, Heather wants datasets to be arranged by protocol::
-
-    >>> pos = browser.contents.rindex
-    >>> fieldset = pos('fieldset-data')
-    >>> p3, d1, d3, d5 = pos('Protocol Three'), pos('Dataset 1'), pos('Dataset 3'), pos('Dataset 5')
-    >>> p2, d2, d4, ps, gb = pos('Protocol Two'), pos('Dataset 2'), pos('Dataset 4'), pos('Public Safety'), pos('Get Bent')
-    >>> noProtocol, d0 = pos('Datasets Outside of any Protocol'), pos('Dataset 0')
-    >>> fieldset < p3 < d1 < d3 < d5 < p2 < d2 < d4 < ps < gb < noProtocol < d0 
-    True
-
-And for the protocols to be clickable::
+And Heather wants the protocols to be clickable::
 
     >>> browser.contents
     '...href...protocols/p3...Protocol Three...protocols/p2...Protocol Two...protocols/ps-public-safety...Public Safety...'
@@ -320,7 +310,7 @@ added two items, so our test mail host should have sent two messages::
 The message typically tells what was added and gives a URL to it::
 
     >>> message = mailHost.getSentMessages()[0]
-    >>> 'A new item has been added to your collaborative group' in message
+    >>> 'A new item has been added to your group' in message
     True
     >>> portalURL + '/my-groups/my-fun-group/my-new-file' in message
     True
@@ -437,7 +427,7 @@ Note also::
 We can fix that by hitting that big shiny button::
 
     >>> l = browser.getLink('New Event')
-    >>> l.url.endswith('createObject?type_name=Collaborative%20Group%20Event')
+    >>> l.url.endswith('createObject?type_name=Group%20Event')
     True
     >>> l.click()
     >>> browser.getControl(name='title').value = u'Fun Meeting'
@@ -554,8 +544,346 @@ Woot!
 In a future release we'll change from a list of events to an actual calendar.
 
 
+Plainer Groups
+==============
+
+The idea behind Collaborative Group objects that folks have a place to share
+stuff and keep up to date.  Well, the idea may or may not be catching on, but
+that isn't stopping folks from wanting to spread it to other groups within
+EDRN, such as the various committees and working groups.
+
+So, we have a generic Group Space object that supports that.  And unlike
+Collaborative Group objects, they can be added anywhere::
+
+    >>> browser.open(portalURL)
+    >>> l = browser.getLink(id='group-space')
+    >>> l.url.endswith('createObject?type_name=Group+Space')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'My Group Space'
+    >>> browser.getControl(name='description').value = u'A group dedicated towards the concept of "space".'
+    >>> browser.getControl(name='updateNotifications:boolean').value = True
+    >>> browser.getControl(name='form.button.save').click()
+    >>> 'my-group-space' in portal.keys()
+    True
+    >>> group = portal['my-group-space']
+    >>> group.title
+    'My Group Space'
+    >>> group.description
+    'A group dedicated towards the concept of "space".'
+    >>> group.updateNotifications 
+    True
+
+Meanwhile, the Group Space is pretty fancy.  First off, it turns off
+the right-side portlets (news feeds) since we need the (ahem) space::
+
+    >>> 'portal-column-two' in browser.contents
+    False
+
+Like Collaborative Groups, the plain Group Spaces also set up a special index
+page::
+
+    >>> 'index_html' in group.keys()
+    True
+
+This item is set as the default view of the Group Space::
+
+    >>> group.getDefaultPage()
+    'index_html'
+
+We do this because comments can't be applied to folders in Plone, but they can
+appear on non-folder objects.  Speaking of, check out the comment box::
+
+    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.contents
+    '...Add comment...'
+
+However, you've got to have privileges to get that button, see::
+
+    >>> unprivilegedBrowser.open(browser.url)
+    >>> 'Add comment' in unprivilegedBrowser.contents
+    False
+
+There's a chair, co-chair, and list of members::
+
+    >>> browser.contents
+    '...Chair:...Co-Chair:...Members...'
+
+And there's a set of tabs providing access to the group's stuff::
+
+    >>> overview = browser.contents.index('fieldset-overview')
+    >>> documents = browser.contents.index('fieldset-documents')
+    >>> overview < documents
+    True
+
+Since we're logged in, the special note about logging in to view additional
+information doesn't appear::
+
+    >>> 'If you are a member of this group,' in browser.contents
+    False
+
+But an unprivileged user does get it::
+
+    >>> unprivilegedBrowser.open(portalURL + '/my-group-space')
+    >>> unprivilegedBrowser.contents
+    '...If you are a member of this group...log in...'
+
+Shall we put some members into this group?  Yes, let's::
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='chair:list').displayValue = ['Steeldevil, Cloud']
+    >>> browser.getControl(name='coChair:list').displayValue = ['Magicsoul, Jackal']
+    >>> browser.getControl(name='members:list').displayValue = ['Flora, Quake', 'Starseraph, Amber']
+    >>> browser.getControl(name='form.button.save').click()
+
+Now check it out::
+
+    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.contents
+    '...Chair...Steeldevil, Cloud...Co-Chair...Magicsoul, Jackal...'
+    >>> browser.contents
+    '...Members...Flora, Quake...Starseraph, Amber...'
+
+The "Overview" tab has a nice listing of the upcoming events on it::
+
+    >>> browser.contents
+    '...Overview...Upcoming Events...No upcoming events...'
+
+
+Group Space Documents
+---------------------
+
+There's a "Documents" tab which has some shiny buttons, just like in
+Collaborative Groups::
+
+    >>> browser.contents
+    '...Documents...New Folder...New File...'
+
+Those shiny buttons enable users who otherwise wouldn't realize there's an
+"Add new" menu that lets them add new items.  Moreover, they appear because
+we're logged in as someone with privileges.  If we log out, they'll go away::
+
+    >>> unprivilegedBrowser.open(portalURL + '/my-group-space')
+    >>> 'New Folder' in unprivilegedBrowser.contents
+    False
+    >>> 'New File' in unprivilegedBrowser.contents
+    False
+
+Let's press 'em and add some items.  First, a file::
+
+    >>> fakeFile = StringIO('%PDF-1.5\nThis is sample PDF file in disguise.\nDo not try to render it; it may explode.')
+    >>> browser.open(portalURL + '/my-group-space')
+    >>> l = browser.getLink('New File')
+    >>> l.url.endswith('createObject?type_name=File')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'Shiny New File'
+    >>> browser.getControl(name='description').value = u'A file for functional tests.'
+    >>> browser.getControl(name='file_file').add_file(fakeFile, 'application/pdf', 'test.pdf')
+    >>> browser.getControl(name='form.button.save').click()
+
+And also a folder::
+
+    >>> browser.open(portalURL + '/my-group-space')
+    >>> l = browser.getLink('New Folder')
+    >>> l.url.endswith('createObject?type_name=Folder')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'Shiny New Folder'
+    >>> browser.getControl(name='description').value = u'A folder for functional tests.'
+    >>> browser.getControl(name='form.button.save').click()
+    
+These items should appear on the Documents tab now::
+
+    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.contents
+    '...Shiny New File...Shiny New Folder...'
+
+
+Email Notifications for Group Spaces
+------------------------------------
+
+We checked the "updateNotifications" box when first creating this Group Space.
+Much like Collaborative Groups, this setting tells the portal to send out
+email when items are added and edited, and when their publication state
+changes.  Since we added those above two items, we should see sent messages::
+
+    >>> mailHost = getToolByName(portal, 'MailHost')
+    >>> len(mailHost.getSentMessages()) >= 2
+    True
+
+The message typically tells what was added and gives a URL to it::
+
+    >>> message = mailHost.getSentMessages()[0]
+    >>> 'A new item has been added to your group' in message
+    True
+    >>> portalURL + '/my-group-space/shiny-new-file' in message
+    True
+
+Let's turn off the updateNotifications setting::
+
+    >>> browser.open(portalURL + '/my-group-space/edit')
+    >>> browser.getControl(name='updateNotifications:boolean').value = False
+    >>> browser.getControl(name='form.button.save').click()
+    >>> mailHost.resetSentMessages()
+
+And then add a new item::
+
+    >>> browser.getLink(id='folder').click()
+    >>> browser.getControl(name='title').value = u'Another Shiny Folder'
+    >>> browser.getControl(name='description').value = u'Yet another folder for functional tests.'
+    >>> browser.getControl(name='form.button.save').click()
+
+Now take note of the sent messages::
+
+    >>> len(mailHost.getSentMessages())
+    0
+
+Perfect.
+
+
+Events for Group Spaces
+-----------------------
+
+Events for Group Spaces should work just like they do for Collaborative
+Groups::
+
+    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.contents
+    '...Calendar...New Event...'
+
+Yes, that's another big shiny button that allows privileged users to create
+new events in the calendar.  Unprivileged users get no button::
+
+    >>> unprivilegedBrowser.open(portalURL + '/my-group-space')
+    >>> 'New Event' in unprivilegedBrowser.contents
+    False
+
+Note also::
+
+    >>> browser.contents
+    '...There are no current events...'
+
+We can fix that by hitting that big shiny button::
+
+    >>> l = browser.getLink('New Event')
+    >>> l.url.endswith('createObject?type_name=Group%20Event')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'Boring Meeting'
+    >>> browser.getControl(name='description').value = u'Gonna be lots of boring'
+
+When should this meeting occur?  Let's say in a few days::
+
+    >>> fewDays = datetime.now() + timedelta(7)
+    >>> browser.getControl(name='startDate_year').displayValue = [str(fewDays.year)]
+    >>> browser.getControl(name='startDate_month').value = ['%02d' % fewDays.month]
+    >>> browser.getControl(name='startDate_day').value = ['%02d' % fewDays.day]
+
+And we'll make it last two days::
+
+    >>> dayAfter = fewDays + timedelta(2)
+    >>> browser.getControl(name='endDate_year').displayValue = [str(dayAfter.year)]
+    >>> browser.getControl(name='endDate_month').value = ['%02d' % dayAfter.month]
+    >>> browser.getControl(name='endDate_day').value = ['%02d' % dayAfter.day]
+    >>> browser.getControl(name='form.button.save').click()
+    
+The event appears on the calendar::
+
+    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.contents
+    '...Calendar...Boring Meeting...'
+
+The event itself is a container, and it has a big shiny button to add new
+files to it (things like meeting agenda, because heaven forfend users actually
+use Plone's built-in content editor)::
+
+    >>> browser.open(portalURL + '/my-group-space/boring-meeting')
+    >>> browser.contents
+    '...Attach File...'
+
+Of course, there are no files yet::
+
+    >>> browser.contents
+    '...There are no files attached to this event...'
+
+Pressing that "Attach File" button lets you upload a file to the event::
+
+    >>> l = browser.getLink('Attach File')
+    >>> l.url.endswith('createObject?type_name=File')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'Meeting Agenda'
+    >>> browser.getControl(name='description').value = u'Agenda for the fun meeting.'
+    >>> fakeFile = StringIO('%PDF-1.5\nThis is still another sample PDF file in disguise.\nDo not render it.')
+    >>> browser.getControl(name='file_file').add_file(fakeFile, 'application/pdf', 'test.pdf')
+    >>> browser.getControl(name='form.button.save').click()
+
+Now you can grab the agenda easily::
+
+    >>> browser.open(portalURL + '/my-group-space/boring-meeting')
+    >>> browser.contents
+    '...meeting-agenda...Meeting Agenda...'
+
+Looks fine.  Now, let's make another event that's tomorrow::
+
+    >>> tomorrow = datetime.now() + timedelta(1)
+    >>> dayAfter = fewDays + timedelta(1)
+    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.getLink('New Event').click()
+    >>> browser.getControl(name='title').value = u'Yet Another Boring Meeting'
+    >>> browser.getControl(name='description').value = u'Gonna be even more boring.'
+    >>> browser.getControl(name='startDate_year').displayValue = [str(tomorrow.year)]
+    >>> browser.getControl(name='startDate_month').value = ['%02d' % tomorrow.month]
+    >>> browser.getControl(name='startDate_day').value = ['%02d' % tomorrow.day]
+    >>> browser.getControl(name='endDate_year').displayValue = [str(dayAfter.year)]
+    >>> browser.getControl(name='endDate_month').value = ['%02d' % dayAfter.month]
+    >>> browser.getControl(name='endDate_day').value = ['%02d' % dayAfter.day]
+    >>> browser.getControl(name='form.button.save').click()
+    
+This event should be before the "Boring Meeting" since it happens tomorrow,
+while the "Boring Meeting" isn't for a few days::
+
+    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.contents
+    '...Calendar...Yet Another Boring Meeting...Boring Meeting...'
+
+Also take note::
+
+    >>> browser.contents
+    '...Calendar...There are no past events...'
+
+Let's see if adding another event that already took place changes that::
+
+    >>> past = datetime.now() - timedelta(3)
+    >>> dayAfter = past + timedelta(1)
+    >>> browser.getLink('New Event').click()
+    >>> browser.getControl(name='title').value = u'Ancient Meeting'
+    >>> browser.getControl(name='description').value = u"This meeting wasn't that boring."
+    >>> browser.getControl(name='startDate_year').displayValue = [str(past.year)]
+    >>> browser.getControl(name='startDate_month').value = ['%02d' % past.month]
+    >>> browser.getControl(name='startDate_day').value = ['%02d' % past.day]
+    >>> browser.getControl(name='endDate_year').displayValue = [str(dayAfter.year)]
+    >>> browser.getControl(name='endDate_month').value = ['%02d' % dayAfter.month]
+    >>> browser.getControl(name='endDate_day').value = ['%02d' % dayAfter.day]
+    >>> browser.getControl(name='form.button.save').click()
+
+And now::
+
+    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.contents
+    '...Calendar...Yet Another Boring Meeting...Boring Meeting...Past Events...Ancient Meeting...'
+
+Also notice the "Overview" tab::
+
+    >>> browser.contents
+    '...Overview...Upcoming Events...Yet Another Boring Meeting...Boring Meeting...Calendar...'
+
+Woot!
+
+
 Content Rules
--------------
+=============
 
 CA-885 reports that creating new collaborative groups fails because their
 construction relies on well-known content rules, which turned out to be later
@@ -582,5 +910,3 @@ Now let's create a new group::
     False
 
 Looks good to me.
-
-    

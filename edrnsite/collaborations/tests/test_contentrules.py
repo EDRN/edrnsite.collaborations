@@ -22,39 +22,39 @@ class ContentRulesTest(unittest.TestCase):
         '''Ensure content rules are active'''
         self.failUnless(self.ruleStorage.active)
     def testAddEvent(self):
-        '''Check the event trigger for adding items to a collaborative group'''
-        e = self.ruleStorage['cb-add-event']
-        self.assertEquals(u'EDRN Collaborations Event: Item Added', e.title)
-        self.assertEquals(u'Event triggered when an item is added (created or pasted) to a Collaborative Group.', e.description)
+        '''Check the event trigger for adding items to a group'''
+        e = self.ruleStorage['gs-add-event']
+        self.assertEquals(u'EDRN Groups Event: Item Added', e.title)
+        self.assertEquals(u'Event triggered when an item is added (created or pasted) to a Group.', e.description)
         self.assertEquals(0, len(e.conditions))
         self.assertEquals(1, len(e.actions))
         a = e.actions[0]
         self.failUnless(IMailAction.providedBy(a))
-        self.assertEquals(u'EDRN Collaborative Groups: new item added', a.subject)
+        self.assertEquals(u'EDRN Groups: new item added', a.subject)
         self.assertEquals(_email, a.recipients)
         self.failUnless(u'A new item has been added' in a.message)
     def testModifiedEvent(self):
-        '''Verify the event trigger for modified items in a collaborative group'''
-        e = self.ruleStorage['cb-mod-event']
-        self.assertEquals(u'EDRN Collaborations Event: Item Modified', e.title)
-        self.assertEquals(u'Event triggered when an item is modified (edited or altered) in a Collaborative Group.', e.description)
+        '''Verify the event trigger for modified items in a group'''
+        e = self.ruleStorage['gs-mod-event']
+        self.assertEquals(u'EDRN Groups Event: Item Modified', e.title)
+        self.assertEquals(u'Event triggered when an item is modified (edited or altered) in a Group.', e.description)
         self.assertEquals(0, len(e.conditions))
         self.assertEquals(1, len(e.actions))
         a = e.actions[0]
         self.failUnless(IMailAction.providedBy(a))
-        self.assertEquals(u'EDRN Collaborative Groups: an item has been modified', a.subject)
+        self.assertEquals(u'EDRN Groups: an item has been modified', a.subject)
         self.assertEquals(_email, a.recipients)
         self.failUnless(u'has been modified' in a.message)
     def testStateChangeEvent(self):
         '''Confirm the event trigger for when an item has its publication state adjusted'''
-        e = self.ruleStorage['cb-pub-event']
-        self.assertEquals(u'EDRN Collaborations Event: Publication State Changed', e.title)
-        self.assertEquals(u"Event triggered when an item's publication state is changed in a Collaborative Group.", e.description)
+        e = self.ruleStorage['gs-pub-event']
+        self.assertEquals(u'EDRN Groups Event: Publication State Changed', e.title)
+        self.assertEquals(u"Event triggered when an item's publication state is changed in a Group.", e.description)
         self.assertEquals(0, len(e.conditions))
         self.assertEquals(1, len(e.actions))
         a = e.actions[0]
         self.failUnless(IMailAction.providedBy(a))
-        self.assertEquals(u'EDRN Collaborative Groups: publication state changed', a.subject)
+        self.assertEquals(u'EDRN Groups: publication state changed', a.subject)
         self.assertEquals(_email, a.recipients)
         self.failUnless(u'had its publication state changed' in a.message)
 

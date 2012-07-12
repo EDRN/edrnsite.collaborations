@@ -8,11 +8,10 @@ from edrnsite.collaborations import PackageMessageFactory as _
 from eke.biomarker.interfaces import IBiomarker
 from eke.ecas.interfaces import IDataset
 from eke.study.interfaces import IProtocol
-from eke.site.interfaces import IPerson
 from zope import schema
-from zope.interface import Interface
+from groupspaceindex import IGroupSpaceIndex
 
-class ICollaborativeGroupIndex(Interface):
+class ICollaborativeGroupIndex(IGroupSpaceIndex):
     '''A collaborative group index provides the view and discussion for a collaborative group.'''
     protocols = schema.List(
         title=_(u'Protocols & Studies'),
@@ -52,27 +51,5 @@ class ICollaborativeGroupIndex(Interface):
             title=_(u'Project'),
             description=_(u'Team project (which is just a special protocol) of which this collaborative group is part.'),
             schema=IProtocol
-        )
-    )
-    chair = schema.Object(
-        title=_(u'Chair'),
-        description=_(u'The person in charge of this collaborative group.'),
-        required=False,
-        schema=IPerson
-    )
-    coChair = schema.Object(
-        title=_(u'Co-Chair'),
-        description=_(u'The assistant to the person in charge of this collaborative group.'),
-        required=False,
-        schema=IPerson
-    )
-    members = schema.List(
-        title=_(u'Members'),
-        description=_(u'Members of this collaborative group.'),
-        required=False,
-        value_type=schema.Object(
-            title=_(u'Member'),
-            description=_(u'A member of this collaborative group.'),
-            schema=IPerson
         )
     )

@@ -1,13 +1,13 @@
 # encoding: utf-8
-# Copyright 2011 California Institute of Technology. ALL RIGHTS
+# Copyright 2011–2012 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
 '''EDRN Site Collaborations: collaborative group view
 '''
 
-from Products.Five.browser import BrowserView
+from groupspace import GroupSpaceView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-class CollaborativeGroupView(BrowserView):
+class CollaborativeGroupView(GroupSpaceView):
     '''Default view for a Collaborative Group.'''
     index = ViewPageTemplateFile('templates/collaborativegroup.pt')
