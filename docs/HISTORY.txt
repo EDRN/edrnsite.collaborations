@@ -12,6 +12,10 @@ Made compatible with Plone 4.1.5.  Also, made a generic Group Space that can
 be used for non-organ-specific groups, such as EDRN working groups and
 committees.
 
+Also addresses these issues:
+
+• CA-972 - Put "Group Spaces" in "Collaborations Folders"
+
 
 0.0.7 — Freedom
 ---------------

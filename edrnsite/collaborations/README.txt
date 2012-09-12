@@ -53,7 +53,7 @@ And viewing this empty folder::
 
     >>> browser.open(portalURL + '/my-groups')
     >>> browser.contents
-    '...Groups...There are no collaborative groups in this folder...'
+    '...Groups...There are no organ collaborative groups in this folder...'
 
 We'll soon remedy that.
 
@@ -553,9 +553,14 @@ that isn't stopping folks from wanting to spread it to other groups within
 EDRN, such as the various committees and working groups.
 
 So, we have a generic Group Space object that supports that.  And unlike
-Collaborative Group objects, they can be added anywhere::
+Collaborative Group objects, they can be added anywhere, even to Collaborative
+Group Folders::
 
     >>> browser.open(portalURL)
+    >>> l = browser.getLink(id='group-space')
+    >>> l.url.endswith('createObject?type_name=Group+Space')
+    True
+    >>> browser.open(portalURL + '/my-groups')
     >>> l = browser.getLink(id='group-space')
     >>> l.url.endswith('createObject?type_name=Group+Space')
     True
@@ -564,9 +569,9 @@ Collaborative Group objects, they can be added anywhere::
     >>> browser.getControl(name='description').value = u'A group dedicated towards the concept of "space".'
     >>> browser.getControl(name='updateNotifications:boolean').value = True
     >>> browser.getControl(name='form.button.save').click()
-    >>> 'my-group-space' in portal.keys()
+    >>> 'my-group-space' in cf.keys()
     True
-    >>> group = portal['my-group-space']
+    >>> group = cf['my-group-space']
     >>> group.title
     'My Group Space'
     >>> group.description
@@ -594,11 +599,11 @@ This item is set as the default view of the Group Space::
 We do this because comments can't be applied to folders in Plone, but they can
 appear on non-folder objects.  Speaking of, check out the comment box::
 
-    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.open(portalURL + '/my-groups/my-group-space')
     >>> browser.contents
     '...Add comment...'
 
-However, you've got to have privileges to get that button, see::
+However, you've got to have privileges to get that button—see::
 
     >>> unprivilegedBrowser.open(browser.url)
     >>> 'Add comment' in unprivilegedBrowser.contents
@@ -624,7 +629,7 @@ information doesn't appear::
 
 But an unprivileged user does get it::
 
-    >>> unprivilegedBrowser.open(portalURL + '/my-group-space')
+    >>> unprivilegedBrowser.open(portalURL + '/my-groups/my-group-space')
     >>> unprivilegedBrowser.contents
     '...If you are a member of this group...log in...'
 
@@ -638,7 +643,7 @@ Shall we put some members into this group?  Yes, let's::
 
 Now check it out::
 
-    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.open(portalURL + '/my-groups/my-group-space')
     >>> browser.contents
     '...Chair...Steeldevil, Cloud...Co-Chair...Magicsoul, Jackal...'
     >>> browser.contents
@@ -663,7 +668,7 @@ Those shiny buttons enable users who otherwise wouldn't realize there's an
 "Add new" menu that lets them add new items.  Moreover, they appear because
 we're logged in as someone with privileges.  If we log out, they'll go away::
 
-    >>> unprivilegedBrowser.open(portalURL + '/my-group-space')
+    >>> unprivilegedBrowser.open(portalURL + '/my-groups/my-group-space')
     >>> 'New Folder' in unprivilegedBrowser.contents
     False
     >>> 'New File' in unprivilegedBrowser.contents
@@ -672,7 +677,7 @@ we're logged in as someone with privileges.  If we log out, they'll go away::
 Let's press 'em and add some items.  First, a file::
 
     >>> fakeFile = StringIO('%PDF-1.5\nThis is sample PDF file in disguise.\nDo not try to render it; it may explode.')
-    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.open(portalURL + '/my-groups/my-group-space')
     >>> l = browser.getLink('New File')
     >>> l.url.endswith('createObject?type_name=File')
     True
@@ -684,7 +689,7 @@ Let's press 'em and add some items.  First, a file::
 
 And also a folder::
 
-    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.open(portalURL + '/my-groups/my-group-space')
     >>> l = browser.getLink('New Folder')
     >>> l.url.endswith('createObject?type_name=Folder')
     True
@@ -695,7 +700,7 @@ And also a folder::
     
 These items should appear on the Documents tab now::
 
-    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.open(portalURL + '/my-groups/my-group-space')
     >>> browser.contents
     '...Shiny New File...Shiny New Folder...'
 
@@ -717,12 +722,12 @@ The message typically tells what was added and gives a URL to it::
     >>> message = mailHost.getSentMessages()[0]
     >>> 'A new item has been added to your group' in message
     True
-    >>> portalURL + '/my-group-space/shiny-new-file' in message
+    >>> portalURL + '/my-groups/my-group-space/shiny-new-file' in message
     True
 
 Let's turn off the updateNotifications setting::
 
-    >>> browser.open(portalURL + '/my-group-space/edit')
+    >>> browser.open(portalURL + '/my-groups/my-group-space/edit')
     >>> browser.getControl(name='updateNotifications:boolean').value = False
     >>> browser.getControl(name='form.button.save').click()
     >>> mailHost.resetSentMessages()
@@ -748,14 +753,14 @@ Events for Group Spaces
 Events for Group Spaces should work just like they do for Collaborative
 Groups::
 
-    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.open(portalURL + '/my-groups/my-group-space')
     >>> browser.contents
     '...Calendar...New Event...'
 
 Yes, that's another big shiny button that allows privileged users to create
 new events in the calendar.  Unprivileged users get no button::
 
-    >>> unprivilegedBrowser.open(portalURL + '/my-group-space')
+    >>> unprivilegedBrowser.open(portalURL + '/my-groups/my-group-space')
     >>> 'New Event' in unprivilegedBrowser.contents
     False
 
@@ -790,7 +795,7 @@ And we'll make it last two days::
     
 The event appears on the calendar::
 
-    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.open(portalURL + '/my-groups/my-group-space')
     >>> browser.contents
     '...Calendar...Boring Meeting...'
 
@@ -798,7 +803,7 @@ The event itself is a container, and it has a big shiny button to add new
 files to it (things like meeting agenda, because heaven forfend users actually
 use Plone's built-in content editor)::
 
-    >>> browser.open(portalURL + '/my-group-space/boring-meeting')
+    >>> browser.open(portalURL + '/my-groups/my-group-space/boring-meeting')
     >>> browser.contents
     '...Attach File...'
 
@@ -821,7 +826,7 @@ Pressing that "Attach File" button lets you upload a file to the event::
 
 Now you can grab the agenda easily::
 
-    >>> browser.open(portalURL + '/my-group-space/boring-meeting')
+    >>> browser.open(portalURL + '/my-groups/my-group-space/boring-meeting')
     >>> browser.contents
     '...meeting-agenda...Meeting Agenda...'
 
@@ -829,7 +834,7 @@ Looks fine.  Now, let's make another event that's tomorrow::
 
     >>> tomorrow = datetime.now() + timedelta(1)
     >>> dayAfter = fewDays + timedelta(1)
-    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.open(portalURL + '/my-groups/my-group-space')
     >>> browser.getLink('New Event').click()
     >>> browser.getControl(name='title').value = u'Yet Another Boring Meeting'
     >>> browser.getControl(name='description').value = u'Gonna be even more boring.'
@@ -844,7 +849,7 @@ Looks fine.  Now, let's make another event that's tomorrow::
 This event should be before the "Boring Meeting" since it happens tomorrow,
 while the "Boring Meeting" isn't for a few days::
 
-    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.open(portalURL + '/my-groups/my-group-space')
     >>> browser.contents
     '...Calendar...Yet Another Boring Meeting...Boring Meeting...'
 
@@ -870,7 +875,7 @@ Let's see if adding another event that already took place changes that::
 
 And now::
 
-    >>> browser.open(portalURL + '/my-group-space')
+    >>> browser.open(portalURL + '/my-groups/my-group-space')
     >>> browser.contents
     '...Calendar...Yet Another Boring Meeting...Boring Meeting...Past Events...Ancient Meeting...'
 
@@ -880,6 +885,18 @@ Also notice the "Overview" tab::
     '...Overview...Upcoming Events...Yet Another Boring Meeting...Boring Meeting...Calendar...'
 
 Woot!
+
+
+Group Spaces in Collaborations Folders
+--------------------------------------
+
+Although you can add Group Spaces anywhere, they get special treatment when
+added to a Collaborations Folder.  There, they get listed separately from
+the rest of the Collaborative Groups::
+
+    >>> browser.open(portalURL + '/my-groups')
+    >>> browser.contents
+    '...Group Work Spaces...My Group Space...Collaborative Groups...'
 
 
 Content Rules
