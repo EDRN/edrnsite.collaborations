@@ -10,7 +10,7 @@ import os.path
 # ------------
 
 _name        = 'edrnsite.collaborations'
-_version     = '0.0.8'
+_version     = '0.0.9'
 _description = 'EDRN Collaborative Group Workspaces'
 _url         = 'http://cancer.jpl.nasa.gov/products/edrnsite-collaborations'
 _downloadURL = 'http://oodt.jpl.nasa.gov/dist/edrnsite'
