@@ -5,7 +5,7 @@
 '''Interface for a group event'''
 
 from Products.ATContentTypes.interfaces import IATEvent
-from zope.app.container.constraints import contains
+from zope.container.constraints import contains
 
 class IGroupEvent(IATEvent):
     '''A group event is like a regular Plone event but is also a container.'''

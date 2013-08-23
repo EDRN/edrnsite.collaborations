@@ -11,12 +11,14 @@
     </head>
     <body>
         <metal:content-core fill-slot='content-core'>
-            <div>
-                <label for='parent-fieldname-updateNotifications' i18n:translate='label_updateNotifications'>
-                    Update Notifications
-                </label>
-                <metal:field use-macro='python:context.widget("updateNotifications", mode="view")'></metal:field>
-            </div>
+            <metal:content-core define-macro='content-core'>
+                <div>
+                    <label for='parent-fieldname-updateNotifications' i18n:translate='label_updateNotifications'>
+                        Update Notifications
+                    </label>
+                    <metal:field use-macro='python:context.widget("updateNotifications", mode="view")'></metal:field>
+                </div>
+            </metal:content-core>
         </metal:content-core>
     </body>
 </html>

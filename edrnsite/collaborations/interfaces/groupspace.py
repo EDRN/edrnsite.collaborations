@@ -6,7 +6,7 @@
 
 from edrnsite.collaborations import PackageMessageFactory as _
 from zope import schema
-from zope.app.container.constraints import contains
+from zope.container.constraints import contains
 from zope.interface import Interface
 
 class IGroupSpace(Interface):

@@ -5,7 +5,7 @@
 '''Interface for a collaborative group'''
 
 from groupspace import IGroupSpace
-from zope.app.container.constraints import contains
+from zope.container.constraints import contains
 
 class ICollaborativeGroup(IGroupSpace):
     '''A collaborative group serves the needs of those working towards a common goal.'''

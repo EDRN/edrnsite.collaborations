@@ -10,7 +10,7 @@ import os.path
 # ------------
 
 _name        = 'edrnsite.collaborations'
-_version     = '1.0.0'
+_version     = '0.0.10'
 _description = 'EDRN Collaborative Group Workspaces'
 _url         = 'http://cancer.jpl.nasa.gov/products/edrnsite-collaborations'
 _downloadURL = 'http://oodt.jpl.nasa.gov/dist/edrnsite'
@@ -18,9 +18,11 @@ _author      = 'Sean Kelly'
 _authorEmail = 'sean.kelly@jpl.nasa.gov'
 _license     = 'Proprietary'
 _namespaces  = ['edrnsite']
-_entryPoints = {}
 _zipSafe     = False
 _keywords    = 'web zope plone edrn cancer biomarkers collaborative groups workspace'
+_entryPoints = {
+    'z3c.autoinclude.plugin': ['target=plone'],
+}
 _extras = {
     'test': ['plone.app.testing'],
 }
@@ -30,6 +32,7 @@ _externalRequirements = [
     'Products.ATContentTypes',
     'plone.app.discussion',
     'zope.globalrequest',
+    'z3c.autoinclude',
 ]
 _classifiers = [
     'Development Status :: 2 - Pre-Alpha',

@@ -26,7 +26,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         <require permission='zope2.View' interface='..interfaces.IHighlight'/>
     </class>
     <subscriber
-        for='..interfaces.IGroupSpace zope.app.container.interfaces.IObjectAddedEvent'
+        for='..interfaces.IGroupSpace zope.container.interfaces.IObjectAddedEvent'
         handler='.groupspace.addContentRules'
     />
     <subscriber

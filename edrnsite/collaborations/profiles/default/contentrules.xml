@@ -9,7 +9,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         title='EDRN Groups Event: Item Added'
         description='Event triggered when an item is added (created or pasted) to a Group.'
         enabled='True'
-        event='zope.app.container.interfaces.IObjectAddedEvent'
+        event='zope.container.interfaces.IObjectAddedEvent'
         stop-after='False'>
         <conditions/>
         <actions>

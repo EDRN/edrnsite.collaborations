@@ -909,11 +909,13 @@ to this.
 
 OK, let's delete all the content rules::
 
-    >>> browser.open(portalURL + '/@@rules-controlpanel')
-    >>> ctrl = browser.getControl(name='ruleId:list')
-    >>> for i in ctrl.controls:
-    ...     i.selected = True
-    >>> browser.getControl(name='form.button.DeleteRule').click()
+    >>> while True:
+    ...     browser.open(portalURL + '/@@rules-controlpanel')
+    ...     try:
+    ...         ctrl = browser.getControl('Delete', index=0)
+    ...         ctrl.click()
+    ...     except LookupError:
+    ...         break
 
 Now let's create a new group::
 
