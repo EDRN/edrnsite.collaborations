@@ -1,5 +1,5 @@
 # encoding: utf-8
-# Copyright 2011 California Institute of Technology. ALL RIGHTS
+# Copyright 2011–2014 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
 '''EDRN Site Collaborations: functional tests.'''
@@ -13,7 +13,7 @@ optionFlags = (doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE | doctest.REPORT_
 
 def test_suite():
     return unittest.TestSuite([
-        layered(doctest.DocFileSuite('README.txt', package='edrnsite.collaborations', optionflags=optionFlags), LAYER),
+        layered(doctest.DocFileSuite('README.rst', package='edrnsite.collaborations', optionflags=optionFlags), LAYER),
     ])
 
 if __name__ == '__main__':
