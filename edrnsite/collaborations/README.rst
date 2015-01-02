@@ -909,7 +909,7 @@ to this.
 
 OK, let's delete all the content rules::
 
-    >>> while True:
+    >>> for i in range(0, 50):
     ...     browser.open(portalURL + '/@@rules-controlpanel')
     ...     try:
     ...         ctrl = browser.getControl('Delete', index=0)
