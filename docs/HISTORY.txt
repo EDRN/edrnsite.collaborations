@@ -6,8 +6,8 @@ are listed below, you can find out more about them by visiting the issue
 tracker at https://oodt.jpl.nasa.gov/jira/browse/CA.
 
 
-1.0.1 — TBD
------------
+1.0.1 — To Infinity, and Beyond!
+--------------------------------
 
 • CA-1295, fix infinite loop
 
