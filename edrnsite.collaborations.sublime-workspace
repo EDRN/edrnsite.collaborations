@@ -80,10 +80,12 @@
 	},
 	"file_history":
 	[
-		"/Users/kelly/Documents/Clients/JPL/Cancer/Portal/Development/PublicPortal/src/edrnsite.collaborations/edrnsite/collaborations/tests/test_functional.py",
-		"/Users/kelly/Documents/Clients/JPL/Cancer/Portal/Development/PublicPortal/src/edrnsite.collaborations/docs/INSTALL.txt",
+		"/Users/kelly/Documents/Clients/JPL/Cancer/Portal/Development/PublicPortal/src/edrnsite.collaborations/edrnsite/collaborations/README.rst",
 		"/Users/kelly/Documents/Clients/JPL/Cancer/Portal/Development/PublicPortal/src/edrnsite.collaborations/setup.py",
 		"/Users/kelly/Documents/Clients/JPL/Cancer/Portal/Development/PublicPortal/src/edrnsite.collaborations/docs/HISTORY.txt",
+		"/Users/kelly/Documents/Clients/JPL/Cancer/Portal/Development/PublicPortal/src/edrnsite.collaborations/edrnsite/collaborations/profiles/default/types/Collaborative_Group.xml",
+		"/Users/kelly/Documents/Clients/JPL/Cancer/Portal/Development/PublicPortal/src/edrnsite.collaborations/edrnsite/collaborations/tests/test_functional.py",
+		"/Users/kelly/Documents/Clients/JPL/Cancer/Portal/Development/PublicPortal/src/edrnsite.collaborations/docs/INSTALL.txt",
 		"/Users/kelly/Documents/Clients/JPL/Cancer/Portal/Development/PublicPortal/src/edrnsite.collaborations/travis.cfg",
 		"/Users/kelly/Documents/Clients/JPL/Cancer/Portal/Development/PublicPortal/src/edrn.theme/buildout.cfg",
 		"/Users/kelly/Documents/Clients/JPL/Cancer/Portal/Development/PublicPortal/src/eke.review/buildout.cfg",
@@ -362,6 +364,18 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"his",
+				"docs/HISTORY.txt"
+			],
+			[
+				"setu",
+				"setup.py"
+			],
+			[
+				"rea",
+				"edrnsite/collaborations/README.rst"
+			],
 			[
 				"tra",
 				"travis.cfg"
