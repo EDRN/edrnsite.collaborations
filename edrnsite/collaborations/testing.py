@@ -99,9 +99,9 @@ class EDRNSiteCollaborations(PloneSandboxLayer):
         protocol2.reindexObject()
         protocol3 = protocols[protocols.invokeFactory('Protocol', 'p3', title=u'Protocol Three')]
         protocol3.reindexObject()
-        for i in xrange(0, 6):
+        for i in xrange(0, 8):
             dataset = datasets[datasets.invokeFactory('Dataset', 'd%d' % i, title=u'Dataset %d' % i)]
-            if i > 0:
+            if i > 2:
                 if i % 2 == 0:
                     dataset.setProtocol(protocol2)
                 else:
