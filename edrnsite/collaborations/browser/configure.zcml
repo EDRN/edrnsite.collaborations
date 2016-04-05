@@ -113,6 +113,13 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         title='Group Space Index view'
     />
 
+    <!-- Reporting graphs -->
+    <browser:page
+        for='*'
+        permission='zope2.Public'
+        name='collaboration_summary_report'
+        template='templates/collaboration_summary_report.pt'
+    />
 
     <!-- Collaborative Group Event -->
     <browser:resource name='groupevent.gif' file='images/groupevent.gif'/>
