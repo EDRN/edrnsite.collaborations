@@ -123,9 +123,9 @@ function dashboard(id, data){
 }
 
 </script>
-<script type="text/javascript" src="/edrn/portal_javascripts/EDRN%20Theme/++resource++plone.app.jquery.js"></script>
-<script type="text/javascript" src="/edrn/portal_javascripts/EDRN%20Theme/jquery-integration.js"></script>
-<script type="text/javascript" src="/edrn/portal_javascripts/EDRN%20Theme/++resource++plone.app.jquerytools.js"></script>
+<script type="text/javascript" src="portal_javascripts/EDRN%20Theme/++resource++plone.app.jquery.js"></script>
+<script type="text/javascript" src="portal_javascripts/EDRN%20Theme/jquery-integration.js"></script>
+<script type="text/javascript" src="portal_javascripts/EDRN%20Theme/++resource++plone.app.jquerytools.js"></script>
 <script>
 /*var freqData=[
 {collaborator:'Breast and Gynecologic',freq:{biomarkers:183, datasets:5, protocols: 68, members: 27 }}
@@ -134,7 +134,7 @@ function dashboard(id, data){
 ,{collaborator:'Prostate and Urologic',freq:{biomarkers:5, datasets:23, protocols: 59, members: 18 }}
 ];*/
     document.addEventListener( 'DOMContentLoaded', function () {
-    $.getJSON( "/edrn/committees/@@summary", function( data ) {
+    $.getJSON( "committees/@@summary", function( data ) {
         items = [];
         var garray = {};
         var types = [];
