@@ -10,6 +10,7 @@ tracker at https://oodt.jpl.nasa.gov/jira/browse/CA.
 -----------
 
 • CA-1391, Lung Collaborative Group link now working
+• CA-1338, Fix tests for edrnsite.collaborations
 
 
 1.0.1 — To Infinity, and Beyond!

@@ -78,7 +78,8 @@ class EDRNSiteCollaborations(PloneSandboxLayer):
         )]
         biomarkers = portal[portal.invokeFactory(
             'Biomarker Folder', 'biomarkers', title=u'Biomarkers', rdfDataSource=u'testscheme://localhost/biomarkers/a',
-            bmoDataSource=u'testscheme://localhost/biomarkerorgans/a'
+            bmoDataSource=u'testscheme://localhost/biomarkerorgans/a', bmuDataSource=u'testscheme://localhost/biomuta/a',
+            bmSumDataSource=u'testscheme://localhost/summary/a',
         )]
         datasets = portal[portal.invokeFactory(
             'Dataset Folder', 'datasets', title=u'Datasets', rdfDataSource=u'testscheme://localhost/datasets/a',
