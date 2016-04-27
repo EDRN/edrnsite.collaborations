@@ -6,11 +6,12 @@ are listed below, you can find out more about them by visiting the issue
 tracker at https://oodt.jpl.nasa.gov/jira/browse/CA.
 
 
-1.0.2 — TBD
------------
+1.0.2 — Visuals
+---------------
 
 • CA-1391, Lung Collaborative Group link now working
 • CA-1338, Fix tests for edrnsite.collaborations
+• Added visualization features
 
 
 1.0.1 — To Infinity, and Beyond!
