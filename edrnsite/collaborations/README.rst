@@ -532,12 +532,12 @@ And now::
 
     >>> browser.open(portalURL + '/my-groups/my-fun-group')
     >>> browser.contents
-    '...Calendar...Yet Another Fun Meeting...Fun Meeting...Past Events...Old Meeting...'
+    '...Calendar...Fun Meeting...Yet Another Fun Meeting...Past Events...Old Meeting...'
 
 Also notice the "Overview" tab::
 
     >>> browser.contents
-    '...Overview...Upcoming Events...Yet Another Fun Meeting...Fun Meeting...Calendar...'
+    '...Overview...Upcoming Events...Fun Meeting...Yet Another Fun Meeting...Calendar...'
 
 Woot!
 
@@ -877,12 +877,12 @@ And now::
 
     >>> browser.open(portalURL + '/my-groups/my-group-space')
     >>> browser.contents
-    '...Calendar...Yet Another Boring Meeting...Boring Meeting...Past Events...Ancient Meeting...'
+    '...Calendar...Boring Meeting...Yet Another Boring Meeting...Past Events...Ancient Meeting...'
 
 Also notice the "Overview" tab::
 
     >>> browser.contents
-    '...Overview...Upcoming Events...Yet Another Boring Meeting...Boring Meeting...Calendar...'
+    '...Overview...Upcoming Events...Boring Meeting...Yet Another Boring Meeting...Calendar...'
 
 Woot!
 

@@ -19,6 +19,7 @@ _top = 3
 _eventType = 'Group Event'
 _eventAddPerm = ADD_PERMISSIONS[_eventType]
 
+
 class GroupSpaceIndexView(BrowserView):
     '''Default view for a Group Space Index.'''
     index = ViewPageTemplateFile('templates/groupspaceindex.pt')
@@ -73,6 +74,7 @@ class GroupSpaceIndexView(BrowserView):
             object_provides=IATEvent.__identifier__,
             path=dict(query='/'.join(context.getPhysicalPath()), depth=1),
             sort_on='start',
+            sort_order='reverse',
             **criteria)
         return [dict(title=i.Title, description=i.Description, start=i.start, url=i.getURL()) for i in results]
     @memoize
