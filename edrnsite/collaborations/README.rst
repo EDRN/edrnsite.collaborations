@@ -701,8 +701,10 @@ And also a folder::
 These items should appear on the Documents tab now::
 
     >>> browser.open(portalURL + '/my-groups/my-group-space')
-    >>> browser.contents
-    '...Shiny New File...Shiny New Folder...'
+    >>> 'Shiny New File' in browser.contents
+    True
+    >>> 'Shiny New Folder' in browser.contents
+    True
 
 
 Email Notifications for Group Spaces
