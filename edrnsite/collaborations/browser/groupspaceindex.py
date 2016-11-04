@@ -97,7 +97,11 @@ class GroupSpaceIndexView(BrowserView):
     @memoize
     def documents(self):
         context = aq_parent(aq_inner(self.context))
-        contentFilter = dict(object_provides=[i.__identifier__ for i in (IATDocument, IATImage, IATFile, IATFolder)])
+        contentFilter = dict(
+            object_provides=[i.__identifier__ for i in (IATDocument, IATImage, IATFile, IATFolder)],
+            sort_on='modified',
+            sort_order='reverse'
+        )
         results = context.getFolderContents(contentFilter=contentFilter)
         # For some reason Highlights are being returned in the results, even though they don't provide any of the interfaces.
         results = [i for i in results if i.portal_type != 'Highlight']
