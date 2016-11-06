@@ -289,8 +289,10 @@ And also a folder::
 These items should appear on the Documents tab now::
 
     >>> browser.open(portalURL + '/my-groups/my-fun-group')
-    >>> browser.contents
-    '...My New File...My New Folder...'
+    >>> 'My New File' in browser.contents
+    True
+    >>> 'My New Folder' in browser.contents
+    True
 
 
 Update Notifications
