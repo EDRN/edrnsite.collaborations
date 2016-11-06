@@ -6,8 +6,8 @@ are listed below, you can find out more about them by visiting the issue
 tracker at https://oodt.jpl.nasa.gov/jira/browse/CA.
 
 
-1.0.3 — Our Client's Unhappy Oh No Portal Avengers Assemble!
-------------------------------------------------------------
+1.0.3 — Oh No Portal Avengers Assemble!
+---------------------------------------
 
 • CA-1423, Collaborative groups should show documents in reverse chronological
   order (and events too)
