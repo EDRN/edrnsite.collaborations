@@ -106,5 +106,6 @@ class GroupSpaceIndexView(BrowserView):
         )
         results = context.getFolderContents(contentFilter=contentFilter)
         # For some reason Highlights are being returned in the results, even though they don't provide any of the interfaces.
-        results = [i for i in results if i.portal_type != 'Highlight']
+        # CA-1431: also events
+        results = [i for i in results if i.portal_type not in ('Highlight', 'Group Event')]
         return results

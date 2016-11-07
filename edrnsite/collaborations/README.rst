@@ -508,7 +508,7 @@ the "Fun Meeting" isn't for a few days::
 
     >>> browser.open(portalURL + '/my-groups/my-fun-group')
     >>> browser.contents
-    '...Calendar...Yet Another Fun Meeting...Fun Meeting...'
+    '...Calendar...Fun Meeting...Yet Another Fun Meeting...'
 
 Also take note::
 
@@ -855,7 +855,7 @@ while the "Boring Meeting" isn't for a few days::
 
     >>> browser.open(portalURL + '/my-groups/my-group-space')
     >>> browser.contents
-    '...Calendar...Yet Another Boring Meeting...Boring Meeting...'
+    '...Calendar...Boring Meeting...Yet Another Boring Meeting...'
 
 Also take note::
 
