@@ -172,7 +172,7 @@
                         <dt id='fieldsetlegend-biomarkers' i18n:translate='edrnsiteCollaborationsTabBiomarkers'>
                             Biomarkers
                         </dt>
-                        <dd id='fieldset-biomarkers' tal:define='biomarkers context/biomarkers'>
+                        <dd id='fieldset-biomarkers' tal:define='biomarkers view/biomarkers'>
                             <p class='discreet' tal:condition='not:biomarkers'
                                 i18n:translate='edrnsiteCollaborationsAdmonitionNoBiomarkers'>
                                 There are currently no biomarkers defined for this collaborative group.

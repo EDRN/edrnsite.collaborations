@@ -48,14 +48,22 @@ class CollaborativeGroupIndexView(GroupSpaceIndexView):
     def numProjects(self):
         context = aq_inner(self.context)
         return len(context.projects)
+    @memoize
     def projects(self):
         projects = aq_inner(self.context).projects
         projects.sort(lambda a, b: cmp(a.title, b.title))
         return projects
+    @memoize
     def protocols(self):
         protocols = aq_inner(self.context).protocols
         protocols.sort(lambda a, b: cmp(a.title, b.title))
         return protocols
+    @memoize
+    def biomarkers(self):
+        biomarkers = aq_inner(self.context).biomarkers
+        biomarkers.sort(lambda a, b: cmp(a.title.lower(), b.title.lower()))
+        return biomarkers
+    @memoize
     def datasets(self):
         datasets = aq_inner(self.context).datasets
         byProtocol, noProtocol = {}, []
