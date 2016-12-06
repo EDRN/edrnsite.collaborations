@@ -10,7 +10,7 @@ import os.path
 # ------------
 
 _name        = 'edrnsite.collaborations'
-_version     = '1.0.5'
+_version     = '1.0.6'
 _description = 'EDRN Collaborative Group Workspaces'
 _author      = 'Sean Kelly'
 _authorEmail = 'sean.kelly@jpl.nasa.gov'
