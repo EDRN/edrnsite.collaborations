@@ -5,7 +5,7 @@
 '''EDRN Site Collaborations: functional tests.'''
 
 import doctest
-import unittest2 as unittest
+import unittest
 from plone.testing import layered
 from edrnsite.collaborations.testing import EDRNSITE_COLLABORATIONS_FUNCTIONAL_TESTING as LAYER
 

@@ -7,7 +7,7 @@ from plone.app.contentrules.actions.mail import IMailAction
 from plone.app.testing import TEST_USER_ID, setRoles
 from plone.contentrules.engine.interfaces import IRuleStorage
 from zope.component import getUtility
-import unittest2 as unittest
+import unittest
 
 _email = 'edrn-ic@jpl.nasa.gov'
 
